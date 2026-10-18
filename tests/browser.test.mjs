@@ -61,14 +61,34 @@ test("Corporate site mobile navigation, legal links and responsive user journeys
         );
         if (width <= 390) {
           const menu = page.locator("#menu");
+          const nav = page.locator("#primary-nav");
           assert.equal(await menu.isVisible(), true);
           await menu.click();
           assert.equal(await menu.getAttribute("aria-expanded"), "true");
-          assert.equal(await page.locator("#primary-nav").isVisible(), true);
+          assert.equal(await nav.isVisible(), true);
+
+          await page.keyboard.press("Escape");
+          assert.equal(await menu.getAttribute("aria-expanded"), "false", "Escape collapses menu");
+          assert.equal(await nav.isVisible(), false);
+          assert.equal(await menu.evaluate(el => document.activeElement === el), true, "Focus returns to menu");
+
+          await menu.click();
+          assert.equal(await nav.isVisible(), true);
+          await page.locator("#hero-title").click();
+          assert.equal(await menu.getAttribute("aria-expanded"), "false", "Outside tap collapses menu");
+          assert.equal(await nav.isVisible(), false);
+
+          await menu.click();
           await page.locator('#primary-nav a[href="#work"]').click();
           assert.equal(await menu.getAttribute("aria-expanded"), "false");
-          assert.equal(await page.locator("#primary-nav").isVisible(), false);
+          assert.equal(await nav.isVisible(), false);
           assert.ok(page.url().endsWith("#work"));
+
+          await menu.click();
+          assert.equal(await menu.getAttribute("aria-expanded"), "true");
+          await page.setViewportSize({width: 768, height: 844});
+          assert.equal(await menu.getAttribute("aria-expanded"), "false", "Widening viewport resets mobile state");
+          await page.setViewportSize({width, height: 844});
         } else {
           assert.equal(await page.locator("#primary-nav").isVisible(), true);
         }
