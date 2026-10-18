@@ -33,6 +33,32 @@
 <section class="section wrap about" id="about" aria-labelledby="about-title"><div class="about-art" role="img" aria-label="Original abstract sculptural art, warm peach disc nested inside deep blue concentric organic gradients"></div><div class="about-text"><span class="eyebrow">03 / An independent point of view</span><h2 id="about-title">From South Africa. For possibilities everywhere.</h2><p>Pryntor (Pty) Ltd is an independent, South Africa-based technology venture developing software products and research-led digital experiences. We are interested in the intersection of human judgement, good design and dependable technical systems.</p><p>We're building from Durban with a global perspective and a focus on work that remains useful after the first demo.</p><a class="pill" href="#contact">Talk to us ↗</a></div></section>
 <section class="contact" id="contact" aria-labelledby="contact-title"><div class="wrap"><span class="eyebrow">04 / Enquiries & collaborations</span><h2 id="contact-title">Good things start with<br>a real conversation.</h2><p>For product collaborations, research discussions and thoughtful introductions:</p><a class="contact-mail" href="mailto:info@pryntor.co.za?subject=Hello%20Pryntor">info@pryntor.co.za ↗</a></div></section>
 </main><footer><div class="wrap footer"><a class="logo" href="#top">pryntor</a><p>© 2026 Pryntor (Pty) Ltd · Durban, South Africa</p><nav aria-label="Legal information"><a href="privacy.html">Privacy notice</a> · <a href="terms.html">Site terms</a></nav></div></footer>
-<script>(function(){const menu=document.querySelector('#menu'),nav=document.querySelector('#primary-nav');if(!menu||!nav)return;menu.addEventListener('click',()=>{const now=menu.getAttribute('aria-expanded')!=='true';menu.setAttribute('aria-expanded',String(now));nav.classList.toggle('open',now)});nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{nav.classList.remove('open');menu.setAttribute('aria-expanded','false')}));})();</script>
+<script>
+(() => {
+  const menu = document.getElementById("menu");
+  const nav = document.getElementById("primary-nav");
+  if (!menu || !nav) return;
+  const setOpen = open => {
+    menu.setAttribute("aria-expanded", String(open));
+    nav.classList.toggle("open", open);
+  };
+  menu.addEventListener("click", () => setOpen(menu.getAttribute("aria-expanded") !== "true"));
+  nav.querySelectorAll("a").forEach(link => link.addEventListener("click", () => setOpen(false)));
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && menu.getAttribute("aria-expanded") === "true") {
+      setOpen(false);
+      menu.focus();
+    }
+  });
+  document.addEventListener("pointerdown", event => {
+    if (menu.getAttribute("aria-expanded") === "true" &&
+        !menu.contains(event.target) && !nav.contains(event.target)) setOpen(false);
+  });
+  const desktop = window.matchMedia("(min-width: 651px)");
+  desktop.addEventListener("change", event => {
+    if (event.matches) setOpen(false);
+  });
+})();
+</script>
 </body>
 </html>
