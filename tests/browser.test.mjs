@@ -87,6 +87,10 @@ test("Corporate site mobile navigation, legal links and responsive user journeys
           await menu.click();
           assert.equal(await menu.getAttribute("aria-expanded"), "true");
           await page.setViewportSize({width: 768, height: 844});
+          await page.waitForFunction(
+            () => document.querySelector("#menu")?.getAttribute("aria-expanded") === "false",
+            {timeout: 5000},
+          );
           assert.equal(await menu.getAttribute("aria-expanded"), "false", "Widening viewport resets mobile state");
           await page.setViewportSize({width, height: 844});
         } else {
