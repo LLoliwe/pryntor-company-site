@@ -74,7 +74,7 @@ test("Corporate site mobile navigation, legal links and responsive user journeys
 
           await menu.click();
           assert.equal(await nav.isVisible(), true);
-          await page.locator("#hero-title").click();
+          await page.locator(".sculpture").click({timeout: 5000});
           assert.equal(await menu.getAttribute("aria-expanded"), "false", "Outside tap collapses menu");
           assert.equal(await nav.isVisible(), false);
 
