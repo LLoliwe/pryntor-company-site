@@ -43,7 +43,17 @@
     nav.classList.toggle("open", open);
   };
   menu.addEventListener("click", () => setOpen(menu.getAttribute("aria-expanded") !== "true"));
-  nav.querySelectorAll("a").forEach(link => link.addEventListener("click", () => setOpen(false)));
+  nav.querySelectorAll("a").forEach(link => link.addEventListener("click", () => {
+    if (menu.getAttribute("aria-expanded") === "true") {
+      const target = document.getElementById(link.hash.slice(1));
+      if (target) {
+        // Keep keyboard focus in visible content when the mobile menu disappears.
+        target.setAttribute("tabindex", "-1");
+        target.focus({preventScroll: true});
+      }
+    }
+    setOpen(false);
+  }));
   document.addEventListener("keydown", event => {
     if (event.key === "Escape" && menu.getAttribute("aria-expanded") === "true") {
       setOpen(false);
