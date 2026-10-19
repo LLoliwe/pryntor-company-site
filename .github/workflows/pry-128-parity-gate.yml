@@ -1,0 +1,59 @@
+name: PRY-128 fail-closed parity gate
+
+on:
+  push:
+    branches:
+      - feat/pry-128-ai-visibility-workbench-20261019
+  pull_request:
+    branches: [main]
+    paths:
+      - 'experiments/brand-intelligence/**'
+      - '.github/workflows/pry-128-parity-gate.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pry-128-parity-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  offline-parity-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout exact PR source
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Offline stdlib validation and adversarial regressions
+        shell: bash
+        run: |
+          python3 -m compileall -q experiments/brand-intelligence/parity_gate.py experiments/brand-intelligence/tests
+          python3 -m unittest discover -s experiments/brand-intelligence/tests -p 'test_*.py' -v
+      - name: Run real original workflow engine and cryptographic approval tests
+        shell: bash
+        run: |
+          node --version
+          node --check experiments/brand-intelligence/workflow_model.mjs
+          node --check experiments/brand-intelligence/workflow_editor.mjs
+          node --test experiments/brand-intelligence/tests/*.test.mjs
+      - name: Ensure live baseline still blocks founder submission
+        shell: bash
+        run: |
+          set +e
+          python3 experiments/brand-intelligence/parity_gate.py > /tmp/pry-128-gate-report.json
+          gate_status=$?
+          set -e
+          if [ "$gate_status" -ne 1 ]; then
+            echo "FAILED: incomplete real-world parity was not held, gate exit=$gate_status"
+            exit 1
+          fi
+          python3 - <<'PY'
+          import json
+          report = json.load(open('/tmp/pry-128-gate-report.json'))
+          assert report['verdict'] == 'HOLD_DO_NOT_SUBMIT', report
+          assert report['required_count'] >= 32, report
+          assert report['verified_metadata_count'] == 0, report
+          print('PASS: baseline is 32 required / 0 verified; submission remains blocked')
+          PY

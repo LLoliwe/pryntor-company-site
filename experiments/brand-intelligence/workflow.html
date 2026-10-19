@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; object-src 'none'; frame-src 'none'; form-action 'none'">
+<title>Workflow Studio | Pryntor Growth OS (Internal)</title>
+<style>
+:root{--bg:#f4f2ed;--panel:#fffdf8;--ink:#20372e;--muted:#65746a;--edge:#d9dfd6;--green:#256048;--warn:#835a33;--salmon:#a64232;--shade:0 18px 40px rgba(24,47,34,.05)}
+*{box-sizing:border-box}html{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 system-ui,-apple-system,sans-serif}
+button,select,input,textarea{font:inherit}button{cursor:pointer;color:inherit}
+button:focus-visible,textarea:focus-visible,select:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid #db9d56;outline-offset:3px}
+button:disabled{cursor:not-allowed;opacity:.48}h1{font-size:clamp(32px,4vw,56px);line-height:1.04;letter-spacing:-.05em;margin:8px 0 13px;font-weight:620}h1 em{font-family:Georgia,serif;font-weight:400}
+h2{font-size:18px;line-height:1.2;margin:0 0 8px;letter-spacing:-.025em}h3{font-size:14px;margin:0}p{margin:0 0 12px}
+header{background:#f9f8f2;border-bottom:1px solid var(--edge);padding:17px clamp(16px,3vw,44px);display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--ink);font-weight:800}.brand small{display:block;font-weight:500;color:var(--muted);font-size:11px}
+.logo{background:var(--ink);color:white;width:39px;height:39px;border-radius:11px;display:grid;place-items:center;font-size:22px}
+.flag{display:inline-block;border:1px solid #dfc29e;background:#f8e7d3;color:var(--warn);padding:5px 12px;border-radius:99px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em}
+.shell{max-width:1800px;margin:auto;padding:28px clamp(15px,3vw,48px) 65px}
+.hero{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:18px;margin-bottom:18px}
+.hero p{max-width:740px;color:var(--muted);margin:0}.micro{font-size:10px;text-transform:uppercase;letter-spacing:.15em;font-weight:850;color:#748675}
+.toolbar{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.btn{border:1px solid var(--edge);border-radius:10px;padding:10px 15px;min-height:44px;background:white;font-weight:760;font-size:12px}
+.btn:hover{background:#ebf1e8}.btn.primary{background:var(--green);color:white;border-color:var(--green)}.btn.primary:hover{background:#17422f}.btn.danger-button{color:var(--salmon)}
+.notice-banner{padding:14px 17px;border:1px solid #e3c8a8;background:#fcf0df;color:#72502b;border-radius:14px;font-size:12px;margin:0 0 20px}
+.grid{display:grid;grid-template-columns:minmax(215px,260px) minmax(350px,1.3fr) minmax(315px,.93fr);align-items:start;gap:16px}
+.panel{min-width:0;background:var(--panel);border:1px solid var(--edge);border-radius:18px;box-shadow:var(--shade);overflow:hidden}
+.panel-head{border-bottom:1px solid var(--edge);padding:21px}.panel-head p{font-size:12px;color:var(--muted);margin:0}
+.panel-body{padding:20px}.sidebar{position:sticky;top:12px}.inspector{position:sticky;top:12px}
+.field{display:block;margin:12px 0;font-weight:730;font-size:12px;color:#425b49}.field span{display:block;margin-bottom:7px}
+.field input,.field select,.field textarea{display:block;width:100%;border:1px solid #cad4c9;border-radius:9px;background:#fff;color:var(--ink);padding:9px 11px;min-height:43px}
+.field textarea{min-height:105px;resize:vertical;font:12px/1.45 ui-monospace,monospace}
+.field small{display:block;margin-top:5px;color:var(--muted);font-weight:500}
+.panel-body ul{padding-left:19px;font-size:12px;color:var(--muted)}.panel-body li{margin:7px 0}.divider{height:1px;background:var(--edge);margin:20px 0}
+.help{padding:12px 14px;background:#eff4eb;color:#536f5d;border-radius:12px;font-size:11px}
+.flow-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:20px;border-bottom:1px solid var(--edge)}
+.flow-canvas{padding:18px;display:flex;flex-direction:column}.flow-arrow{height:25px;display:grid;place-items:center;color:#809686;font-size:19px}
+.flow-node{display:flex;flex-direction:column;gap:8px;padding:15px;border:1px solid var(--edge);border-radius:13px;background:#fff;text-align:left;width:100%;min-width:0;min-height:80px}
+.flow-node:hover{border-color:#8cab9a}.flow-node.active{background:#eff6ed;border:2px solid var(--green);padding:14px}
+.flow-node-top{display:flex;justify-content:space-between;align-items:center;gap:9px}.flow-node code{font-size:12px;font-weight:800;overflow-wrap:anywhere}
+.flow-node small,.node-note{font-size:11px;color:var(--muted);overflow-wrap:anywhere}.type{background:#e9eee5;padding:4px 8px;border-radius:7px;font-size:10px;font-weight:800;text-transform:uppercase}.type.review{background:#f7e6cf}
+.message{min-height:22px;font-size:12px;font-weight:770;margin-top:12px}.message.ok{color:#216d49}.message.error{color:#b0412f}.muted,.privacy{font-size:12px;color:var(--muted)}
+.row{display:flex;align-items:center;justify-content:space-between;gap:9px}.tag,.pillcount{font-size:10px;border-radius:12px;background:#e6efe4;color:#276347;padding:4px 9px;font-weight:800}
+.status{border-radius:8px;background:#f6eadb;color:#99602a;padding:4px 8px;font-size:10px;font-weight:830}
+.status.SUCCESS{background:#dbecdc;color:#176343}.status.FAILED,.status.INVALID{background:#f7dfd9;color:#a73e32}
+.result{margin-top:10px;border:1px solid var(--edge);border-radius:12px;padding:12px;background:#f8faf4;overflow-wrap:anywhere}
+.result pre{white-space:pre-wrap;overflow-wrap:anywhere}.result ul{margin:7px 0;padding:0;list-style:none}.trace li{display:flex;justify-content:space-between;align-items:center;gap:9px;border-bottom:1px solid var(--edge);padding:9px 0;font-size:11px}
+.trace li:last-child{border-bottom:0}.trace code{font-size:11px;overflow-wrap:anywhere}.trace small{color:var(--muted)}
+.privacy{margin-top:17px;font-size:11px}footer{font-size:11px;color:var(--muted);margin:24px 0}#draftfile{position:absolute;width:1px;height:1px;opacity:0}
+@media(max-width:1130px){.grid{grid-template-columns:minmax(210px,240px) minmax(320px,1fr)}.inspector{grid-column:2;position:static}.sidebar{grid-row:1/span 2}}
+@media(max-width:760px){header{padding:14px 16px}.shell{padding:22px 13px 48px}.grid{display:flex;flex-direction:column}.panel,.sidebar,.inspector{width:100%;position:static}.grid .panel:nth-child(2){order:1}.grid .panel:nth-child(1){order:2}.grid .panel:nth-child(3){order:3}.flow-canvas,.panel-body,.panel-head,.flow-head{padding:15px}.hero{display:block}.toolbar{margin-top:17px}.btn{min-height:44px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head><body>
+<header><a class="brand" href="index.html"><span class="logo" aria-hidden="true">P</span><span>PRYNTOR / GROWTH OS<small>Private research workspace · PRY-128</small></span></a><span class="flag">Release on hold</span></header>
+<main class="shell">
+<section class="hero"><div><div class="micro">Original engineering workspace · 01</div><h1>Workflow <em>Studio.</em></h1><p>Build, connect and inspect original local workflow nodes. No third-party model calls, private APIs, customer data or autonomous releases.</p></div><div class="toolbar"><button class="btn" id="reset" type="button">Reset example</button><button class="btn" id="import" type="button">Import JSON</button><button class="btn" id="export" type="button">Export draft</button><button class="btn primary" id="run" type="button">Run local check ↗</button></div></section>
+<div class="notice-banner" role="note"><strong>Rejected internal candidate. No third-party parity claim.</strong> Final and intermediate values stay withheld until separately verified, signed host approval. Do not merge, publish or submit.</div>
+<div class="grid">
+<aside class="panel sidebar" aria-label="Editor controls"><div class="panel-head"><div class="micro">01 / Build</div><h2>Graph toolbox</h2><p>Add nodes before the review gate, then connect them through the inspector.</p></div><div class="panel-body"><label class="field"><span>Node type</span><select id="kind"><option value="transform">Transform text</option><option value="condition">Condition</option><option value="foreach">Iterate list</option><option value="select">Select branch</option><option value="input">Input source</option><option value="constant">Constant</option><option value="approval">Additional approval</option><option value="output">Additional output</option></select></label><button class="btn primary" id="add" type="button">+ Add node</button><div class="divider"></div><div class="micro">Execution limits</div><ul><li>Only preceding nodes can be read.</li><li>Every output path crosses review.</li><li>Maximum 64 nodes, 200 list items, 32 KB JSON.</li><li>Network and external models are disabled.</li></ul><p class="help">All controls are keyboard accessible. No autosave or remote storage. This is not an independent vendor clone.</p></div></aside>
+<section class="panel" aria-label="Editable workflow graph"><div class="flow-head"><div><span class="micro">02 / Connect</span><h2>Execution graph</h2></div><span id="nodecount" class="pillcount">0 nodes</span></div><div id="nodes" class="flow-canvas"></div><div class="panel-body"><div id="validation" class="message" role="status" aria-live="polite"></div></div></section>
+<section class="panel inspector" aria-label="Node and run inspector"><div class="panel-head"><div class="micro">03 / Inspect</div><h2>Node inspector</h2><p id="selected-description">Select a node to edit configuration.</p></div><div class="panel-body"><div id="editor"></div><div class="divider"></div><div class="row"><h3>Local inputs</h3><span class="tag">Never sent</span></div><label class="field" for="inputs"><span>Inputs · JSON object</span><textarea id="inputs" spellcheck="false" aria-label="Local workflow input JSON"></textarea></label><div id="notice" class="message" role="status" aria-live="polite"></div><div class="divider"></div><div class="row"><h3>Execution receipt</h3><span id="runstatus" class="status INCOMPLETE">Not run</span></div><div id="result" class="result"><p class="muted">Run local check for actual node states. No output without signed host review.</p></div><p class="privacy">Only per-node statuses and failure messages are displayed. Unreviewed intermediate data and all external vendor measurements are unavailable.</p></div></section>
+</div>
+<footer>PRY-128 · Internal source only · R0 unapproved spend · No customer or employer data · No third-party affiliation</footer>
+<input type="file" id="draftfile" accept=".json,application/json" aria-label="Import local workflow draft JSON">
+</main><script type="module" src="./workflow_editor.mjs"></script></body></html>
