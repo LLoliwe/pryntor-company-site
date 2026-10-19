@@ -152,11 +152,11 @@ export function validateGraph(graph) {
 }
 
 /* Returns a trace rather than throwing on workflow execution errors. */
-export function runGraph(graph, inputs = {}, approvals = {}) {
+export function runGraph(graph, inputs = {}, approvals = {}, options = {}) {
   const issues = validateGraph(graph);
   if (issues.length) return { status:"INVALID", errors:issues, trace:[], outputs:[] };
-  if (!plain(inputs) || !plain(approvals)) {
-    return { status:"INVALID", errors:["Inputs and approvals must be plain objects"], trace:[], outputs:[] };
+  if (!plain(inputs) || !plain(approvals) || !plain(options)) {
+    return { status:"INVALID", errors:["Inputs, approvals and options must be plain objects"], trace:[], outputs:[] };
   }
   try { sizeGuard(inputs); sizeGuard(approvals); }
   catch { return { status:"INVALID", errors:["Input or approval envelope exceeds the local budget"], trace:[], outputs:[] }; }
@@ -214,9 +214,23 @@ export function runGraph(graph, inputs = {}, approvals = {}) {
         output = values[good];
       } else if (node.type === "approval") {
         const receipt = approvals[node.id];
-        if (!plain(receipt) || receipt.approved !== true ||
-            typeof receipt.reviewer !== "string" || !receipt.reviewer.trim()) {
-          record(node, "WAITING_APPROVAL", "Explicit reviewer receipt required"); continue;
+        // A user-supplied name and boolean cannot certify a real reviewer.
+        // Only the approved host's verifier, never the graph, controls release.
+        let trusted = false;
+        if (plain(receipt) && receipt.approved === true &&
+            typeof receipt.reviewer === "string" && receipt.reviewer.trim() &&
+            typeof options.verifyApproval === "function") {
+          try {
+            trusted = options.verifyApproval({
+              nodeId: node.id,
+              receipt: sizeGuard(receipt),
+              graph: sizeGuard(graph),
+              inputs: sizeGuard(inputs),
+            }) === true;
+          } catch { trusted = false; }
+        }
+        if (!trusted) {
+          record(node, "WAITING_APPROVAL", "Operator-authenticated, exact-run approval required"); continue;
         }
         output = fromValue;
       } else if (node.type === "output") {
