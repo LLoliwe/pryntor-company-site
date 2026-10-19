@@ -78,7 +78,7 @@ export function validateGraph(graph) {
     return ["Expected a schema_version 1 graph containing nodes"];
   }
   if (graph.nodes.length < 1 || graph.nodes.length > MAX_NODES) {
-    errors.push("Graph must contain 1 to 64 nodes");
+    return ["Graph must contain 1 to 64 nodes"];
   }
   const known = new Map();
   for (const [index, node] of graph.nodes.entries()) {
@@ -158,6 +158,8 @@ export function runGraph(graph, inputs = {}, approvals = {}) {
   if (!plain(inputs) || !plain(approvals)) {
     return { status:"INVALID", errors:["Inputs and approvals must be plain objects"], trace:[], outputs:[] };
   }
+  try { sizeGuard(inputs); sizeGuard(approvals); }
+  catch { return { status:"INVALID", errors:["Input or approval envelope exceeds the local budget"], trace:[], outputs:[] }; }
   const states = Object.create(null);
   const values = Object.create(null);
   const trace = [];
