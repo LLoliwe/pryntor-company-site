@@ -57,6 +57,14 @@ test("Corporate site mobile navigation, legal links and responsive user journeys
         const response = await page.goto(url + "/index.html", {waitUntil: "load"});
         assert.equal(response.status(), 200, "Home response at " + width);
         assert.equal(await page.locator("#main").count(), 1);
+        assert.equal(await page.locator("#main").getAttribute("tabindex"), "-1");
+        // Real keyboard activation of the skip link, not merely a DOM existence check.
+        await page.locator(".skip").focus();
+        await page.keyboard.press("Enter");
+        assert.equal(await page.locator("#main").evaluate(el => document.activeElement === el), true,
+          "Skip link transfers keyboard focus to visible main content at " + width);
+        assert.equal(await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior),
+          "auto", "Reduced-motion preference disables animated scroll at " + width);
         assert.equal(
           await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 2),
           true,
