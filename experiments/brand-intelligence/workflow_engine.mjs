@@ -266,8 +266,11 @@ export function runGraph(graph, inputs = {}, approvals = {}, options = {}) {
         reachable.add(id);
         const node = byId.get(id);
         if (!node) continue;
-        const sources = node.type === "select" ? node.from :
-          node.type === "input" || node.type === "constant" ? [] : [node.from];
+        // Inspect only the branch actually chosen by a select node. Other
+        // successfully computed options can contain sensitive unselected data.
+        const sources = node.type === "select"
+          ? [node.from.find(source => states[source] === "SUCCESS")].filter(Boolean)
+          : node.type === "input" || node.type === "constant" ? [] : [node.from];
         for (const source of sources) stack.push(source);
         if (node.when) stack.push(node.when.node);
       }

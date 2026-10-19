@@ -148,3 +148,45 @@ test('reviewed intermediate inspection stays within local budget',()=>{
   assert.ok(JSON.stringify(x.intermediates).length<=32768);
   assert.equal(x.outputs[0].status,'SUCCESS');
 });
+
+test('signed select inspection excludes another successful but unchosen source',()=>{
+  const graph={schema_version:1,nodes:[
+    {id:'front',type:'input',key:'front'},
+    {id:'secret',type:'input',key:'secret'},
+    {id:'picked',type:'select',from:['front','secret']},
+    {id:'review',type:'approval',from:'picked'},
+    {id:'out',type:'output',from:'review'}
+  ]};
+  const inputs={front:'Licensed final copy',secret:'Confidential unselected alternate'};
+  assert.deepEqual(validateGraph(graph),[]);
+  const result=runGraph(graph,inputs,makeApproval(graph,inputs),{...policy,includeReviewedTrace:true});
+  assert.equal(result.status,'COMPLETED');
+  assert.equal(result.outputs[0].value,inputs.front);
+  assert.ok(result.trace.some(item=>item.id==='secret' && item.status==='SUCCESS'));
+  assert.ok(result.intermediates.some(item=>item.id==='front'));
+  assert.ok(!result.intermediates.some(item=>item.id==='secret'));
+  assert.ok(!JSON.stringify(result.intermediates).includes(inputs.secret));
+  const held=runGraph(graph,inputs,{}, {...policy,includeReviewedTrace:true});
+  assert.equal(held.status,'WAITING_APPROVAL');
+  assert.deepEqual(held.intermediates,[]);
+});
+
+test('signed inspection follows fallback when first select branch is skipped',()=>{
+  const graph={schema_version:1,nodes:[
+    {id:'request',type:'input',key:'request'},
+    {id:'enabled',type:'condition',from:'request',test:'nonempty'},
+    {id:'candidate',type:'transform',from:'request',operation:'upper',when:{node:'enabled',equals:true}},
+    {id:'fallback',type:'constant',value:'Original fallback copy'},
+    {id:'picked',type:'select',from:['candidate','fallback']},
+    {id:'review',type:'approval',from:'picked'},
+    {id:'out',type:'output',from:'review'}
+  ]};
+  const inputs={request:''};
+  assert.deepEqual(validateGraph(graph),[]);
+  const result=runGraph(graph,inputs,makeApproval(graph,inputs),{...policy,includeReviewedTrace:true});
+  assert.equal(result.status,'COMPLETED');
+  assert.equal(result.outputs[0].value,'Original fallback copy');
+  assert.equal(result.trace.find(item=>item.id==='candidate').status,'SKIPPED');
+  assert.ok(result.intermediates.some(item=>item.id==='fallback'));
+  assert.ok(!result.intermediates.some(item=>item.id==='candidate'));
+});
