@@ -1,0 +1,30 @@
+name: PRY-128 lawful functional parity gate
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "experiments/brand-intelligence/**"
+      - ".github/workflows/pry128-parity-gate.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  parity-validator-tests:
+    name: Validator unit tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Run fail-closed validator regression tests
+        run: python3 -m unittest discover -s experiments/brand-intelligence/tests -p "test_parity_gate.py" -v
+
+  required-parity-acceptance:
+    name: Strict parity acceptance (RED until genuinely verified)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Block incomplete or simulated parity evidence
+        run: python3 experiments/brand-intelligence/parity_gate.py experiments/brand-intelligence/parity_contract.json
