@@ -35,7 +35,9 @@ jobs:
         shell: bash
         run: |
           node --version
-          node --test experiments/brand-intelligence/tests/workflow_engine.test.mjs
+          node --check experiments/brand-intelligence/workflow_model.mjs
+          node --check experiments/brand-intelligence/workflow_editor.mjs
+          node --test experiments/brand-intelligence/tests/*.test.mjs
       - name: Ensure live baseline still blocks founder submission
         shell: bash
         run: |
