@@ -1,7 +1,7 @@
 name: Pryntor corporate site real browser QA
 on:
   pull_request:
-    branches: [main]
+    branches: [main, fix/pryntor-site-compliance-20261018]
     paths:
       - "*.html"
       - "tests/**"

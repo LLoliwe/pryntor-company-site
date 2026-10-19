@@ -35,7 +35,10 @@ test("Corporate site mobile navigation, legal links and responsive user journeys
   const url = "http://127.0.0.1:" + server.address().port;
   let browser;
   try {
-    browser = await chromium.launch({headless: true});
+    browser = await chromium.launch({
+      headless: true,
+      executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || undefined,
+    });
     for (const width of [360, 390, 768, 1440]) {
       const context = await browser.newContext({
         viewport: {width, height: 844},
@@ -54,6 +57,14 @@ test("Corporate site mobile navigation, legal links and responsive user journeys
         const response = await page.goto(url + "/index.html", {waitUntil: "load"});
         assert.equal(response.status(), 200, "Home response at " + width);
         assert.equal(await page.locator("#main").count(), 1);
+        assert.equal(await page.locator("#main").getAttribute("tabindex"), "-1");
+        // Real keyboard activation of the skip link, not merely a DOM existence check.
+        await page.locator(".skip").focus();
+        await page.keyboard.press("Enter");
+        assert.equal(await page.locator("#main").evaluate(el => document.activeElement === el), true,
+          "Skip link transfers keyboard focus to visible main content at " + width);
+        assert.equal(await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior),
+          "auto", "Reduced-motion preference disables animated scroll at " + width);
         assert.equal(
           await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 2),
           true,
@@ -79,16 +90,35 @@ test("Corporate site mobile navigation, legal links and responsive user journeys
           assert.equal(await nav.isVisible(), false);
 
           await menu.click();
-          await page.locator('#primary-nav a[href="#work"]').click();
+          await page.locator('#primary-nav a[href="#work"]').focus();
+          await page.keyboard.press("Enter");
           assert.equal(await menu.getAttribute("aria-expanded"), "false");
           assert.equal(await nav.isVisible(), false);
           assert.ok(page.url().endsWith("#work"));
+          assert.equal(
+            await page.locator("#work").evaluate(el => document.activeElement === el),
+            true,
+            "Keyboard activation moves focus to the visible destination",
+          );
+
+          for (const id of ["approach", "about", "contact"]) {
+            await menu.click();
+            const link = page.locator(`#primary-nav a[href="#${id}"]`);
+            await link.focus();
+            await page.keyboard.press("Enter");
+            assert.equal(await nav.isVisible(), false);
+            assert.equal(await menu.getAttribute("aria-expanded"), "false");
+            assert.equal(await page.locator(`#${id}`).evaluate(el => document.activeElement === el), true,
+              "Focus reaches " + id);
+            assert.ok(page.url().endsWith("#" + id));
+          }
 
           await menu.click();
           assert.equal(await menu.getAttribute("aria-expanded"), "true");
           await page.setViewportSize({width: 768, height: 844});
           await page.waitForFunction(
             () => document.querySelector("#menu")?.getAttribute("aria-expanded") === "false",
+            null,
             {timeout: 5000},
           );
           assert.equal(await menu.getAttribute("aria-expanded"), "false", "Widening viewport resets mobile state");

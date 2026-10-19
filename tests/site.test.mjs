@@ -52,3 +52,10 @@ test("no third party script, analytics pixel or inline credential in static page
     assert.doesNotMatch(html[name], /(?:sk-proj-|sk_live_|BEGIN PRIVATE KEY|AWS_SECRET_ACCESS_KEY)/, `Sensitive value in ${name}`);
   }
 });
+
+
+test("skip-to-content target is keyboard focusable and reduced-motion styles are present", () => {
+  assert.match(html["index.html"], /<a class="skip" href="#main">Skip to content<\/a>/);
+  assert.match(html["index.html"], /<main id="main" tabindex="-1">/);
+  assert.match(html["index.html"], /@media\(prefers-reduced-motion:reduce\)/);
+});
