@@ -133,6 +133,20 @@ export function validateGraph(graph) {
   }
   const hasOutput = graph.nodes.some(node => node && node.type === "output");
   if (!hasOutput) errors.push("A final output node is required");
+  // Mandatory approval cut: every path to every exported output crosses a review.
+  // A detached review node or a side-channel output does not count as approval.
+  const reviewedPaths = new Map();
+  for (const node of graph.nodes) {
+    if (!plain(node) || typeof node.id !== "string") continue;
+    const refs = node.type === "select" ? (Array.isArray(node.from) ? node.from : []) :
+      (node.type === "input" || node.type === "constant") ? [] : [node.from];
+    const verifiedLineage = refs.length > 0 && refs.every(ref => reviewedPaths.get(ref) === true);
+    const crossesApproval = node.type === "approval" || verifiedLineage;
+    reviewedPaths.set(node.id, crossesApproval);
+    if (node.type === "output" && !crossesApproval) {
+      errors.push(node.id + ": every output path must cross a human approval node");
+    }
+  }
   try { sizeGuard(graph); } catch { errors.push("Graph exceeds the local 32 KB budget"); }
   return errors;
 }
@@ -219,6 +233,8 @@ export function runGraph(graph, inputs = {}, approvals = {}) {
   }));
   const status = failures ? "FAILED" : holds ? "WAITING_APPROVAL" :
     outputs.every(o => o.status === "SUCCESS") ? "COMPLETED" : "INCOMPLETE";
+  // Atomic output release: no partially successful values leak on held/failed runs.
+  if (status !== "COMPLETED") outputs.forEach(o => { o.value = null; });
   return { status, trace, outputs, errors:[], execution:"LOCAL_DETERMINISTIC_ONLY" };
 }
 
