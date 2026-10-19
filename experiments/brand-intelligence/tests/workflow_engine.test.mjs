@@ -118,3 +118,33 @@ test('approval callback throwing can never leak output',()=>{
 test('blank trusted key registry rejected',()=>{
   assert.throws(()=>createApprovalVerifier({trustedPublicKeys:{},runId:RUN}),/key/);
 });
+
+test('reviewed local intermediate states are inspectable only on host opt-in',()=>{
+  const x=execute('South Africa launch',undefined,{...policy,includeReviewedTrace:true});
+  assert.equal(x.inspection,'REVIEWED_LOCAL_ONLY');
+  assert.equal(x.intermediates.find(n=>n.id==='clean').value,'South Africa launch');
+  assert.equal(x.intermediates.find(n=>n.id==='chosen').value,'Original regional concept: South Africa launch');
+  assert.equal(x.intermediates.find(n=>n.id==='final').value,x.outputs[0].value);
+  assert.deepEqual(execute('South Africa launch').intermediates,[]);
+});
+test('unapproved local workflow inspection withholds all actual values',()=>{
+  const x=execute('South Africa launch',{}, {...policy,includeReviewedTrace:true});
+  assert.equal(x.status,'WAITING_APPROVAL');
+  assert.equal(x.inspection,'WITHHELD_NOT_APPROVED');
+  assert.deepEqual(x.intermediates,[]);
+  assert.equal(x.outputs[0].value,null);
+});
+test('detached source cannot leak into approved workflow inspection',()=>{
+  const graph=exampleGraph(),inputs={brief:'South Africa launch'};
+  graph.nodes.push({id:'detached',type:'constant',value:'isolated private draft'});
+  const x=runGraph(graph,inputs,makeApproval(graph,inputs),{...policy,includeReviewedTrace:true});
+  assert.equal(x.status,'COMPLETED');
+  assert.ok(!x.intermediates.some(n=>n.id==='detached'));
+});
+test('reviewed intermediate inspection stays within local budget',()=>{
+  const x=execute('South Africa '+ 'x'.repeat(7000),undefined,{...policy,includeReviewedTrace:true});
+  assert.equal(x.status,'COMPLETED');
+  assert.equal(x.inspection,'TRUNCATED_LOCAL_32KB');
+  assert.ok(JSON.stringify(x.intermediates).length<=32768);
+  assert.equal(x.outputs[0].status,'SUCCESS');
+});

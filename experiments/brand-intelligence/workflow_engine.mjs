@@ -251,7 +251,43 @@ export function runGraph(graph, inputs = {}, approvals = {}, options = {}) {
     outputs.every(o => o.status === "SUCCESS") ? "COMPLETED" : "INCOMPLETE";
   // Atomic output release: no partially successful values leak on held/failed runs.
   if (status !== "COMPLETED") outputs.forEach(o => { o.value = null; });
-  return { status, trace, outputs, errors:[], execution:"LOCAL_DETERMINISTIC_ONLY" };
+  const intermediates = [];
+  let inspection = "NOT_REQUESTED";
+  if (options.includeReviewedTrace === true) {
+    if (status !== "COMPLETED") {
+      inspection = "WITHHELD_NOT_APPROVED";
+    } else {
+      const byId = new Map(graph.nodes.map(node => [node.id, node]));
+      const reachable = new Set();
+      const stack = graph.nodes.filter(node => node.type === "output").map(node => node.id);
+      while (stack.length) {
+        const id = stack.pop();
+        if (reachable.has(id)) continue;
+        reachable.add(id);
+        const node = byId.get(id);
+        if (!node) continue;
+        const sources = node.type === "select" ? node.from :
+          node.type === "input" || node.type === "constant" ? [] : [node.from];
+        for (const source of sources) stack.push(source);
+        if (node.when) stack.push(node.when.node);
+      }
+      let chars = 2;
+      inspection = "REVIEWED_LOCAL_ONLY";
+      for (const node of graph.nodes) {
+        if (!reachable.has(node.id) || states[node.id] !== "SUCCESS") continue;
+        const item = {id:node.id, kind:node.type, value:sizeGuard(values[node.id])};
+        const size = JSON.stringify(item).length + (intermediates.length ? 1 : 0);
+        if (chars + size > MAX_DATA_CHARS) {
+          inspection = "TRUNCATED_LOCAL_32KB";
+          break;
+        }
+        intermediates.push(item);
+        chars += size;
+      }
+    }
+  }
+  return { status, trace, outputs, intermediates, inspection,
+    errors:[], execution:"LOCAL_DETERMINISTIC_ONLY" };
 }
 
 export function exampleGraph() {
