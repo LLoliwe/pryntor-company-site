@@ -35,6 +35,27 @@ REQUIRED_CAPABILITY = (
 )
 
 
+# Pinned minimum inventory prevents a truncated contract from becoming green.
+# Add new required features through reviewed code changes; never silently remove old ones.
+REQUIRED_CAPABILITY_PLATFORMS = {
+    **{key: "Pencil" for key in (
+        "pencil.agent_catalog", "pencil.custom_agent_create", "pencil.agent_duplicate_import",
+        "pencil.agent_model_tool_roles", "pencil.multitool_agent", "pencil.universal_chat",
+        "pencil.workflow_graph", "pencil.workflow_condition_iterator", "pencil.workflow_inspection",
+        "pencil.image_video_creative", "pencil.video_remix_family", "pencil.permissioned_integrations",
+        "pencil.som_data_agent", "pencil.som_asset_scores",
+    )},
+    **{key: "Share of Model" for key in (
+        "som.brand_perception", "som.competitor_persona", "som.market_language_trends",
+        "som.search_visibility_score", "som.citation_rank", "som.search_query_generation",
+        "som.content_gap", "som.sku_catalog_context", "som.shopping_rank_mentions",
+        "som.marketplace_sellers", "som.shopping_history", "som.multimodal_asset_evaluation",
+        "som.asset_scoring", "som.asset_comparison", "som.activation_briefs",
+        "som.permissioned_activation", "som.exports_api", "som.cost_limits",
+    )},
+}
+
+
 def _set(value: Any) -> bool:
     return isinstance(value, str) and bool(value.strip())
 
@@ -85,6 +106,9 @@ def evaluate(contract: dict[str, Any]) -> dict[str, Any]:
             errors.append(f"{key}: unknown platform")
         else:
             seen_platforms.add(platform)
+        expected_platform = REQUIRED_CAPABILITY_PLATFORMS.get(key)
+        if expected_platform is not None and platform != expected_platform:
+            errors.append(f"{key}: expected platform {expected_platform}, got {platform}")
         if not _set(item.get("requirement")):
             errors.append(f"{key}: missing requirement")
         source = item.get("reference_url")
@@ -98,6 +122,8 @@ def evaluate(contract: dict[str, Any]) -> dict[str, Any]:
             errors.append(f"{key}: prohibited or unverified data provenance")
         if not _set(item.get("source_exact_commit")) or not GITSHA.fullmatch(item["source_exact_commit"]):
             errors.append(f"{key}: exact implementation commit missing or invalid")
+        elif item["source_exact_commit"] != sha:
+            errors.append(f"{key}: proof is for a different source commit")
         for evidence in ("reference_capture_sha256", "implementation_capture_sha256"):
             value = item.get(evidence)
             if not _set(value) or not SHA256.fullmatch(value):
@@ -109,6 +135,10 @@ def evaluate(contract: dict[str, Any]) -> dict[str, Any]:
             errors.append(f"{key}: genuine real-output proof missing")
         if _set(item.get("independent_reviewer")) and item["independent_reviewer"] == contract.get("authored_by"):
             errors.append(f"{key}: maker cannot independently review own work")
+    missing = set(REQUIRED_CAPABILITY_PLATFORMS) - seen_ids
+    if missing:
+        errors.append(f"minimum required inventory incomplete: {len(missing)} missing")
+        errors.extend(f"{key}: required baseline capability absent" for key in sorted(missing))
     if seen_platforms != VALID_PLATFORMS:
         errors.append("both independent platforms must be covered")
     return {
