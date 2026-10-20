@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0c10">
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="A private, interactive Pryntor research study. Matter, proof, and cinematic direction, built to respond.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; font-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'">
+<title>PRYNTOR | Inside the Work</title>
+<link rel="stylesheet" href="experience.css">
+<script type="module" src="experience-app.mjs"></script>
+</head>
+<body>
+<a class="skip" href="#workbench">Skip to interactive workbench</a>
+<header class="site-header">
+  <a class="logotype" href="index.html" aria-label="Pryntor home">PRYNTOR<span class="logodot">.</span></a>
+  <div class="header-note"><span class="pulse-dot" aria-hidden="true"></span>AN INDEPENDENT TECHNOLOGY PRACTICE</div>
+  <div class="header-actions"><span class="private-flag">PRIVATE STUDY / NOT FOR RELEASE</span><a class="header-contact" href="mailto:hello@pryntor.co.za?subject=Pryntor%20website%20enquiry">CONTACT <span aria-hidden="true">↗</span></a></div>
+</header>
+<main>
+  <section class="intro" aria-labelledby="headline">
+    <div class="intro-index"><span class="tiny-rule"></span> PRYNTOR / SYSTEMS STUDY 001 <span class="intro-index-right">DURBAN, SOUTH AFRICA / 2026</span></div>
+    <div class="intro-layout">
+      <h1 id="headline">Ideas are easy.<br><span>Make them <em>move.</em></span></h1>
+      <p class="intro-side">Not another picture of what technology could do. Three small, working studies. <strong>Change a variable. Watch a response. Inspect the evidence.</strong></p>
+    </div>
+    <div class="intro-bottom"><span>01 / 03 &nbsp; THE WORK IS THE PROOF</span><a href="#workbench">ENTER THE WORKBENCH <span aria-hidden="true">↓</span></a></div>
+  </section>
+
+  <section id="workbench" class="workbench" aria-labelledby="workbench-heading">
+    <div class="workbench-top"><span class="eyebrow">A WORKING INTERFACE, NOT A RENDER</span><span class="eyebrow live-label"><span class="live-dot" aria-hidden="true"></span> ALL CALCULATIONS ON THIS DEVICE</span></div>
+    <div class="workspace-heading"><h2 id="workbench-heading">Make a change.<br><span>See what follows.</span></h2><p>Original simulations created for this site. Illustrative only, not a claim of a released product.</p></div>
+    <div class="mode-switcher" role="tablist" aria-label="Explore three interactive disciplines">
+      <button id="tab-matter" role="tab" aria-selected="true" aria-controls="mode-matter" tabindex="0" data-mode="matter"><span>01</span><strong>MATTER</strong><small>PHYSICS &amp; PLAY</small></button>
+      <button id="tab-decision" role="tab" aria-selected="false" aria-controls="mode-decision" tabindex="-1" data-mode="decision"><span>02</span><strong>DECISION</strong><small>REASON &amp; PROOF</small></button>
+      <button id="tab-cinema" role="tab" aria-selected="false" aria-controls="mode-cinema" tabindex="-1" data-mode="cinema"><span>03</span><strong>FRAME</strong><small>LIGHT &amp; MOTION</small></button>
+    </div>
+    <div class="experience-shell">
+      <div class="simulation-col">
+        <div class="simulation-head"><span class="top-label" id="stage-label">LAB 01 / PHYSICAL RESPONSE</span><div class="stage-actions"><button id="pause-motion" type="button" aria-pressed="false">PAUSE MOTION</button><button id="sound-toggle" type="button" aria-pressed="false" aria-label="Enable original local audio score">SOUND OFF <span aria-hidden="true">♫</span></button></div></div>
+        <div class="canvas-frame" id="canvas-frame"><canvas id="scene" tabindex="0" role="img" aria-label="Interactive physics network. Drag a node, or press the pulse button. All meaningful effects have accessible controls beside the canvas."></canvas><div class="canvas-coordinates" aria-hidden="true"><span>PRY / LAB</span><span id="frame-counter">FRAME / 0000</span></div><div class="canvas-corner" aria-hidden="true"></div></div>
+        <div class="simulation-foot"><span id="render-status" role="status">INITIALISING LOCAL CANVAS</span><span id="state-readout">WAITING FOR FIRST FRAME</span></div>
+      </div>
+      <div class="panel-col">
+        <div id="mode-matter" role="tabpanel" aria-labelledby="tab-matter" class="control-panel" data-panel="matter">
+          <div class="panel-meta"><span>EXP 001</span><span>TOUCH / DRAG / KEYBOARD</span></div>
+          <h3>Feel a system<br><em>push back.</em></h3>
+          <p class="panel-desc">A small spring-mass network. Pull a node, release it and the tension travels through the field. No pre-rendered frames.</p>
+          <div class="field"><label for="tension">FIELD TENSION <output id="tension-out" for="tension">70</output></label><input id="tension" type="range" min="15" max="150" step="5" value="70"></div>
+          <div class="dual-buttons"><button id="impulse" class="action-primary" type="button">SEND A PULSE <span aria-hidden="true">↗</span></button><button id="reset-field" class="action-outline" type="button">RESET</button></div>
+          <div class="panel-proof"><span class="proof-title">LIVE READBACK</span><p id="matter-proof" aria-live="polite">35 nodes / connected springs / energy 0.00</p><span class="proof-detail">A deterministic browser simulation, not robot hardware or validated material science.</span></div>
+        </div>
+        <div id="mode-decision" role="tabpanel" aria-labelledby="tab-decision" class="control-panel" data-panel="decision" hidden>
+          <div class="panel-meta"><span>EXP 002</span><span>REASONING, MADE VISIBLE</span></div>
+          <h3>Show the<br><em>first failure.</em></h3>
+          <p class="panel-desc">Move the inputs. This miniature evidence gate explains exactly why it accepts a candidate or keeps it on hold.</p>
+          <div class="field"><label for="evidence">EVIDENCE <output id="evidence-out" for="evidence">82</output></label><input id="evidence" type="range" min="0" max="100" value="82"></div>
+          <div class="field"><label for="repeatability">REPRODUCIBILITY <output id="repeatability-out" for="repeatability">86</output></label><input id="repeatability" type="range" min="0" max="100" value="86"></div>
+          <label class="rights-toggle"><input id="rights" type="checkbox" checked><span>RIGHTS DECLARATION CLEARED</span></label>
+          <div id="gate-status" class="gate-status" role="status" aria-live="polite">CANDIDATE / ALL CHECKS PASS</div>
+          <ol id="trace" class="trace"></ol>
+          <button id="export-trace" class="action-outline wide" type="button">EXPORT THIS LOCAL TRACE <span aria-hidden="true">↓</span></button>
+          <p class="fineprint">Illustrative rules only. Not a real AI model, clearance certificate or release decision.</p>
+        </div>
+        <div id="mode-cinema" role="tabpanel" aria-labelledby="tab-cinema" class="control-panel" data-panel="cinema" hidden>
+          <div class="panel-meta"><span>EXP 003</span><span>DIRECTED, NOT GENERATED</span></div>
+          <h3>Direct the<br><em>impossible.</em></h3>
+          <p class="panel-desc">An original geometric scene rendered in-browser. Choose a lens, rotate the key light and change the camera. Every frame responds.</p>
+          <div class="field"><label for="lens">FOCAL LENGTH <output id="lens-out" for="lens">50 MM</output></label><input id="lens" type="range" min="28" max="90" step="1" value="50"></div>
+          <div class="field"><label for="light">KEY LIGHT <output id="light-out" for="light">65°</output></label><input id="light" type="range" min="0" max="180" step="1" value="65"></div>
+          <div class="dual-buttons"><button id="cut-angle" class="action-primary" type="button">CHANGE ANGLE <span aria-hidden="true">↗</span></button><button id="save-frame" class="action-outline" type="button">SAVE FRAME</button></div>
+          <div class="panel-proof"><span class="proof-title">CAMERA LOG</span><p id="cinema-proof" aria-live="polite">SHOT 01 / 50 mm / 65° key</p><span class="proof-detail">Procedural previs, not live-action film, a rendered commercial or licensed footage.</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="field-footer"><span>01 / CAUSAL RESPONSE &nbsp;&nbsp; 02 / FIRST-ERROR TRACE &nbsp;&nbsp; 03 / CAMERA DIRECTION</span><span>NO LOGIN. NO TRACKING. NO CLOUD INFERENCE.</span></div>
+  </section>
+
+  <section class="manifesto" aria-labelledby="method-heading">
+    <div><span class="eyebrow">THE PRACTICE</span><h2 id="method-heading">Signal.<br>Decision.<br>Action.<br><em>Proof.</em></h2></div>
+    <div class="manifesto-right"><p>We work across engineering, education, interactive systems and moving image. The through-line isn't a tool. It's a standard: the work must survive contact with reality.</p><div class="proof-rows"><div><span>01 /</span><strong>MAKE IT HUMAN</strong><span>Originality, clarity, craft</span></div><div><span>02 /</span><strong>MAKE IT TESTABLE</strong><span>Inputs, traces, real-world QA</span></div><div><span>03 /</span><strong>MAKE IT RESPONSIBLE</strong><span>Rights, safety, honest claims</span></div></div><p class="fineprint">All three experiences above are original, offline-capable demonstrations built for this page. They are not claims about production systems, model performance, deployed robotics or released films.</p></div>
+  </section>
+</main>
+<footer><div><a class="footer-logo" href="index.html">PRYNTOR<span>.</span></a><p>Independent by design. South Africa.</p></div><div class="footer-actions"><a href="index.html">BACK TO HOME ↗</a><a href="privacy.html">PRIVACY</a><a href="terms.html">TERMS</a><a href="mailto:hello@pryntor.co.za">CONTACT ↗</a></div><div class="footer-bottom"><span>© PRYNTOR 2026</span><span>PRIVATE INTERACTIVE STUDY. NOT A PUBLISHED PRODUCT OR APPROVED RELEASE.</span></div></footer>
+<noscript><p class="noscript">The interactive studies require JavaScript. You can still read the method and use the contact and legal links.</p></noscript>
+</body></html>
