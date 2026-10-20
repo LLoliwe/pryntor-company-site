@@ -1,0 +1,39 @@
+name: Pryntor corporate site real browser QA
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "*.html"
+      - "tests/**"
+      - ".github/workflows/site-browser.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  chromium-user-journeys:
+    name: Homepage, assistant, legal navigation and overflow
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install pinned Playwright test dependency
+        run: npm install --no-save --ignore-scripts --no-audit --no-fund playwright@1.64.1
+      - name: Provision browser
+        run: npx playwright install --with-deps chromium
+      - name: Execute browser acceptance tests
+        run: node --test tests/browser.test.mjs
+      - name: Preserve exact rendered evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pryntor-site-render-${{ github.event.pull_request.head.sha || github.sha }}
+          path: evidence/*.png
+          if-no-files-found: warn
+          retention-days: 14
