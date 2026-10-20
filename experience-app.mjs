@@ -5,6 +5,10 @@ const canvas=$('scene');
 const context=canvas.getContext('2d',{alpha:false});
 const motionMedia=window.matchMedia('(prefers-reduced-motion: reduce)');
 const state={mode:'matter',motion:!motionMedia.matches,frame:0,last:0,raf:0,drag:null,hover:-1,lattice:buildLattice(),energy:0,tension:70,gate:null,lens:50,light:65,shot:0,audio:null,audioOn:false,width:0,height:0,dpr:1,visible:true};
+// Reflect the OS reduced-motion state before the first browser interaction.
+const initialMotionButton=$('pause-motion');
+initialMotionButton.setAttribute('aria-pressed',String(!state.motion));
+initialMotionButton.textContent=state.motion?'PAUSE MOTION':'RESUME MOTION';
 const tabs=[...document.querySelectorAll('[role=tab]')];
 const panels=Object.fromEntries(['matter','decision','cinema'].map(key=>[key,$('mode-'+key)]));
 const names={matter:'LAB 01 / PHYSICAL RESPONSE',decision:'LAB 02 / EXPLAINABLE GATES',cinema:'LAB 03 / DIRECTABLE FRAMES'};
