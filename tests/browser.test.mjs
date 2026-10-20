@@ -31,7 +31,16 @@ test("Pryntor homepage, assistant and legal journeys", async () => {
         const response = await page.goto(origin + "/index.html", {waitUntil: "load"});
         assert.equal(response.status(), 200);
         assert.equal(await page.locator("h1").innerText(), "PRYNTOR");
-        assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 2), true, `Overflow at ${width}`);
+        const layout = await page.evaluate(() => ({
+          viewport: innerWidth,
+          scrollWidth: document.documentElement.scrollWidth,
+          widest: [...document.querySelectorAll("body *")]
+            .map(node => ({tag: node.tagName, id: node.id, className: String(node.className || ""), right: node.getBoundingClientRect().right, width: node.getBoundingClientRect().width}))
+            .filter(item => item.right > innerWidth + 2)
+            .sort((a, b) => b.right - a.right)
+            .slice(0, 3)
+        }));
+        assert.equal(layout.scrollWidth <= layout.viewport + 2, true, `Overflow at ${width}: ${JSON.stringify(layout)}`);
         assert.match(await page.locator("a.contact").getAttribute("href"), /^mailto:hello@pryntor\.co\.za/);
         await page.screenshot({path: `evidence/pryntor-home-${width}.png`, fullPage: true});
 
