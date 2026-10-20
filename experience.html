@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0c10">
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="Pryntor's private interactive research study: disturb a material, examine the decision, direct the result. Original browser code; no external services.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; connect-src 'none'; font-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'">
+<title>PRYNTOR | The work responds</title>
+<link rel="stylesheet" href="experience.css">
+<script type="module" src="experience-app.mjs"></script>
+</head>
+<body>
+<a class="skip" href="#workbench">Skip to interactive experience</a>
+<header class="site-header">
+  <a class="logotype" href="index.html" aria-label="Pryntor home">PRYNTOR<span class="logodot">.</span></a>
+  <span class="header-note"><span class="pulse-dot" aria-hidden="true"></span> INDEPENDENT BY DESIGN · SOUTH AFRICA</span>
+  <div class="header-actions"><span class="private-flag">PRIVATE / R6 STUDY</span><a class="header-contact" href="mailto:hello@pryntor.co.za?subject=Pryntor%20website%20enquiry">GET IN TOUCH <span aria-hidden="true">↗</span></a></div>
+</header>
+<main>
+<section class="intro" aria-labelledby="headline">
+  <div class="intro-index"><span class="micro-rule" aria-hidden="true"></span> AN ORIGINAL INTERACTIVE STUDY <span class="intro-index-right">DURBAN · 2026</span></div>
+  <div class="intro-layout">
+    <div class="intro-title"><p class="intro-stamp">NOT A SHOWREEL. NOT A PROMISE.</p><h1 id="headline">Ideas aren't<br>the hard part.<br><em>Making them</em><br><em>respond is.</em></h1></div>
+    <div class="intro-side"><span class="intro-number">01—03 / ONE CONNECTED SIGNAL</span><p>Pull the material. Challenge the evidence. Direct the light. Every action changes something real in this browser.</p><a class="enter-button" href="#workbench">ENTER THE EXPERIENCE <span aria-hidden="true">↗</span></a><small>NO SIGN-UP. NO MODEL CALLS. NO TRACKING.</small></div>
+  </div>
+  <div class="intro-bottom"><span>PRYNTOR / FROM IDEA TO EVIDENCE</span><span>SCROLL TO BEGIN <span aria-hidden="true">↓</span></span></div>
+</section>
+
+<section id="workbench" class="workbench" aria-labelledby="workbench-heading">
+  <div class="workbench-top"><span class="eyebrow"><span class="activity-dot" aria-hidden="true"></span> AN INTERACTIVE WORLD, RUNNING ON YOUR DEVICE</span><span class="eyebrow workbench-tag">ORIGINAL CODE / EXPERIMENTAL RESEARCH</span></div>
+  <div class="workspace-heading"><div><span class="chapter-counter">FIELDWORK / 001</span><h2 id="workbench-heading">One impulse.<br><em>Three consequences.</em></h2></div><p>A single interaction travels from physical response, through a decision, into a directed cinematic frame. You can inspect every step.</p></div>
+  <nav class="mode-switcher" role="tablist" aria-label="The three stages of one interactive journey">
+    <button id="tab-matter" role="tab" aria-selected="true" aria-controls="mode-matter" tabindex="0" data-mode="matter"><span class="step-index">01 /</span><strong>MAKE A SIGNAL</strong><small>MOVE THE MATERIAL</small></button>
+    <button id="tab-decision" role="tab" aria-selected="false" aria-controls="mode-decision" tabindex="-1" data-mode="decision"><span class="step-index">02 /</span><strong>TEST THE CLAIM</strong><small>FOLLOW THE EVIDENCE</small></button>
+    <button id="tab-cinema" role="tab" aria-selected="false" aria-controls="mode-cinema" tabindex="-1" data-mode="cinema"><span class="step-index">03 /</span><strong>DIRECT THE RESULT</strong><small>SHAPE THE FRAME</small></button>
+  </nav>
+  <div class="experience-shell">
+    <div class="simulation-col">
+      <div class="simulation-head"><span class="top-label" id="stage-label">LAB 01 / PHYSICAL RESPONSE</span><div class="stage-actions"><button id="pause-motion" type="button" aria-pressed="false">PAUSE MOTION</button><button id="sound-toggle" type="button" aria-pressed="false" aria-label="Enable original local audio score">SOUND OFF <span aria-hidden="true">♫</span></button></div></div>
+      <div class="canvas-frame" id="canvas-frame">
+        <canvas id="scene" tabindex="0" role="img" aria-label="Original interactive spring-mass network. Drag a node or use the controls. A descriptive readback is displayed nearby."></canvas>
+        <div class="canvas-overlay canvas-overlay-top" aria-hidden="true"><span class="signal-label">PRYNTOR / FIELD 001</span><span class="signal-live"><i></i> LOCAL SIMULATION</span></div>
+        <div class="canvas-overlay canvas-overlay-bottom" aria-hidden="true"><span id="scene-instruction">01 / PULL, THEN RELEASE</span><span id="frame-counter">FRAME / 0000</span></div>
+        <div class="stage-watermark" aria-hidden="true">P<span>.</span></div>
+      </div>
+      <div class="simulation-foot"><span id="render-status" role="status">INITIALISING LOCAL CANVAS</span><span id="state-readout">WAITING FOR FIRST FRAME</span></div>
+      <div class="signal-chain" aria-label="Live signal progression"><span class="signal-chain-label">THE SAME SIGNAL</span><span class="chain-node" id="chain-matter" data-complete="false">01 MATERIAL</span><span class="chain-link" aria-hidden="true">→</span><span class="chain-node" id="chain-decision" data-complete="false">02 EVIDENCE</span><span class="chain-link" aria-hidden="true">→</span><span class="chain-node" id="chain-cinema" data-complete="false">03 EXPRESSION</span></div>
+    </div>
+    <div class="panel-col">
+      <div id="mode-matter" role="tabpanel" aria-labelledby="tab-matter" class="control-panel" data-panel="matter">
+        <div class="panel-meta"><span>PART 01 / 03</span><span>TOUCH · DRAG · KEYBOARD</span></div>
+        <h3>Begin with<br><em>a disturbance.</em></h3>
+        <p class="panel-desc">This is a calculated spring-mass system, not a looping picture. Touch a point, send an impulse and watch energy travel through the connected material.</p>
+        <div class="field"><label for="tension">TENSION <output id="tension-out" for="tension">70</output></label><input id="tension" type="range" min="15" max="150" step="5" value="70"></div>
+        <div class="dual-buttons"><button id="impulse" class="action-primary" type="button">SEND A PULSE <span aria-hidden="true">↗</span></button><button id="reset-field" class="action-outline" type="button">RESET</button></div>
+        <div class="panel-proof"><span class="proof-title">CALCULATED RESPONSE</span><p id="matter-proof" aria-live="polite">35 nodes / connected springs / energy 0.00</p><span class="proof-detail">A bounded numerical demonstration. Not a physical-robotics or material-science validation.</span></div>
+        <button id="carry-signal" class="continue-button" type="button">CARRY THIS SIGNAL TO EVIDENCE <span aria-hidden="true">→</span></button>
+        <p id="carry-readout" class="handoff-readout" aria-live="polite">No signal captured yet. Send a pulse to begin.</p>
+      </div>
+      <div id="mode-decision" role="tabpanel" aria-labelledby="tab-decision" class="control-panel" data-panel="decision" hidden>
+        <div class="panel-meta"><span>PART 02 / 03</span><span>GROUNDED, NOT MAGIC</span></div>
+        <h3>A result isn't<br><em>its own proof.</em></h3>
+        <p class="panel-desc">Your material interaction becomes a local evidence receipt. Set the illustrative review inputs and see the first condition that would stop a claim.</p>
+        <div class="signal-ticket" id="signal-ticket" role="status">AWAITING THE SIGNAL FROM PART 01</div>
+        <div class="field"><label for="evidence">ILLUSTRATIVE EVIDENCE <output id="evidence-out" for="evidence">82</output></label><input id="evidence" type="range" min="0" max="100" value="82"></div>
+        <div class="field"><label for="repeatability">ILLUSTRATIVE REPEATABILITY <output id="repeatability-out" for="repeatability">86</output></label><input id="repeatability" type="range" min="0" max="100" value="86"></div>
+        <label class="rights-toggle"><input id="rights" type="checkbox"><span>SIMULATE A CLEARED RIGHTS DECLARATION</span></label>
+        <div id="gate-status" class="gate-status" role="status" aria-live="polite">HOLD / CHECK RIGHTS</div>
+        <ol id="trace" class="trace"></ol>
+        <div class="dual-buttons"><button id="export-trace" class="action-outline wide" type="button">DOWNLOAD TRACE <span aria-hidden="true">↓</span></button><button id="advance-frame" class="action-primary" type="button">DIRECT THIS RESULT <span aria-hidden="true">→</span></button></div>
+        <p class="fineprint">Synthetic inputs under your control, not measured scientific accuracy, a rights clearance or production release authority. Failing the gate is an intentional, valid outcome.</p>
+        <p id="advance-readout" class="handoff-readout" aria-live="polite">Finish an illustrative review to continue.</p>
+      </div>
+      <div id="mode-cinema" role="tabpanel" aria-labelledby="tab-cinema" class="control-panel" data-panel="cinema" hidden>
+        <div class="panel-meta"><span>PART 03 / 03</span><span>A CHOICE BECOMES A FRAME</span></div>
+        <h3>Now change<br><em>how it feels.</em></h3>
+        <p class="panel-desc">The illustrative review influences the scene's opening light. Take control of the shot. Watch focal length, angle and key light change the actual projection.</p>
+        <div class="signal-ticket" id="cinema-ticket" role="status">NO REVIEW CARRIED FORWARD YET</div>
+        <div class="field"><label for="lens">FOCAL LENGTH <output id="lens-out" for="lens">50 MM</output></label><input id="lens" type="range" min="28" max="90" step="1" value="50"></div>
+        <div class="field"><label for="light">KEY LIGHT <output id="light-out" for="light">65°</output></label><input id="light" type="range" min="0" max="180" step="1" value="65"></div>
+        <div class="dual-buttons"><button id="cut-angle" class="action-primary" type="button">CHANGE ANGLE <span aria-hidden="true">↗</span></button><button id="save-frame" class="action-outline" type="button">SAVE FRAME</button></div>
+        <div class="panel-proof"><span class="proof-title">LIVE CAMERA RECORD</span><p id="cinema-proof" aria-live="polite">SHOT 01 / 50 mm / 65° key</p><span class="proof-detail">Original perspective drawing. Not a filmed scene or a motion-capture performance.</span></div>
+        <button id="finish-journey" class="continue-button" type="button">SEE THE COMPLETE TRACE <span aria-hidden="true">→</span></button>
+      </div>
+    </div>
+  </div>
+  <section class="evidence-strip" id="journey-result" aria-labelledby="receipt-heading">
+    <div class="receipt-intro"><span class="eyebrow">YOUR SESSION / LOCAL ONLY</span><h3 id="receipt-heading">A trace of<br><em>what you made.</em></h3><p>No account, no server-side storage and no fake results. The record below updates from actual actions in this browser.</p></div>
+    <div class="receipt-grid" id="receipt-grid">
+      <div><span class="receipt-num">01 / RESPONSE</span><strong id="receipt-matter">AWAITING ACTION</strong><small id="receipt-matter-detail">Send a pulse or move a node.</small></div>
+      <div><span class="receipt-num">02 / REVIEW</span><strong id="receipt-decision">NOT EVALUATED</strong><small id="receipt-decision-detail">Illustrative rules, not a model.</small></div>
+      <div><span class="receipt-num">03 / DIRECTION</span><strong id="receipt-cinema">NOT DIRECTED</strong><small id="receipt-cinema-detail">Lens, lighting and angle awaiting a choice.</small></div>
+    </div>
+    <div class="receipt-actions"><button id="export-journey" class="action-outline" type="button">EXPORT LOCAL PROOF SHEET ↓</button><button id="reset-journey" class="action-quiet" type="button">START A NEW JOURNEY ↺</button><p id="journey-message" role="status" aria-live="polite">A meaningful interaction starts the trace.</p></div>
+  </section>
+</section>
+
+<section class="applications" aria-labelledby="applications-heading">
+  <div class="applications-lead"><span class="eyebrow">WHY THIS MATTERS</span><h2 id="applications-heading">One way of thinking.<br><em>Many different worlds.</em></h2><p>These original page demonstrations aren't Pryntor's actual products. They make the approach visible. The work itself stays in its own company, product, research and rights boundaries.</p></div>
+  <div class="applications-grid">
+    <article class="application-large"><div class="application-figure figure-play" aria-hidden="true"><span class="figure-orbit"></span><span class="figure-orbit second"></span><span class="figure-core"></span><span class="figure-caption">INTERACTION / CAUSE + EFFECT</span></div><div><span class="application-index">01 / WORLDS YOU CAN ENTER</span><h3>Play should<br><em>push back.</em></h3><p><strong>ZOWIBO</strong> develops original entertainment worlds and gameplay. <strong>LVL7</strong> explores learning you can manipulate. Both require independent age-appropriate testing and their own approvals.</p><span class="capability-status">ORIGINAL WORK IN DEVELOPMENT · NO PUBLIC RELEASE CLAIMED</span></div></article>
+    <article class="application-tall"><span class="application-index">02 / REASONING YOU CAN INSPECT</span><div class="trace-illustration" aria-hidden="true"><span>QUESTION</span><i></i><span>STEP 01 <b>✓</b></span><i></i><span>FIRST BREAK <b>×</b></span><i></i><span>EXPLAIN</span></div><h3>Show the<br><em>turning point.</em></h3><p><strong>Show Your Working</strong> investigates visible reasoning and first consequential errors. <strong>BeforeSpend</strong> explores evidence before commitment. Neither a demo nor a passing UI test proves educational or financial accuracy.</p><span class="capability-status">RESEARCH + REVIEW HOLDS REMAIN</span></article>
+    <article class="application-wide"><span class="application-index">03 / SCIENCE WITH ITS LIMITATIONS VISIBLE</span><div class="application-double"><h3>Build the system.<br><em>Prove the limits.</em></h3><p><strong>Pryntor Robotics</strong> uses simulation and numerical tests, including documented latency failures. <strong>Recover</strong> develops revenue-operations software with sandbox and release gates. The difference between an impressive simulation and an approved system matters.</p></div><div class="line-scale" aria-hidden="true"><span>MODEL</span><i></i><span>TEST</span><i></i><span>HOLDOUT</span><i></i><span>REAL-WORLD APPROVAL</span></div><span class="capability-status">SIMULATION AND SANDBOX EVIDENCE ≠ PRODUCTION</span></article>
+    <article class="application-culture"><div class="culture-mark" aria-hidden="true">↘</div><span class="application-index">04 / STORIES WITH REAL HUMAN WEIGHT</span><h3>Craft is<br><em>a responsibility.</em></h3><p><strong>Pryntor Studios</strong> develops original moving-image worlds. <strong>Before the World Wakes</strong> explores music, culture and human stories. Our actual films, source plates, voices and artist rights are separate and remain private until cleared.</p><span class="capability-status">NO SYNTHETIC ENDORSEMENTS · RIGHTS FIRST</span></article>
+  </div>
+</section>
+<section class="manifesto" aria-labelledby="method-heading"><div><span class="eyebrow">THE PRACTICE</span><h2 id="method-heading">Make it human.<br>Make it testable.<br><em>Make it mean something.</em></h2></div><div class="manifesto-right"><p>We build across software, interactive worlds, education, engineering and moving image. The through-line isn't a tool. It's the insistence that something beautiful should also work, and something working should also be honest.</p><div class="proof-rows"><div><span>01 /</span><strong>ORIGINAL BY DESIGN</strong><span>Authorship and visual responsibility</span></div><div><span>02 /</span><strong>PROVABLE IN PRACTICE</strong><span>Live inputs, traces and reproducible tests</span></div><div><span>03 /</span><strong>RELEASED ONLY WITH CARE</strong><span>Rights, safety, human sign-off</span></div></div><p class="fineprint">This entire experience is a private, original, browser-local demonstration. It is not a production artificial-intelligence system, validated scientific model, released Pryntor product or published film.</p></div></section>
+</main>
+<footer><div><a class="footer-logo" href="index.html">PRYNTOR<span>.</span></a><p>Independent by design. Durban, South Africa.</p></div><div class="footer-actions"><a href="index.html">BACK TO HOME ↗</a><a href="privacy.html">PRIVACY</a><a href="terms.html">TERMS</a><a href="mailto:hello@pryntor.co.za">CONTACT ↗</a></div><div class="footer-bottom"><span>© PRYNTOR 2026</span><span>PRIVATE R6 EXPERIENCE · NO PUBLISHING OR EXTERNAL DATA.</span></div></footer>
+<noscript><p class="noscript">The interactive study requires JavaScript. You can still read about the company and use the home, privacy and terms links above.</p></noscript>
+</body>
+</html>

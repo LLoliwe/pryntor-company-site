@@ -1,10 +1,12 @@
 name: Pryntor corporate site real browser QA
 on:
   pull_request:
-    branches: [main]
+    branches: [main, fix/pryntor-site-compliance-20261018]
     paths:
       - "*.html"
       - "tests/**"
+      - "experience.css"
+      - "experience*.mjs"
       - ".github/workflows/site-browser.yml"
   workflow_dispatch:
 
@@ -28,7 +30,9 @@ jobs:
       - name: Provision browser
         run: npx playwright install --with-deps chromium
       - name: Execute browser acceptance tests
-        run: node --test tests/browser.test.mjs
+        run: |
+          node --test tests/browser.test.mjs
+          node --test tests/experience.browser.test.mjs
       - name: Preserve exact rendered evidence
         if: always()
         uses: actions/upload-artifact@v4

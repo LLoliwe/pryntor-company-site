@@ -1,10 +1,12 @@
 name: Pryntor corporate site checks
 on:
   pull_request:
-    branches: [main]
+    branches: [main, fix/pryntor-site-compliance-20261018]
     paths:
       - "*.html"
       - "tests/**"
+      - "experience.css"
+      - "experience*.mjs"
       - ".github/workflows/site-contract.yml"
   workflow_dispatch:
 
@@ -22,4 +24,6 @@ jobs:
         with:
           persist-credentials: false
       - name: Run dependency-free static contract
-        run: node --test tests/site.test.mjs
+        run: |
+          node --test tests/site.test.mjs
+          node --test tests/experience.test.mjs
