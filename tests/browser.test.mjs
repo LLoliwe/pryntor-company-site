@@ -47,7 +47,11 @@ test("Pryntor homepage, assistant and legal journeys", async () => {
         const opener = page.locator("#ask-top");
         await opener.click();
         assert.equal(await page.locator("#assistant").isVisible(), true);
-        assert.equal(await page.locator('label[for="assistant-input"]').isHidden(), true);
+        assert.equal(await page.locator('label[for="assistant-input"]').evaluate(node => {
+          const rect = node.getBoundingClientRect();
+          const style = getComputedStyle(node);
+          return rect.width <= 1 && rect.height <= 1 && style.overflow === "hidden";
+        }), true);
         await page.locator("#assistant-input").fill("How do I contact you?");
         await page.locator("#assistant-form").press("Enter");
         assert.match(await page.locator(".assistant-message").last().innerText(), /hello@pryntor\.co\.za/i);
