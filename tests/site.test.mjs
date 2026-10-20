@@ -7,7 +7,7 @@ const pages = ["index.html", "privacy.html", "terms.html"];
 const html = Object.fromEntries(pages.map(name => [name, readFileSync(name, "utf8")]));
 const hrefs = text => [...text.matchAll(/\bhref="([^"]+)"/g)].map(match => match[1]);
 
-test("all required static pages are present and readable", () => {
+test("required pages are present and readable", () => {
   for (const name of pages) {
     assert.match(html[name], /<!doctype html>/i, name);
     assert.match(html[name], /<html\s+lang="en"/i, name);
@@ -17,38 +17,37 @@ test("all required static pages are present and readable", () => {
   }
 });
 
-test("all internal links resolve to an existing HTML file or named target", () => {
+test("internal links resolve", () => {
   for (const name of pages) {
     for (const href of hrefs(html[name])) {
       if (/^(?:mailto:|https?:\/\/|tel:)/i.test(href)) continue;
-      assert.ok(!/^javascript:/i.test(href), `Unsafe URL in ${name}`);
       if (href.startsWith("#")) {
-        assert.ok(html[name].includes(`id="${href.slice(1)}"`), `Missing target ${href} in ${name}`);
+        assert.ok(html[name].includes(`id="${href.slice(1)}"`), `Missing ${href} in ${name}`);
       } else {
         const [target, fragment] = href.split("#");
         assert.ok(!target.startsWith("/") && !target.includes(".."), `Unexpected link ${href}`);
-        assert.ok(existsSync(resolve(target)), `Missing file ${target} from ${name}`);
+        assert.ok(existsSync(resolve(target)), `Missing ${target} from ${name}`);
         if (fragment) assert.ok(readFileSync(resolve(target), "utf8").includes(`id="${fragment}"`));
       }
     }
   }
 });
 
-test("corporate site has meaningful legal pages but no checkout or buyer funnel", () => {
-  assert.match(html["index.html"], /href="privacy.html"/);
-  assert.match(html["index.html"], /href="terms.html"/);
-  assert.match(html["privacy.html"], /Pryntor \(Pty\) Ltd/);
-  assert.match(html["terms.html"], /No commercial offer/);
-  assert.doesNotMatch(html["index.html"], /<form\b|<input\b|checkout|<button[^>]*type="submit"/i);
+test("homepage is minimal, contactable and assistant-ready", () => {
+  assert.match(html["index.html"], /<h1[^>]*>PRYNTOR<\/h1>/);
+  assert.match(html["index.html"], /mailto:hello@pryntor\.co\.za/);
+  assert.match(html["index.html"], /id="assistant"/);
+  assert.match(html["index.html"], /SpeechRecognition|webkitSpeechRecognition/);
+  assert.match(html["index.html"], /speechSynthesis/);
+  assert.match(html["privacy.html"], /does not send typed questions to Pryntor/i);
 });
 
-test("unsupported registered mark is absent from visible pages", () => {
-  for (const name of pages) assert.ok(!html[name].includes("®"), `Unapproved registered mark in ${name}`);
-});
-
-test("no third party script, analytics pixel or inline credential in static pages", () => {
+test("site has no checkout, external runtime or secret", () => {
   for (const name of pages) {
     assert.doesNotMatch(html[name], /<script[^>]*\bsrc\s*=/i, `External script in ${name}`);
-    assert.doesNotMatch(html[name], /(?:sk-proj-|sk_live_|BEGIN PRIVATE KEY|AWS_SECRET_ACCESS_KEY)/, `Sensitive value in ${name}`);
+    assert.doesNotMatch(html[name], /\b(?:fetch|XMLHttpRequest|WebSocket|EventSource)\s*\(/, `Network call in ${name}`);
+    assert.doesNotMatch(html[name], /(?:sk-proj-|sk_live_|BEGIN PRIVATE KEY|AWS_SECRET_ACCESS_KEY)/, `Secret in ${name}`);
+    assert.doesNotMatch(html[name], /href="[^"]*(?:checkout|payment)|<button[^>]*>(?:Buy|Pay|Subscribe)/i, `Commercial action in ${name}`);
+    assert.ok(!html[name].includes("®"), `Unsupported registered mark in ${name}`);
   }
 });

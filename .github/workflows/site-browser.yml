@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   chromium-user-journeys:
-    name: Mobile menu, legal navigation and overflow
+    name: Homepage, assistant, legal navigation and overflow
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -29,3 +29,11 @@ jobs:
         run: npx playwright install --with-deps chromium
       - name: Execute browser acceptance tests
         run: node --test tests/browser.test.mjs
+      - name: Preserve exact rendered evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pryntor-site-render-${{ github.event.pull_request.head.sha || github.sha }}
+          path: evidence/*.png
+          if-no-files-found: warn
+          retention-days: 14
