@@ -44,6 +44,40 @@ test("Pryntor homepage, assistant and legal journeys", async () => {
         }));
         assert.equal(layout.scrollWidth <= layout.viewport + 2, true, `Overflow at ${width}: ${JSON.stringify(layout)}`);
         assert.match(await page.locator("a.primary").first().getAttribute("href"), /^mailto:hello@pryntor\.co\.za/);
+        // Independent keyboard, motion and visual-control regression at each viewport.
+        // Reduced motion is enabled in this test context, so the turntable must start paused.
+        const stage = page.locator("#stage");
+        assert.equal(await stage.getAttribute("data-motion"), "paused", "Reduced motion starts paused at " + width);
+        const initialAngle = Number(await stage.getAttribute("data-angle"));
+        await page.locator("#rotate-right").focus();
+        await page.keyboard.press("Enter");
+        assert.ok(Number(await stage.getAttribute("data-angle")) > initialAngle,
+          "Keyboard rotation changes the rendered frame angle at " + width);
+        await page.locator("#reset-view").click();
+        assert.ok(Math.abs(Number(await stage.getAttribute("data-angle"))) < 0.002,
+          "Reset returns the turntable to front at " + width);
+        const motion = page.locator("#motion-toggle");
+        await motion.focus();
+        await page.keyboard.press("Enter");
+        assert.equal(await motion.getAttribute("aria-pressed"), "true");
+        assert.equal(await stage.getAttribute("data-motion"), "running");
+        await page.keyboard.press("Enter");
+        assert.equal(await motion.getAttribute("aria-pressed"), "false");
+        assert.equal(await stage.getAttribute("data-motion"), "paused");
+
+        // Contact CTA may open a local dialog, never navigate to a mail client by itself.
+        const contact = page.locator(".contact-top");
+        const beforeContact = page.url();
+        await contact.focus();
+        await page.keyboard.press("Enter");
+        assert.equal(await page.locator("#contact").isVisible(), true,
+          "Contact modal opens from keyboard at " + width);
+        assert.equal(page.url(), beforeContact, "Contact activation remains local at " + width);
+        await page.keyboard.press("Escape");
+        assert.equal(await page.locator("#contact").isHidden(), true);
+        assert.equal(await contact.evaluate(el => document.activeElement === el), true,
+          "Contact dialog restores focus to opener at " + width);
+
         await page.screenshot({path: `evidence/pryntor-home-${width}.png`, fullPage: true});
 
         const opener = page.locator("#ask");
