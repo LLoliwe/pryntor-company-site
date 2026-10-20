@@ -88,3 +88,37 @@ export function sceneSeed(index=0) {
   const k=(index+1)*2654435761;
   return ((Math.sin(k)*43758.5453)%1+1)%1;
 }
+
+/** Deterministic local receipt. This is simulation state, never real scientific evidence. */
+export function captureSignal({energy, tension, actions, nodes=35, springs=0}) {
+  if (![energy,tension,actions,nodes,springs].every(Number.isFinite)
+      || energy < 0 || tension < 15 || tension > 150
+      || !Number.isInteger(actions) || actions < 1 || !Number.isInteger(nodes) || nodes < 1
+      || !Number.isInteger(springs) || springs < 0) {
+    throw new TypeError('Signal requires finite measured local state and a deliberate action');
+  }
+  return Object.freeze({kind:'LOCAL_SIMULATION', energy:Number(energy.toFixed(4)), tension,
+    actions,nodes,springs,meaning:'A simulation sample only, not engineering validation.'});
+}
+
+/** No score or supposed approval is inferred from this artistic treatment. */
+export function sceneCue(gate) {
+  if (!gate) return Object.freeze({mood:'UNREVIEWED',light:65,shot:0,explanation:'No illustrative review supplied'});
+  if (!['HOLD','CANDIDATE'].includes(gate.status) || !Array.isArray(gate.checks)) {
+    throw new TypeError('Scene cue requires a validated gate result');
+  }
+  return Object.freeze(gate.status==='HOLD'
+    ? {mood:'UNRESOLVED',light:38,shot:0,explanation:'Cool, restrained lighting reflects the illustrative review hold.'}
+    : {mood:'POSSIBILITY',light:128,shot:1,explanation:'A warmer key introduces the illustrative candidate outcome.'});
+}
+
+/** Immutable, replayable local report. A pass is still not release approval. */
+export function composeJourney({signal=null,gate=null,frame=null}={}) {
+  const result={version:6,kind:'Pryntor browser-local interactive study',
+    scope:'Original illustration. Not a deployed product, scientific certification or clearance decision.',
+    stages:{response:signal||null,review:gate||null,direction:frame||null},
+    progress:[Boolean(signal),Boolean(gate),Boolean(frame)].filter(Boolean).length};
+  if (frame && !gate) throw new TypeError('A directed frame needs an explicit illustrative review');
+  if (gate && !signal) throw new TypeError('A review needs a captured local signal');
+  return result;
+}

@@ -1,4 +1,4 @@
-import {applyImpulse,buildLattice,cinemaProjection,clamp,evaluateGate,sceneSeed,stepLattice} from './experience-engine.mjs';
+import {applyImpulse,buildLattice,cinemaProjection,clamp,evaluateGate,sceneSeed,stepLattice,captureSignal,sceneCue,composeJourney} from './experience-engine.mjs';
 
 const $ = id => document.getElementById(id);
 const canvas=$('scene');
@@ -13,6 +13,30 @@ const tabs=[...document.querySelectorAll('[role=tab]')];
 const panels=Object.fromEntries(['matter','decision','cinema'].map(key=>[key,$('mode-'+key)]));
 const names={matter:'LAB 01 / PHYSICAL RESPONSE',decision:'LAB 02 / EXPLAINABLE GATES',cinema:'LAB 03 / DIRECTABLE FRAMES'};
 const twoPi=Math.PI*2;
+const journey={actions:0,signal:null,review:null,direction:null};
+let localSequence=0;
+function text(id,value){$(id).textContent=value;}
+function receipt(){
+  const stages=composeJourney({signal:journey.signal,gate:journey.review,direction:journey.direction});
+  for(const [mode,active] of [['matter',Boolean(journey.signal)],['decision',Boolean(journey.review)],['cinema',Boolean(journey.direction)]]){
+    $('chain-'+mode).dataset.complete=String(active);
+  }
+  text('receipt-matter',journey.signal?`SIGNAL / ${journey.signal.actions} ACTION${journey.signal.actions===1?'':'S'}`:'AWAITING ACTION');
+  text('receipt-matter-detail',journey.signal?`${journey.signal.nodes} nodes · ${journey.signal.springs} links · ${journey.signal.energy.toFixed(3)} energy units`:'Send a pulse or move a node.');
+  text('receipt-decision',journey.review?`ILLUSTRATIVE ${journey.review.status}`:'NOT EVALUATED');
+  text('receipt-decision-detail',journey.review?journey.review.firstError?`First failed: ${journey.review.firstError}`:'All three illustrative criteria passed.':'Illustrative rules, not a model.');
+  text('receipt-cinema',journey.direction?`SHOT 0${journey.direction.shot+1} / ${journey.direction.lens} MM`:'NOT DIRECTED');
+  text('receipt-cinema-detail',journey.direction?`Key ${journey.direction.light}° · ${journey.direction.cue} treatment`:'Lens, lighting and angle awaiting a choice.');
+  text('journey-message',`${stages.progress} of 3 local steps captured. Nothing is sent or stored remotely.`);
+}
+function countAction(){journey.actions++;journey.signal=null;journey.review=null;journey.direction=null;receipt();}
+function showSceneStatus(){
+  if(!journey.review)return;
+  const cue=sceneCue(journey.review);
+  text('cinema-ticket',`CARRIED FROM PART 02 / ${journey.review.status} / ${cue.mood} LIGHTING`);
+  $('cinema-ticket').dataset.status=journey.review.status;
+}
+
 function tickMarks(w,h){
   const g=context;
   g.lineWidth=.7;
@@ -45,41 +69,54 @@ function background(w,h,flavor='matter'){
 }
 function materialPoint(p,w,h){const z=.045*p.x*p.y;return {x:w*.51+p.x*Math.min(w*.155,150),y:h*.51+p.y*Math.min(h*.29,140)+z*20};}
 function drawMatter(w,h,t){
-  const g=context; background(w,h);
+  const g=context;
+  background(w,h);
   const coords=state.lattice.points.map(p=>materialPoint(p,w,h));
-  // A narrow gravitational light shaft guides the eye towards the material response.
-  const halo=g.createRadialGradient(w*.53,h*.5,10,w*.53,h*.5,Math.min(w,h)*.48);
-  halo.addColorStop(0,'rgba(74,107,244,.15)');halo.addColorStop(1,'rgba(6,12,26,0)');
-  g.fillStyle=halo;g.fillRect(0,0,w,h);
-  g.lineJoin='round';
-  for(const [i,s] of state.lattice.springs.entries()){
-    const a=coords[s.a],b=coords[s.b],pathWeight=i%4===0;
-    g.beginPath();g.moveTo(a.x,a.y);g.lineTo(b.x,b.y);
-    g.strokeStyle=pathWeight?'rgba(255,110,78,.46)':'rgba(176,194,237,.30)';
-    g.lineWidth=pathWeight?1.3:.9;
-    g.stroke();
-  }
+  // Directional falloff on genuinely moving mesh geometry, not an image sequence.
   const centerX=w*.51,centerY=h*.51;
-  const reflected=g.createRadialGradient(centerX,centerY,8,centerX,centerY,Math.min(w,h)*.44);
-  reflected.addColorStop(0,'rgba(255,100,61,.05)');reflected.addColorStop(1,'transparent');
-  g.fillStyle=reflected;g.fillRect(0,0,w,h);
-  for(let i=0;i<coords.length;i++){
-    const {x,y}=coords[i],p=state.lattice.points[i],anchor=p.anchor;
-    const r=anchor?6.5:i%8===3?7.5:4.4;
-    const hovered=i===state.hover || i===state.drag?.index;
-    if(hovered){g.beginPath();g.arc(x,y,r+14,0,twoPi);g.strokeStyle='rgba(240,242,210,.55)';g.lineWidth=.9;g.stroke();}
-    const fill=g.createRadialGradient(x-r*.4,y-r*.45,1,x,y,r*1.8);
-    if(anchor){fill.addColorStop(0,'#d8dcff');fill.addColorStop(.55,'#506bef');fill.addColorStop(1,'#1c2459');}
-    else if(i%5===0){fill.addColorStop(0,'#ffe8c9');fill.addColorStop(.45,'#fa693d');fill.addColorStop(1,'#a62b20');}
-    else {fill.addColorStop(0,'#f8f8ff');fill.addColorStop(.48,'#91a6d7');fill.addColorStop(1,'#273456');}
-    g.fillStyle=fill;g.shadowColor=anchor?'#385dfc':i%5===0?'#ff542d':'#6577ae';g.shadowBlur=anchor?22:10;
-    g.beginPath();g.arc(x,y,r,0,twoPi);g.fill();g.shadowBlur=0;
+  const outer=g.createRadialGradient(centerX,centerY,2,centerX,centerY,Math.min(w,h)*.67);
+  outer.addColorStop(0,'rgba(48,76,144,.23)');outer.addColorStop(.55,'rgba(21,37,77,.08)');outer.addColorStop(1,'rgba(2,5,13,0)');
+  g.fillStyle=outer;g.fillRect(0,0,w,h);
+  g.save();g.shadowBlur=55;g.shadowColor='rgba(72,106,227,.35)';
+  for(let row=0;row<state.lattice.rows-1;row++){
+    for(let col=0;col<state.lattice.cols-1;col++){
+      const i=row*state.lattice.cols+col,j=i+1,k=i+state.lattice.cols,l=k+1;
+      const q=[coords[i],coords[j],coords[l],coords[k]];
+      const vx=Math.abs(state.lattice.points[i].vx)+Math.abs(state.lattice.points[l].vx);
+      const asymmetry=Math.max(.12,Math.min(.97,.48+vx*.13));
+      const warm=(row+col)%4===0;
+      const fill=g.createLinearGradient(q[0].x,q[0].y,q[2].x,q[2].y);
+      fill.addColorStop(0,warm?'rgba(255,163,116,.68)':'rgba(102,133,235,.72)');
+      fill.addColorStop(asymmetry,warm?'rgba(195,74,58,.45)':'rgba(43,75,167,.39)');
+      fill.addColorStop(1,'rgba(10,22,56,.55)');
+      polygon(q,fill,null);
+    }
   }
-  g.fillStyle='#aebad0';g.font='10px ui-monospace,Consolas,monospace';
-  g.fillText('SPRING-MASS / ACTUAL CONSTRAINTS',25,35);
-  g.fillStyle='#e4eaa8';g.fillText(`K ${state.tension}  /  ${state.lattice.springs.length} CONNECTIONS`,25,52);
-  g.fillStyle='rgba(213,226,255,.4)';g.font='9px ui-monospace,Consolas,monospace';
-  g.fillText('DRAG NODES. THE FIELD RESPONDS.',25,h-52);
+  g.restore();
+  // A second pass provides the tensile structure and makes deformation legible.
+  g.lineJoin='round';
+  for(const [index,spring] of state.lattice.springs.entries()){
+    const a=coords[spring.a],b=coords[spring.b];
+    g.beginPath();g.moveTo(a.x,a.y);g.lineTo(b.x,b.y);
+    g.strokeStyle=index%4===0?'rgba(255,185,151,.40)':'rgba(184,204,255,.29)';
+    g.lineWidth=index%4===0?1.4:.68;g.stroke();
+  }
+  for(let i=0;i<coords.length;i++){
+    const {x,y}=coords[i],point=state.lattice.points[i],active=i===state.hover||i===state.drag?.index;
+    const radius=point.anchor?4.8:active?8.7:3.7;
+    if(active){g.beginPath();g.arc(x,y,24,0,twoPi);g.strokeStyle='rgba(248,246,207,.64)';g.lineWidth=1.2;g.stroke();}
+    const specular=g.createRadialGradient(x-radius*.32,y-radius*.45,.5,x,y,radius*2.2);
+    specular.addColorStop(0,point.anchor?'#dce5ff':'#fff6e5');
+    specular.addColorStop(.3,point.anchor?'#718cff':i%5===0?'#f9a074':'#d4dcee');
+    specular.addColorStop(1,point.anchor?'rgba(44,70,139,.1)':'rgba(43,56,100,.07)');
+    g.fillStyle=specular;g.shadowColor=point.anchor?'#587bff':'#ed8569';g.shadowBlur=active?28:12;
+    g.beginPath();g.arc(x,y,radius*1.75,0,twoPi);g.fill();g.shadowBlur=0;
+  }
+  g.fillStyle='#d3dbe9';g.font='10px ui-monospace,Consolas,monospace';
+  g.fillText('ELASTIC FIELD / LIVE DISPLACEMENT',25,54);
+  g.fillStyle='#e0e8b2';g.fillText(`K ${state.tension}  /  ${state.lattice.springs.length} SPRINGS  /  ${journey.actions} INPUTS`,25,70);
+  g.fillStyle='rgba(213,226,255,.65)';g.font='10px ui-monospace,Consolas,monospace';
+  g.fillText('DRAG THE MATERIAL OR SEND A PULSE',25,h-50);
 }
 function updateGate(){
   const input={evidence:Number($('evidence').value),repeatability:Number($('repeatability').value),rights:$('rights').checked};
@@ -98,6 +135,7 @@ function updateGate(){
   }
   if(state.mode==='decision')draw();
 }
+
 function drawDecision(w,h){
   const g=context;background(w,h,'decision');
   const v=state.gate;
@@ -237,6 +275,7 @@ function setMode(id,focus=false){if(!panels[id])return;state.mode=id;
   canvas.setAttribute('aria-label',id==='matter'?'Interactive spring network. Drag nodes, or use Pulse and Tension beside the canvas.':id==='decision'?'A diagram of the evidence gate and the first failed step. Adjustable inputs and full text trace are beside the canvas.':'Procedurally lit perspective scene. Change lens and key-light controls beside the canvas.');
   if(focus)document.querySelector(`[data-mode=${id}]`).focus();
   $('render-status').textContent=id==='matter'?'LIVE / SPRING-MASS CONSTRAINTS':id==='decision'?'LIVE / DETERMINISTIC RULE TRACE':'LIVE / 3D GEOMETRY PROJECTION';
+  text('scene-instruction',id==='matter'?'01 / PULL, THEN RELEASE':id==='decision'?'02 / THE FIRST FAILURE IS THE SIGNAL':'03 / DIRECT THE LIGHT');
   if(state.audioOn)changeChord(id);
   draw();schedule();}
 function pointerAt(e){const rect=canvas.getBoundingClientRect();return {x:e.clientX-rect.left,y:e.clientY-rect.top};}
@@ -246,7 +285,7 @@ canvas.addEventListener('pointerdown',e=>{
   const at=pointerAt(e);
   let index=-1,distance=Infinity;
   state.lattice.points.forEach((p,i)=>{if(p.anchor)return;const c=materialPoint(p,state.width,state.height),d=Math.hypot(c.x-at.x,c.y-at.y);if(d<distance){distance=d;index=i;}});
-  if(distance<=35){const p=pointToWorld(at);state.drag={index,...p};state.hover=index;canvas.setPointerCapture(e.pointerId);canvas.style.cursor='grabbing';draw();}
+  if(distance<=35){countAction();const p=pointToWorld(at);state.drag={index,...p};state.hover=index;canvas.setPointerCapture(e.pointerId);canvas.style.cursor='grabbing';draw();}
 });
 canvas.addEventListener('pointermove',e=>{
   if(state.mode!=='matter')return;
@@ -258,26 +297,80 @@ canvas.addEventListener('pointermove',e=>{
 function releasePointer(){state.drag=null;state.hover=-1;canvas.style.cursor='default';draw();}
 canvas.addEventListener('pointerup',releasePointer);canvas.addEventListener('pointercancel',releasePointer);
 canvas.addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key))return;e.preventDefault();
-  if(state.mode==='matter'){applyImpulse(state.lattice,.7);if(!state.motion){state.energy=stepLattice(state.lattice,1/60,state.tension).energy;}draw();}
+  if(state.mode==='matter'){countAction();applyImpulse(state.lattice,.7);if(!state.motion){state.energy=stepLattice(state.lattice,1/60,state.tension).energy;}draw();}
   if(state.mode==='cinema'){state.shot=(state.shot+(e.key==='ArrowLeft'?-1:1)+3)%3;updateCamera();draw();}
 });
 tabs.forEach((tab,i)=>{tab.addEventListener('click',()=>setMode(tab.dataset.mode));tab.addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;e.preventDefault();const next=e.key==='Home'?0:e.key==='End'?tabs.length-1:(i+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;setMode(tabs[next].dataset.mode,true);});});
 $('tension').addEventListener('input',e=>{state.tension=Number(e.target.value);$('tension-out').textContent=String(state.tension);draw();});
-$('impulse').addEventListener('click',()=>{applyImpulse(state.lattice,2.1);if(!state.motion){state.energy=stepLattice(state.lattice,1/60,state.tension).energy;}draw();if(state.audioOn)ping(260,.08);});
-$('reset-field').addEventListener('click',()=>{state.lattice=buildLattice();state.energy=0;state.drag=null;state.hover=-1;draw();});
-['evidence','repeatability','rights'].forEach(id=>$(id).addEventListener('input',updateGate));
+$('impulse').addEventListener('click',()=>{countAction();applyImpulse(state.lattice,2.1);if(!state.motion){state.energy=stepLattice(state.lattice,1/60,state.tension).energy;}draw();if(state.audioOn)ping(260,.08);});
+$('reset-field').addEventListener('click',()=>{state.lattice=buildLattice();state.energy=0;state.drag=null;state.hover=-1;journey.actions=0;journey.signal=journey.review=journey.direction=null;receipt();draw();});
+['evidence','repeatability','rights'].forEach(id=>$(id).addEventListener('input',()=>{
+  if(journey.review){journey.review=null;journey.direction=null;receipt();}
+  updateGate();
+}));
 $('export-trace').addEventListener('click',()=>{
-  const doc={kind:'Pryntor illustrative gate trace',version:1,inputs:{evidence:Number($('evidence').value),repeatability:Number($('repeatability').value),rights:$('rights').checked},result:state.gate,note:'Illustrative, local-only. Not release approval or an AI model.'};
+  const doc={kind:'Pryntor illustrative gate trace',version:1,inputs:{evidence:Number($('evidence').value),repeatability:Number($('repeatability').value),rights:$('rights').checked},result:state.gate,signal:journey.signal,note:'Illustrative, local-only. Not release approval or an AI model.'};
   download(new Blob([JSON.stringify(doc,null,2)],{type:'application/json'}),'pryntor-local-trace.json');
 });
 function updateCamera(){$('lens-out').textContent=state.lens+' MM';$('light-out').textContent=state.light+'°';$('cinema-proof').textContent=`SHOT 0${state.shot+1} / ${state.lens} mm / ${state.light}° key`;}
-$('lens').addEventListener('input',e=>{state.lens=Number(e.target.value);updateCamera();draw();});
-$('light').addEventListener('input',e=>{state.light=Number(e.target.value);updateCamera();draw();});
-$('cut-angle').addEventListener('click',()=>{state.shot=(state.shot+1)%3;updateCamera();draw();if(state.audioOn)ping(330,.1);});
+$('lens').addEventListener('input',e=>{state.lens=Number(e.target.value);journey.direction=null;receipt();updateCamera();draw();});
+$('light').addEventListener('input',e=>{state.light=Number(e.target.value);journey.direction=null;receipt();updateCamera();draw();});
+$('cut-angle').addEventListener('click',()=>{state.shot=(state.shot+1)%3;journey.direction=null;receipt();updateCamera();draw();if(state.audioOn)ping(330,.1);});
 function download(blob,name){const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),600);}
 $('save-frame').addEventListener('click',()=>{if(!context)return;canvas.toBlob(blob=>{if(blob)download(blob,'pryntor-local-frame.png');},'image/png');});
 $('pause-motion').addEventListener('click',()=>{state.motion=!state.motion;$('pause-motion').setAttribute('aria-pressed',String(!state.motion));$('pause-motion').textContent=state.motion?'PAUSE MOTION':'RESUME MOTION';if(!state.motion)stop();else schedule();draw();});
 motionMedia.addEventListener('change',e=>{state.motion=!e.matches;$('pause-motion').setAttribute('aria-pressed',String(!state.motion));$('pause-motion').textContent=state.motion?'PAUSE MOTION':'RESUME MOTION';if(!state.motion)stop();else schedule();draw();});
+
+
+// The three disciplines are linked by a real, local, inspectable state transfer.
+$('carry-signal').addEventListener('click',()=>{
+  if(journey.actions<1){text('carry-readout','SEND A PULSE OR DRAG THE FIELD FIRST. NO RESULT FABRICATED.');return;}
+  // Sampling current energy is a physics readout, never a fabricated confidence score.
+  state.energy=stepLattice(state.lattice,1/120,state.tension).energy;
+  journey.signal=captureSignal({energy:state.energy,tension:state.tension,
+    actions:journey.actions,nodes:state.lattice.points.length,springs:state.lattice.springs.length});
+  journey.review=journey.direction=null;
+  text('carry-readout',`CAPTURED ${journey.signal.actions} ACTION(S) / ${journey.signal.energy.toFixed(3)} ENERGY UNITS.`);
+  text('signal-ticket',`LOCAL RECEIPT / ${journey.signal.nodes} NODES / ${journey.signal.energy.toFixed(3)} ENERGY UNITS / NOT SCIENTIFIC PROOF`);
+  // The interaction's energy is intentionally not converted to a bogus validation score.
+  receipt();setMode('decision');
+  $('tab-decision').focus();
+});
+$('advance-frame').addEventListener('click',()=>{
+  if(!journey.signal){text('advance-readout','NO PREVIOUS SIGNAL. COMPLETE PART 01 BEFORE LINKING THIS REVIEW.');return;}
+  updateGate();
+  journey.review=structuredClone(state.gate);
+  journey.direction=null;
+  const cue=sceneCue(journey.review);
+  state.light=cue.light;state.shot=cue.shot;updateCamera();showSceneStatus();
+  text('advance-readout',`REVIEW RECORDED AS ${journey.review.status}. THIS IS NOT A RELEASE DECISION.`);
+  receipt();setMode('cinema');$('tab-cinema').focus();
+});
+$('finish-journey').addEventListener('click',()=>{
+  if(!journey.review){text('cinema-ticket','TO COMPLETE THE TRACE, FIRST CAPTURE AND REVIEW PARTS 01 AND 02.');return;}
+  const cue=sceneCue(journey.review);
+  journey.direction={shot:state.shot,lens:state.lens,light:state.light,cue:cue.mood};
+  receipt();text('journey-message','ALL THREE STAGES RECORDED. YOUR LOCAL PROOF SHEET IS READY.');
+  $('journey-result').scrollIntoView({behavior:motionMedia.matches?'auto':'smooth',block:'center'});
+});
+$('export-journey').addEventListener('click',()=>{
+  const doc=composeJourney(journey);
+  localSequence++;
+  download(new Blob([JSON.stringify({...doc,localSequence},null,2)],{type:'application/json'}),'pryntor-r6-local-proof.json');
+});
+$('reset-journey').addEventListener('click',()=>{
+  journey.actions=0;journey.signal=journey.review=journey.direction=null;
+  state.lattice=buildLattice();state.tension=70;state.energy=0;state.drag=null;
+  state.lens=50;state.light=65;state.shot=0;
+  $('tension').value='70';text('tension-out','70');
+  $('evidence').value='82';$('repeatability').value='86';$('rights').checked=false;
+  text('carry-readout','No signal captured yet. Send a pulse to begin.');
+  text('signal-ticket','AWAITING THE SIGNAL FROM PART 01');
+  text('cinema-ticket','NO REVIEW CARRIED FORWARD YET');
+  text('advance-readout','Finish an illustrative review to continue.');
+  updateGate();updateCamera();receipt();setMode('matter');
+  $('tab-matter').focus();
+});
 
 // An original, opt-in Web Audio score. There is no source media file, remote service or autoplay.
 const chords={matter:[110,164.81,220],decision:[98,146.83,196],cinema:[82.41,123.47,164.81]};
@@ -306,6 +399,7 @@ $('sound-toggle').addEventListener('click',async()=>{
 document.addEventListener('visibilitychange',()=>{state.visible=!document.hidden;if(!state.visible){stop();void stopAudio();}else{draw();schedule();}});
 window.addEventListener('pagehide',()=>{stop();void stopAudio();});
 
+receipt();
 if(!context){$('render-status').textContent='CANVAS UNAVAILABLE / CONTROLS AND TEXT REMAIN';}
 else {
   updateGate();updateCamera();

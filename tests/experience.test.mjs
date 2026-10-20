@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,existsSync} from 'node:fs';
-import {buildLattice,stepLattice,evaluateGate,applyImpulse,cinemaProjection,sceneSeed} from '../experience-engine.mjs';
+import {buildLattice,stepLattice,evaluateGate,applyImpulse,cinemaProjection,sceneSeed,captureSignal,sceneCue,composeJourney} from '../experience-engine.mjs';
 import {join,dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 const root=join(dirname(fileURLToPath(import.meta.url)),'..');
@@ -55,9 +55,9 @@ test('standalone immersive route has three usable modes, local assets and releas
   for(const id of ['tab-matter','tab-decision','tab-cinema','scene','impulse','tension','evidence','repeatability','rights','trace','lens','light','sound-toggle','pause-motion','export-trace','save-frame'])assert.match(html,new RegExp(`id="${id}"`));
   assert.match(html,/name="robots" content="noindex,nofollow"/);
   assert.match(html,/connect-src 'none'/);
-  assert.match(html,/PRIVATE STUDY \/ NOT FOR RELEASE/);
-  assert.match(html,/No login|NO LOGIN/i);
-  assert.match(css,/@media \(prefers-reduced-motion:reduce\)/);
+  assert.match(html,/PRIVATE \/ R6 STUDY/);
+  assert.match(html,/NO SIGN-UP|NO LOGIN/i);
+  assert.match(css,/@media\(prefers-reduced-motion:reduce\)/);
   assert.match(app,/new AudioCtor\(\)/);assert.match(app,/addEventListener\('click',async\(\)=>/);
 });
 test('page does not add a paid, third-party or communications dependency',()=>{
@@ -68,4 +68,55 @@ test('page does not add a paid, third-party or communications dependency',()=>{
   }
   assert.doesNotMatch(html,/<(?:iframe|video|audio)\b/i);
   assert.doesNotMatch(html,/<form\b/i);
+});
+
+test('local signal is an actual bounded state sample, not a fabricated approval',()=>{
+  const sim=buildLattice();applyImpulse(sim,2.1);
+  const energy=stepLattice(sim,1/60,80).energy;
+  const first=captureSignal({energy,tension:80,actions:1,nodes:sim.points.length,springs:sim.springs.length});
+  const second=captureSignal({energy,tension:80,actions:1,nodes:sim.points.length,springs:sim.springs.length});
+  assert.deepEqual(first,second);
+  assert.equal(first.kind,'LOCAL_SIMULATION');assert.ok(first.energy>0);
+  assert.equal(Object.isFrozen(first),true);
+  for (const values of [
+    {energy:NaN,tension:70,actions:1,nodes:35,springs:1},
+    {energy:-2,tension:70,actions:1,nodes:35,springs:1},
+    {energy:1,tension:70,actions:0,nodes:35,springs:1},
+    {energy:1,tension:999,actions:2,nodes:35,springs:1}]) {
+    assert.throws(()=>captureSignal(values),TypeError);
+  }
+});
+test('hold or candidate creates an original lighting cue without claiming release authority',()=>{
+  const hold=evaluateGate({evidence:82,repeatability:86,rights:false});
+  const candidate=evaluateGate({evidence:82,repeatability:86,rights:true});
+  assert.equal(sceneCue(hold).mood,'UNRESOLVED');
+  assert.equal(sceneCue(candidate).mood,'POSSIBILITY');
+  assert.notEqual(sceneCue(hold).light,sceneCue(candidate).light);
+  assert.equal(sceneCue(null).mood,'UNREVIEWED');
+  assert.throws(()=>sceneCue({status:'RELEASED'}),TypeError);
+});
+test('complete journey enforces causal stage order with no synthetic personal data',()=>{
+  const signal=captureSignal({energy:1.5,tension:70,actions:1,nodes:35,springs:94});
+  const review=evaluateGate({evidence:82,repeatability:86,rights:false});
+  const frame={shot:0,lens:50,light:38,cue:'UNRESOLVED'};
+  const journey=composeJourney({signal,gate:review,frame});
+  assert.equal(journey.progress,3);
+  assert.equal(journey.stages.review.status,'HOLD');
+  assert.match(journey.scope,/Not a deployed product/);
+  assert.throws(()=>composeJourney({gate:review}),TypeError);
+  assert.throws(()=>composeJourney({frame}),TypeError);
+  assert.equal(composeJourney({}).progress,0);
+});
+test('R6 is a continuous three-stage journey with evidence-first portfolio claims and intentional release hold',()=>{
+  for(const id of ['carry-signal','carry-readout','signal-ticket','advance-frame','cinema-ticket','finish-journey',
+    'receipt-matter','receipt-decision','receipt-cinema','export-journey','reset-journey','journey-result']) {
+    assert.match(html,new RegExp(`id="${id}"`));
+  }
+  for(const name of ['ZOWIBO','LVL7','Show Your Working','Pryntor Robotics','Pryntor Studios','Before the World Wakes']) {
+    assert.ok(html.includes(name),`Missing honest company work ${name}`);
+  }
+  assert.match(html,/not a production artificial-intelligence system/i);
+  assert.match(html,/name="robots" content="noindex,nofollow"/);
+  assert.match(app,/captureSignal\(/);assert.match(app,/composeJourney\(/);assert.match(app,/sceneCue\(/);
+  assert.doesNotMatch(html,/(?:analytics|checkout|collect personal details)\s*=\s*"/i);
 });
