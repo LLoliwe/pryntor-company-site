@@ -85,6 +85,10 @@ test('interactive lab: four viewport, three scene, real canvas and offline proof
     try{
       const page=await context.newPage();await page.goto(origin+'/experience.html',{waitUntil:'load'});
       await page.locator('#scene[data-ready=true]').waitFor();
+      // The renderer intentionally sleeps offscreen. Scroll it into view before
+      // asserting advancing animation frames, then verify pause freezes them.
+      await page.locator('#scene').scrollIntoViewIfNeeded();
+      await page.waitForTimeout(150);
       const before=await page.locator('#frame-counter').innerText();await page.waitForTimeout(350);
       const after=await page.locator('#frame-counter').innerText();assert.notEqual(after,before,'Unpaused simulation must render new frames');
       await page.locator('#pause-motion').click();const stopped=await page.locator('#frame-counter').innerText();await page.waitForTimeout(350);
