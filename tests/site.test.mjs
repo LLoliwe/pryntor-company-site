@@ -20,7 +20,7 @@ test("required pages are present and readable", () => {
 test("internal links resolve", () => {
   for (const name of pages) {
     for (const href of hrefs(html[name])) {
-      if (/^(?:mailto:|https?:\/\/|tel:)/i.test(href)) continue;
+      if (/^(?:data:|mailto:|https?:\/\/|tel:)/i.test(href)) continue;
       if (href.startsWith("#")) {
         assert.ok(html[name].includes(`id="${href.slice(1)}"`), `Missing ${href} in ${name}`);
       } else {
@@ -34,12 +34,14 @@ test("internal links resolve", () => {
 });
 
 test("homepage is minimal, contactable and assistant-ready", () => {
-  assert.match(html["index.html"], /<h1[^>]*>PRYNTOR<\/h1>/);
+  assert.match(html["index.html"], /<h1[^>]*class="identity"[^>]*>\s*<img[^>]*alt="PRYNTOR"/);
   assert.match(html["index.html"], /mailto:hello@pryntor\.co\.za/);
   assert.match(html["index.html"], /id="assistant"/);
   assert.match(html["index.html"], /SpeechRecognition|webkitSpeechRecognition/);
   assert.match(html["index.html"], /speechSynthesis/);
-  assert.match(html["privacy.html"], /does not send typed questions to Pryntor/i);
+  assert.match(html["index.html"], /id="privacy"[\s\S]*no external model connection/i);
+  assert.match(html["index.html"], /connect-src 'none'/);
+  assert.doesNotMatch(html["index.html"], /noindex|PRIVATE DESIGN REVIEW|Private R4 review/i);
 });
 
 test("site has no checkout, external runtime or secret", () => {

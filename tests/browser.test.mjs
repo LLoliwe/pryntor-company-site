@@ -27,10 +27,12 @@ test("Pryntor homepage, assistant and legal journeys", async () => {
         const errors = [];
         const thirdParty = [];
         page.on("pageerror", error => errors.push(error.message));
-        page.on("request", request => { if (!request.url().startsWith(origin + "/")) thirdParty.push(request.url()); });
+        page.on("request", request => { if (/^https?:/i.test(request.url()) && !request.url().startsWith(origin + "/")) thirdParty.push(request.url()); });
         const response = await page.goto(origin + "/index.html", {waitUntil: "load"});
         assert.equal(response.status(), 200);
-        assert.equal(await page.locator("h1").innerText(), "PRYNTOR");
+        await page.locator("#stage[data-render=turntable]").waitFor();
+        assert.equal(await page.locator("h1 img").getAttribute("alt"), "PRYNTOR");
+        assert.equal(await page.locator("h1 img").evaluate(image => image.complete && image.naturalWidth > 0), true);
         const layout = await page.evaluate(() => ({
           viewport: innerWidth,
           scrollWidth: document.documentElement.scrollWidth,
@@ -41,27 +43,25 @@ test("Pryntor homepage, assistant and legal journeys", async () => {
             .slice(0, 3)
         }));
         assert.equal(layout.scrollWidth <= layout.viewport + 2, true, `Overflow at ${width}: ${JSON.stringify(layout)}`);
-        assert.match(await page.locator("a.contact").getAttribute("href"), /^mailto:hello@pryntor\.co\.za/);
+        assert.match(await page.locator("a.primary").first().getAttribute("href"), /^mailto:hello@pryntor\.co\.za/);
         await page.screenshot({path: `evidence/pryntor-home-${width}.png`, fullPage: true});
 
-        const opener = page.locator("#ask-top");
+        const opener = page.locator("#ask");
         await opener.click();
         assert.equal(await page.locator("#assistant").isVisible(), true);
-        assert.equal(await page.locator('label[for="assistant-input"]').evaluate(node => {
-          const rect = node.getBoundingClientRect();
-          const style = getComputedStyle(node);
-          return rect.width <= 1 && rect.height <= 1 && style.overflow === "hidden";
-        }), true);
-        await page.locator("#assistant-input").fill("How do I contact you?");
-        await page.locator("#assistant-form").press("Enter");
-        assert.match(await page.locator(".assistant-message").last().innerText(), /hello@pryntor\.co\.za/i);
+        assert.equal(await page.locator('label[for="question"]').innerText(), "Your question");
+        await page.locator("#question").fill("How do I contact you?");
+        await page.locator("#guide-form").press("Enter");
+        assert.match(await page.locator(".message.guide .message-text").last().innerText(), /hello@pryntor\.co\.za/i);
         await page.screenshot({path: `evidence/pryntor-assistant-${width}.png`, fullPage: true});
         await page.keyboard.press("Escape");
         assert.equal(await page.locator("#assistant").isHidden(), true);
         assert.equal(await opener.evaluate(node => document.activeElement === node), true);
 
-        await page.locator('footer a[href="privacy.html"]').click();
-        assert.match(await page.locator("main h1").innerText(), /Privacy/i);
+        await page.locator('footer a[href="#privacy"]').click();
+        assert.equal(await page.locator("#privacy").isVisible(), true);
+        assert.match(await page.locator("#privacy-title").innerText(), /Privacy/i);
+        await page.keyboard.press("Escape");
         assert.deepEqual(errors, [], `Page errors at ${width}`);
         assert.deepEqual(thirdParty, [], `Third-party request at ${width}`);
       } finally { await context.close(); }
