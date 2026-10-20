@@ -118,5 +118,6 @@ test('R6 is a continuous three-stage journey with evidence-first portfolio claim
   assert.match(html,/not a production artificial-intelligence system/i);
   assert.match(html,/name="robots" content="noindex,nofollow"/);
   assert.match(app,/captureSignal\(/);assert.match(app,/composeJourney\(/);assert.match(app,/sceneCue\(/);
+  assert.match(app,/const doc=composeJourney\(\{signal:journey\.signal,gate:journey\.review,frame:journey\.direction\}\)/);
   assert.doesNotMatch(html,/(?:analytics|checkout|collect personal details)\s*=\s*"/i);
 });

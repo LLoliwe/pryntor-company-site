@@ -354,7 +354,7 @@ $('finish-journey').addEventListener('click',()=>{
   $('journey-result').scrollIntoView({behavior:motionMedia.matches?'auto':'smooth',block:'center'});
 });
 $('export-journey').addEventListener('click',()=>{
-  const doc=composeJourney(journey);
+  const doc=composeJourney({signal:journey.signal,gate:journey.review,frame:journey.direction});
   localSequence++;
   download(new Blob([JSON.stringify({...doc,localSequence},null,2)],{type:'application/json'}),'pryntor-r6-local-proof.json');
 });
