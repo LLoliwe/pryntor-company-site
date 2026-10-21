@@ -5,6 +5,11 @@ on:
     paths:
       - "*.html"
       - "tests/**"
+      - "llms.txt"
+      - "robots.txt"
+      - "sitemap.xml"
+      - "index.md"
+      - "docs/agent-readiness.md"
       - ".github/workflows/site-contract.yml"
   workflow_dispatch:
 
@@ -22,4 +27,4 @@ jobs:
         with:
           persist-credentials: false
       - name: Run dependency-free static contract
-        run: node --test tests/site.test.mjs
+        run: node --test tests/site.test.mjs tests/agent-ready.test.mjs
