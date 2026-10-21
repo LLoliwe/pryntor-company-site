@@ -33,21 +33,35 @@ test("internal links resolve", () => {
   }
 });
 
-test("homepage is minimal, contactable and assistant-ready", () => {
-  assert.match(html["index.html"], /<h1[^>]*class="identity"[^>]*>\s*<img[^>]*alt="PRYNTOR"/);
-  assert.match(html["index.html"], /mailto:hello@pryntor\.co\.za/);
-  assert.match(html["index.html"], /id="assistant"/);
-  assert.match(html["index.html"], /SpeechRecognition|webkitSpeechRecognition/);
-  assert.match(html["index.html"], /speechSynthesis/);
-  assert.match(html["index.html"], /id="privacy"[\s\S]*no external model connection/i);
-  assert.match(html["index.html"], /connect-src 'none'/);
-  assert.doesNotMatch(html["index.html"], /noindex|PRIVATE DESIGN REVIEW|Private R4 review/i);
+test("homepage is the early-list experience, contactable and accessible", () => {
+  const home = html["index.html"];
+  assert.match(home, /<img[^>]*alt="PRYNTOR"/);
+  assert.match(home, /mailto:hello@pryntor\.co\.za/);
+  assert.match(home, /id="join"/);
+  assert.match(home, /id="consent"[^>]*required/);
+  assert.match(home, /POPIA/);
+  assert.match(home, /[Uu]nsubscribe/);
+  assert.match(home, /prefers-reduced-motion/);
+  assert.match(home, /id="sound-toggle"[^>]*aria-pressed="false"/, "Sound must be off by default");
+  assert.match(home, /class="fallback"/, "Static fallback for no WebGL");
+  assert.doesNotMatch(home, /—/, "No em dashes");
+  assert.doesNotMatch(home, /noindex|PRIVATE DESIGN REVIEW|Private R4 review/i);
+});
+
+test("homepage network access is limited to the configured Supabase list", () => {
+  const home = html["index.html"];
+  const csp = home.match(/connect-src ([^;]+);/)[1].trim().split(/\s+/);
+  assert.ok(csp.every(src => src === "'none'" || /^https:\/\/[A-Za-z0-9_-]+\.supabase\.co$/.test(src)), "connect-src " + csp);
+  assert.match(home, /supabaseUrl: "", anonKey: ""/, "Ships unconfigured; founder sets keys");
+  assert.match(home, /if\(!configured\(\)\) return Promise\.resolve\(\{mode:"mailto"\}\)/, "fetch only after configuration");
+  assert.doesNotMatch(home, /service_role/);
 });
 
 test("site has no checkout, external runtime or secret", () => {
   for (const name of pages) {
     assert.doesNotMatch(html[name], /<script[^>]*\bsrc\s*=/i, `External script in ${name}`);
-    assert.doesNotMatch(html[name], /\b(?:fetch|XMLHttpRequest|WebSocket|EventSource)\s*\(/, `Network call in ${name}`);
+    const code = name === "index.html" ? html[name].replace(/return fetch\(cfg\.supabaseUrl\+"\/rest\/v1\/rpc\/join_waitlist"/, "") : html[name];
+    assert.doesNotMatch(code, /\b(?:fetch|XMLHttpRequest|WebSocket|EventSource)\s*\(/, `Network call in ${name}`);
     assert.doesNotMatch(html[name], /(?:sk-proj-|sk_live_|BEGIN PRIVATE KEY|AWS_SECRET_ACCESS_KEY)/, `Secret in ${name}`);
     assert.doesNotMatch(html[name], /href="[^"]*(?:checkout|payment)|<button[^>]*>(?:Buy|Pay|Subscribe)/i, `Commercial action in ${name}`);
     assert.ok(!html[name].includes("®"), `Unsupported registered mark in ${name}`);
