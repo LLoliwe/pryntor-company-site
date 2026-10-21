@@ -10,7 +10,7 @@ const home=read('index.html');
 const links=['about.html','privacy.html','terms.html'];
 test('Home contains canonical, real markdown alternate and descriptive metadata',()=>{
   assert.match(home,/<link rel="canonical" href="https:\/\/pryntor\.co\.za\/"/);
-  assert.match(home,/<link rel="alternate" type="text\/markdown" href="\/index\.md"/);
+  assert.match(home,/<link rel="alternate" type="text\/markdown" href="index\.md"/);
   assert.match(home,/<meta property="og:type" content="website"/);
   assert.match(home,/<meta name="description" content="Pryntor is an independent/);
 });
