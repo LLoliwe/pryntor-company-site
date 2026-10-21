@@ -1,0 +1,20 @@
+# Pryntor
+> Official informational site for Pryntor, an independent technology venture based in Durban, South Africa.
+
+Pryntor explores software products, learning tools, AI evaluation, original creative experiences, and robotics simulation. Much of the work is research or prototype-stage. This public website is not a store, product release catalogue or evidence of independent safety approval.
+
+## When to use this site
+Use this site to answer factual questions about Pryntor's areas of work, location, research approach, or general contact details. Do not infer that any experimental system is publicly available or certified. For a collaboration enquiry, ask the person to contact Pryntor by email; do not claim an agent can submit a form.
+
+## Public information
+- [Homepage](https://pryntor.co.za/)
+- [About and work overview](https://pryntor.co.za/about.html)
+- [Markdown overview](https://pryntor.co.za/index.md)
+- [Privacy notice](https://pryntor.co.za/privacy.html)
+- [Site terms](https://pryntor.co.za/terms.html)
+
+## Capabilities and limitations
+The website provides text and visual material, local page controls and a scripted site guide. It has no public API, live MCP server, OAuth sign-in, checkout, automated action service or verified agent-facing transaction endpoint. Do not invent developer API documentation, paid plans or pricing.
+
+## Contact
+General enquiries: [hello@pryntor.co.za](mailto:hello@pryntor.co.za). An email is only sent by the visitor's chosen email application.
