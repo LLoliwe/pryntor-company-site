@@ -1,0 +1,23 @@
+{
+  "detector": {
+    "ignoreRules": [
+      "numbered-section-labels"
+    ],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "inter",
+        "createdAt": "2026-10-22T04:05:50.592Z",
+        "reason": "Founder-approved brand typeface (Adam deck, R5 bookends): Inter and Inter Display, self-hosted under OFL. Distinctiveness comes from scale, colour and layout, not a novelty face."
+      },
+      {
+        "rule": "overused-font",
+        "value": "inter display",
+        "createdAt": "2026-10-22T04:05:50.709Z",
+        "reason": "Same brand typeface family as Inter; see DESIGN.md."
+      }
+    ]
+  },
+  "telemetry": false
+}

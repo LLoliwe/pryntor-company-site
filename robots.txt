@@ -1,0 +1,4 @@
+# Public information only. Robots rules are not security controls.
+User-agent: *
+Allow: /
+Sitemap: https://pryntor.co.za/sitemap.xml
