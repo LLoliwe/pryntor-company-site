@@ -1,0 +1,5 @@
+/* PRYNTOR brand tokens. SINGLE SOURCE: swap this file to change the identity.
+   Source: Typography & Identity Repair R1 (20 Oct 2026), CONFIRMED by the founder on 22 Oct 2026.
+   Cobalt #1637F3, pure white, ink #0A0C12, orange-red #FF461D, yellow #FFD626 for punctuation and micro accents only. No cream. Inter Display. */
+:root{--cobalt:#1637F3;--white:#FFFFFF;--ink:#0A0C12;--signal:#FF461D;--yellow:#FFD626;
+--black:var(--ink);--orange:var(--signal);--on-cobalt:#FFFFFF;--cobalt-rule:rgba(255,255,255,.32)}

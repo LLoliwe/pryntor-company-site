@@ -33,7 +33,7 @@ async function guard(page, origin) {
   return {errors, thirdParty, bad};
 }
 
-test("every page: loads clean, no overflow, no third party, axe passes, no mascot", async () => {
+test("every page: loads clean, no overflow, no third party, axe passes, mascot only from approved derivatives", async () => {
   const server = await serve(); const origin = "http://127.0.0.1:" + server.address().port;
   const browser = await chromium.launch();
   try {
@@ -42,7 +42,7 @@ test("every page: loads clean, no overflow, no third party, axe passes, no masco
       const page = await ctx.newPage(); const g = await guard(page, origin);
       assert.equal((await page.goto(origin + path, {waitUntil: "load"})).status(), 200, path);
       assert.equal(await page.locator("header img").evaluate(i => i.complete && i.naturalWidth > 0), true, "wordmark " + path);
-      assert.equal(await page.locator("img[src*='ascot' i], #mascot").count(), 0, "no mascot " + path);
+      for (const src of await page.locator("img[src*='ascot' i]").evaluateAll((els) => els.map((e) => e.getAttribute("src")))) assert.match(src, /pryntor-mascot-(480|960)\.webp$/, "approved mascot derivative " + path);
       const lay = await page.evaluate(() => ({sw: document.documentElement.scrollWidth, vw: innerWidth}));
       assert.ok(lay.sw <= lay.vw + 1, `Overflow on ${path} at ${width}: ${JSON.stringify(lay)}`);
       if (axeSource && (width === 390 || width === 1440)) {

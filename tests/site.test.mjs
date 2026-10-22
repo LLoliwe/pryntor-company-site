@@ -7,7 +7,7 @@ import { createHash } from "node:crypto";
 const pages = ["index.html", "method.html", "about.html", "privacy.html", "terms.html"];
 const html = Object.fromEntries(pages.map(name => [name, readFileSync(name, "utf8")]));
 const js = Object.fromEntries(["site.js", "waitlist.js", "config.js"].map(n => [n, readFileSync("assets/js/" + n, "utf8")]));
-const css = readFileSync("assets/css/site.css", "utf8");
+const css = readFileSync("assets/css/tokens.css", "utf8") + readFileSync("assets/css/site.css", "utf8");
 const hrefs = text => [...text.matchAll(/\b(?:href|src)="([^"]+)"/g)].map(match => match[1]);
 const walk = dir => readdirSync(dir).flatMap(f => { const p = join(dir, f); if (/^(node_modules|\.git|evidence)$/.test(f)) return []; return statSync(p).isDirectory() ? walk(p) : [p]; });
 // Files a static host would publish: pages, assets and agent-readable text. Repo docs, tests and tooling are excluded.
@@ -64,7 +64,9 @@ test("homepage is the early-list experience, contactable and accessible", () => 
   assert.match(home, /role="tablist"/);
   assert.equal((home.match(/role="tab"/g) || []).length, 4);
   assert.match(home, /src="assets\/img\/pryntor-wordmark-white-264\.webp"/, "Original uppercase wordmark, resized from the original pixels");
-  assert.match(css, /--orange:#FF6A00/, "Single orange accent from founder-liked deck");
+  assert.match(css, /--cobalt:#1637F3/, "Repair R1 cobalt token");
+  assert.match(css, /--signal:#FF461D/, "Repair R1 orange-red token");
+  assert.doesNotMatch(css, /#FF6A00/, "old Adam-deck orange removed");
   assert.match(css, /--white:#FFFFFF/, "Pure white, no cream");
   assert.match(home, /Make the change\.[\s\S]*Prove the chain\./);
   assert.doesNotMatch(home, /noindex|PRIVATE DESIGN REVIEW|Private R4 review/i);
@@ -79,11 +81,12 @@ test("only the three approved business addresses are published", () => {
   }
 });
 
-test("mascot is absent from every public file and path", () => {
-  for (const f of publicFiles) {
-    assert.doesNotMatch(f, /mascot/i, "Mascot file in public path: " + f);
-    if (/\.(html|css|js|md|txt|xml|json)$/.test(f)) assert.doesNotMatch(readFileSync(f, "utf8"), /mascot/i, "Mascot reference in " + f);
-  }
+test("mascot (founder-approved 22 Oct 2026) appears on the homepage from the R3 master only, with alt text", () => {
+  const imgs = readdirSync("assets/img").filter((f) => /mascot/i.test(f));
+  for (const f of imgs) assert.match(f, /^pryntor-mascot-(480|960)\.(webp|avif)$/, "Only optimised derivatives of the master: " + f);
+  assert.match(html["index.html"], /class="mascot hero-mascot"/, "hero presence");
+  assert.match(html["index.html"], /alt="The Pryntor character[^"]+"/, "descriptive alt text");
+  assert.match(html["index.html"], /type="image\/avif"/, "AVIF source");
 });
 
 test("no em dashes or cream colours in public copy and styles", () => {

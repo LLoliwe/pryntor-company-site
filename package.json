@@ -4,7 +4,7 @@
   "description": "Static Pryntor website. No runtime dependencies; dev tools only for tests.",
   "scripts": {
     "build": "python3 tools/build_pages.py",
-    "test": "node --test tests/",
+    "test": "node --test --test-concurrency=1 tests/*.test.mjs",
     "lint:design": "impeccable detect index.html about.html method.html"
   },
   "devDependencies": {

@@ -3,13 +3,13 @@
 No dependencies. Output is plain HTML committed to the repo."""
 import base64, hashlib, json, pathlib
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-CSS = (pathlib.Path(__file__).resolve().parent.parent / "assets/css/site.css").read_text().strip().replace("url(../fonts/", "url(assets/fonts/")
+CSS = ((ROOT / "assets/css/tokens.css").read_text().strip() + "\n" + (ROOT / "assets/css/site.css").read_text().strip()).replace("url(../fonts/", "url(assets/fonts/")
 CSS_HASH = "sha256-" + base64.b64encode(hashlib.sha256(CSS.encode()).digest()).decode()
 CSP = ("default-src 'none'; script-src 'self'; style-src '" + CSS_HASH + "'; img-src 'self' data:; font-src 'self'; "
        "connect-src 'self' https://your-project-ref.supabase.co; manifest-src 'self'; media-src 'none'; frame-src 'none'; "
        "object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests")
 ICON = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' "
-        "fill='%230B0D10'/%3E%3Crect x='7' y='22' width='18' height='3' fill='%23FF6A00'/%3E%3C/svg%3E")
+        "fill='%231637F3'/%3E%3Crect x='7' y='22' width='18' height='3' fill='%23FFD626'/%3E%3C/svg%3E")
 ORG = {"@context":"https://schema.org","@type":"Organization","name":"Pryntor","url":"https://pryntor.co.za/",
   "logo":"https://pryntor.co.za/assets/img/pryntor-wordmark-black.png",
   "description":"Independent Durban-based technology venture exploring software, learning tools, AI evaluation and creative technology.",
@@ -36,7 +36,7 @@ def head(title, desc, canonical, home=False, extra=""):
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>{title}</title>
 <meta name="description" content="{desc}">
-<meta name="theme-color" content="#0B0D10">
+<meta name="theme-color" content="#1637F3">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Pryntor">
 <meta property="og:title" content="{title}">
@@ -143,14 +143,22 @@ def home():
              ("03","Accessible","Usable by keyboard and screen reader, readable at every size."),
              ("04","Independently checked","Someone who did not build it tries it, and the result is recorded.")]
     vc = "".join(f'<div class="vcell"><h3><span class="gn" aria-hidden="true">{a}</span>{b}</h3><p>{c}</p></div>' for a,b,c in gates)
+    LED=[("Software and web experiences","Working prototypes and this website, built with automated browser tests.","Released products or paying customers.","Prototype","proto"),
+         ("Learning tools","Early teaching and learning prototypes in internal testing.","Accreditation or measured learner outcomes.","Prototype","proto"),
+         ("AI evaluation","Research into where reasoning systems fail, with failures logged and dated.","Approved production systems or third-party validation.","Research","res"),
+         ("Creative technology","Original visual and story work, rights checked before any release.","Licensed IP we do not own.","Research","res"),
+         ("Robotics simulation","Control experiments in simulation, including recorded failures.","Deployed or safety-certified hardware.","Simulation only","res")]
+    ledger="".join(f'<div class="lrow" role="row"><div role="cell"><h3>{a}</h3></div><div role="cell"><span class="k">What exists</span><p>{b}</p></div><div role="cell"><span class="k">Not claimed</span><p>{c}</p></div><div role="cell"><span class="st {k}">{s}</span></div></div>' for a,b,c,s,k in LED)
     strip = "".join(f"<li>{s}</li>" for s in ["Evidence beside every claim","Limits written down","Failures kept and dated","Independent checks before release"])
-    main = f"""<section class="ch full dark hero" id="top" aria-labelledby="h-hero">
+    main = f"""<section class="ch full cobalt hero" id="top" aria-labelledby="h-hero">
 <div class="wrap hero-grid">
 <div>
-<h1 id="h-hero">Make the change.<br><span class="accent">Prove the chain.</span></h1>
-<p class="lede">Software, learning tools, AI evaluation and creative technology, built so every claim can be checked.</p>
-<div class="actions"><a class="btn solid" href="#join">Join the early list <span aria-hidden="true">&#8595;</span></a><a class="btn" href="method.html">See the method</a></div>
+<img class="hero-mark" src="assets/img/pryntor-wordmark-white.png" alt="" width="1600" height="290" fetchpriority="high">
+<h1 id="h-hero"><span class="reg">Make the change.</span><br>Prove the chain<span class="dot">.</span></h1>
+<p class="lede">An independent Durban technology company. We build software, learning tools, AI evaluation and creative technology, and every claim ships with its evidence and its limits.</p>
+<div class="actions"><a class="btn solid" href="#join">Work with us or join the list <span aria-hidden="true">&#8595;</span></a><a class="btn" href="#ventures">See what is real today</a></div>
 </div>
+<picture class="mascot hero-mascot"><source type="image/avif" srcset="assets/img/pryntor-mascot-480.avif 480w, assets/img/pryntor-mascot-960.avif 960w" sizes="(min-width:1000px) 42vw, 80vw"><source type="image/webp" srcset="assets/img/pryntor-mascot-480.webp 480w, assets/img/pryntor-mascot-960.webp 960w" sizes="(min-width:1000px) 42vw, 80vw"><img src="assets/img/pryntor-mascot-480.webp" alt="The Pryntor character: an orange-red block on two legs, mid-stride, carrying a cobalt block in its mouth" width="480" height="360" fetchpriority="high"></picture>
 <ol class="chain" aria-label="The proof chain">{chain}</ol>
 <div class="hero-foot"><span class="meta">Pryntor (Pty) Ltd · Durban, South Africa</span><span class="meta">Early access · Opening soon</span></div>
 </div>
@@ -182,12 +190,12 @@ def home():
 <section class="ch light" id="ventures" aria-labelledby="h-ventures">
 <div class="wrap">
 <div class="sh">
-<h2 id="h-ventures"><span class="line"><span>Named when</span></span><span class="line"><span class="accent">they are ready.</span></span></h2>
-<p class="label fade">04 / Ventures</p>
+<h2 id="h-ventures"><span class="line"><span>What is real.</span></span><span class="line"><span class="accent">What is not yet.</span></span></h2>
+<p class="label fade">04 / Capability ledger</p>
 </div>
-<p class="lede fade">Pryntor builds its own ventures across these five areas. A venture is named here only after it clears four gates. None has been released publicly yet.</p>
-<div class="vgrid fade">{vc}</div>
-<div class="actions fade"><a class="btn" href="mailto:partnerships@pryntor.co.za?subject=Pryntor%20ventures">Ask about a venture</a></div>
+<p class="lede fade">Every capability below is stated at its true stage. Ventures are named here only after they clear four gates: rights, privacy and safety, accessibility and an independent check. None has been released publicly yet.</p>
+<div class="ledger fade" role="table" aria-label="Pryntor capability ledger"><div class="lrow head" role="row"><span role="columnheader">Capability</span><span role="columnheader">What exists</span><span role="columnheader">What we do not claim</span><span role="columnheader">Stage</span></div>{ledger}</div>
+<div class="actions fade"><a class="btn" href="method.html">How a claim gets checked <span aria-hidden="true">&#8594;</span></a></div>
 </div>
 </section>
 
@@ -202,13 +210,18 @@ def home():
 </div>
 </section>
 
-<section class="ch light join" id="join" aria-labelledby="h-join">
+<section class="ch cobalt join" id="join" aria-labelledby="h-join">
 <div class="wrap">
-<div class="card">
 <div class="sh">
-<h2 id="h-join"><span class="line"><span>One useful start.</span></span></h2>
-<p class="label fade">06 / The early list</p>
+<h2 id="h-join"><span class="line"><span>Two perspectives.</span></span><span class="line"><span>One better answer<span class="dot">.</span></span></span></h2>
+<p class="label fade">06 / Work with us</p>
 </div>
+<div class="doors fade">
+<div class="door"><p class="meta">For organisations</p><h3>Partner on a problem</h3><p>Bring a hard question. We bring original test cases, reproducible failures and honest engineering.</p><ul><li>Research partnerships</li><li>Pilot builds with written limits</li><li>Independent review of our work</li></ul><a class="btn solid" href="mailto:partnerships@pryntor.co.za?subject=Partnership%20enquiry&amp;body=Organisation%3A%0AThe%20problem%3A%0ATimeline%3A%0AHow%20you%20would%20judge%20success%3A">Start a partner brief <span aria-hidden="true">&#8594;</span></a></div>
+<div class="door"><p class="meta">For people</p><h3>Join the early list</h3><p>One email when there is something real to show. No tracking, no selling your details.</p><a class="btn" href="#wl">Hold my place below <span aria-hidden="true">&#8595;</span></a></div>
+</div>
+<div class="card join-card">
+<picture class="mascot join-mascot"><source type="image/avif" srcset="assets/img/pryntor-mascot-480.avif 480w, assets/img/pryntor-mascot-960.avif 960w" sizes="(min-width:1000px) 30vw, 70vw"><source type="image/webp" srcset="assets/img/pryntor-mascot-480.webp 480w, assets/img/pryntor-mascot-960.webp 960w" sizes="(min-width:1000px) 30vw, 70vw"><img src="assets/img/pryntor-mascot-480.webp" alt="The Pryntor character: an orange-red block on two legs, mid-stride, carrying a cobalt block in its mouth" width="480" height="360" loading="lazy"></picture>
 <div id="before">
 <p class="lede fade">One email when there is something real to show. Bring a friend and move up the list.</p>
 <form id="wl" class="fade" novalidate aria-describedby="wl-fine">
@@ -336,6 +349,7 @@ def notfound():
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'">
 <meta name="robots" content="noindex">
 <title>Not found | Pryntor</title>
+<link rel="stylesheet" href="/assets/css/tokens.css">
 <link rel="stylesheet" href="/assets/css/site.css">
 </head>
 <body class="nf">
