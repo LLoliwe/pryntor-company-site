@@ -10,7 +10,7 @@ import { existsSync } from "node:fs";
 import { execFile } from "node:child_process";
 
 const bin = new URL("../node_modules/.bin/impeccable", import.meta.url).pathname;
-const TYPES = {".html": "text/html; charset=utf-8", ".css": "text/css", ".js": "text/javascript", ".png": "image/png", ".webp": "image/webp", ".woff2": "font/woff2"};
+const TYPES = {".html": "text/html; charset=utf-8", ".css": "text/css", ".js": "text/javascript", ".png": "image/png", ".webp": "image/webp", ".avif": "image/avif", ".woff2": "font/woff2"};
 
 test("impeccable finds no anti-patterns on rendered pages", {skip: !existsSync(bin) && "impeccable not installed (npm install)"}, async () => {
   const root = new URL("../", import.meta.url);

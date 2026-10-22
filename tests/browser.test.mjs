@@ -6,7 +6,7 @@ import { existsSync } from "node:fs";
 import { chromium } from "playwright";
 
 const ROOT = new URL("../", import.meta.url);
-const TYPES = {".html": "text/html; charset=utf-8", ".css": "text/css", ".js": "text/javascript", ".png": "image/png", ".webp": "image/webp", ".woff2": "font/woff2", ".txt": "text/plain; charset=utf-8", ".md": "text/markdown; charset=utf-8", ".xml": "application/xml"};
+const TYPES = {".html": "text/html; charset=utf-8", ".css": "text/css", ".js": "text/javascript", ".png": "image/png", ".webp": "image/webp", ".avif": "image/avif", ".woff2": "font/woff2", ".txt": "text/plain; charset=utf-8", ".md": "text/markdown; charset=utf-8", ".xml": "application/xml"};
 const PAGES = ["/", "/method.html", "/about.html", "/privacy.html", "/terms.html"];
 const WIDTHS = [320, 390, 768, 1024, 1440];
 let axeSource = null;
