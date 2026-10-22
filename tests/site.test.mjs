@@ -43,7 +43,11 @@ test("homepage is the early-list experience, contactable and accessible", () => 
   assert.match(home, /[Uu]nsubscribe/);
   assert.match(home, /prefers-reduced-motion/);
   assert.match(home, /id="sound-toggle"[^>]*aria-pressed="false"/, "Sound must be off by default");
-  assert.match(home, /class="fallback"/, "Static fallback for no WebGL");
+  assert.doesNotMatch(home, /getContext\(|webgl/i, "No WebGL motif; brand uses original assets");
+  assert.match(home, /src="assets\/img\/pryntor-wordmark-white\.png"/, "Original uppercase wordmark");
+  assert.match(home, /src="assets\/img\/pryntor-mascot\.webp"/, "Original mascot");
+  assert.match(home, /--orange:#FF6A00/, "Single orange accent from founder-liked deck");
+  assert.match(home, /Make the change\.[\s\S]*Prove the chain\./);
   assert.doesNotMatch(home, /—/, "No em dashes");
   assert.doesNotMatch(home, /noindex|PRIVATE DESIGN REVIEW|Private R4 review/i);
 });
