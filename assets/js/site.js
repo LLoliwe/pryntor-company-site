@@ -44,6 +44,18 @@ if(navLinks.length && "IntersectionObserver" in window){
   Object.keys(map).forEach(function(id){nio.observe(d.getElementById(id))});
 }
 
+
+/* MOTION R1: pointer reaction and magnetic buttons. Writes CSS variables only, inside rAF. */
+var hero=d.querySelector(".hero"), fine=matchMedia("(pointer:fine)");
+if(hero&&fine.matches){ var raf=0,px=0,py=0;
+  hero.addEventListener("pointermove",function(e){ if(!motionOn)return; var r=hero.getBoundingClientRect(); px=(e.clientX-r.left)/r.width-.5; py=(e.clientY-r.top)/r.height-.5;
+    if(!raf)raf=requestAnimationFrame(function(){raf=0;hero.style.setProperty("--mx",px.toFixed(3));hero.style.setProperty("--my",py.toFixed(3));}); },{passive:true});
+  hero.addEventListener("pointerleave",function(){hero.style.setProperty("--mx",0);hero.style.setProperty("--my",0);});
+  d.querySelectorAll(".btn,.cta").forEach(function(b){ b.classList.add("mag");
+    b.addEventListener("pointermove",function(e){ if(!motionOn)return; var r=b.getBoundingClientRect(); b.style.setProperty("--bx",((e.clientX-r.left-r.width/2)*.18).toFixed(1)+"px"); b.style.setProperty("--by",((e.clientY-r.top-r.height/2)*.3).toFixed(1)+"px"); });
+    b.addEventListener("pointerleave",function(){b.style.setProperty("--bx","0px");b.style.setProperty("--by","0px");}); });
+}
+
 /* mobile menu */
 var mb=d.getElementById("menu-btn"), menu=d.getElementById("menu"), mc=d.getElementById("menu-close");
 function openMenu(){ menu.hidden=false; body.classList.add("menu-open"); mb.setAttribute("aria-expanded","true"); var f=menu.querySelector("a"); f&&f.focus(); }

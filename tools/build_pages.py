@@ -154,7 +154,7 @@ def home():
 <div class="wrap hero-grid">
 <div class="hero-copy">
 <img class="hero-mark" src="assets/img/pryntor-wordmark-white.png" alt="" width="1600" height="290" fetchpriority="high">
-<h1 id="h-hero">Make the change.<br>Prove the chain<span class="dot">.</span></h1>
+<h1 id="h-hero" class="kin" aria-label="Make it move."><span class="k" aria-hidden="true"><span>Make</span></span> <span class="k" aria-hidden="true"><span>it</span></span> <span class="k k-move" aria-hidden="true"><span>move<span class="dot">.</span></span></span></h1>
 <div class="hero-stage">
 <picture class="mascot hero-mascot"><source type="image/avif" srcset="assets/img/pryntor-mascot-480.avif 480w, assets/img/pryntor-mascot-960.avif 960w" sizes="(min-width:760px) 32vw, 70vw"><source type="image/webp" srcset="assets/img/pryntor-mascot-480.webp 480w, assets/img/pryntor-mascot-960.webp 960w" sizes="(min-width:760px) 32vw, 70vw"><img src="assets/img/pryntor-mascot-480.webp" alt="The Pryntor character: an orange-red block on two legs, mid-stride, carrying a cobalt block in its mouth" width="480" height="360" fetchpriority="high"></picture>
 <div class="hero-aside">

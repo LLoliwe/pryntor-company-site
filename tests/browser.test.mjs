@@ -89,7 +89,7 @@ test("interactive elements work at every width", async () => {
       const ctx = await browser.newContext({viewport: {width, height: 844}, reducedMotion: motion, hasTouch: width <= 390});
       const page = await ctx.newPage(); const g = await guard(page, origin);
       await page.goto(origin + "/", {waitUntil: "load"});
-      assert.match(await page.locator("h1").innerText(), /Make the change\.\s*Prove the chain\./);
+      assert.match(await page.locator("h1").innerText(), /Make\s+it\s+move\./);
       const body = page.locator("body");
       const mobile = width <= 980;
       // motion and sound toggles (visible copy depends on layout)

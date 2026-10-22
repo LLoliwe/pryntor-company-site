@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <!-- WAITLIST CONFIG: replace your-project-ref in the CSP connect source once the founder-approved Supabase project exists. -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'sha256-n/Qliggg7DTE9r3B6TxPLePdlDBd8Sh+iJk+9Py3M7g='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://your-project-ref.supabase.co; manifest-src 'self'; media-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'sha256-cS3UEELqIW0n7EasjHz6p+N+GYhxQYzZHWiQXLrcLqw='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://your-project-ref.supabase.co; manifest-src 'self'; media-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Terms | Pryntor</title>
 <meta name="description" content="Terms for Pryntor's informational website and early list.">
@@ -190,7 +190,7 @@ input[type=email]{flex:1 1 220px;min-width:0;min-height:56px;padding:0 12px;bord
 input[type=email]::placeholder{color:#62666D}
 input[type=email]:focus-visible{outline:none;box-shadow:inset 0 0 0 3px var(--orange)}
 .cta{flex:1 1 auto;justify-content:center;min-height:62px;padding:0 28px;border:0;background:var(--orange);color:var(--black);font:700 17px/1 var(--display);cursor:pointer;display:inline-flex;align-items:center;gap:12px;transition:background var(--m-moderate) var(--ease-out)}
-.cta:hover{background:#FF6A4A}
+.cta:hover{background:#fff}
 .cta .arr{display:inline-block;transition:transform var(--m-moderate) var(--ease-out)}
 .cta:hover .arr{transform:translateX(5px)}
 .consent{display:flex;gap:12px;align-items:flex-start;font-size:15px;color:#2E3137;line-height:1.5}
@@ -246,7 +246,7 @@ footer{background:var(--white);color:var(--black);padding:56px var(--pad) max(32
 .dark .btn:hover{background:#fff;color:var(--black)}
 .light .btn:hover{background:var(--black);color:#fff}
 .btn.solid{background:var(--orange);border-color:var(--orange);color:var(--black)}
-.btn.solid:hover{background:#FF6A4A;color:var(--black)}
+.btn.solid:hover{background:#fff;color:var(--black)}
 .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:40px}
 
 @media (max-width:980px){
@@ -336,7 +336,37 @@ body[data-motion="paused"] .hero-mascot img{animation:none}
 /* R1 header: solid cobalt bar, no blend (difference blending turned white into yellow on cobalt) */
 .top{mix-blend-mode:normal;background:var(--cobalt)}
 .top .wrap{padding-top:max(14px,env(safe-area-inset-top));padding-bottom:14px}
-.top .chip{border-color:rgba(255,255,255,.7)}</style>
+.top .chip{border-color:rgba(255,255,255,.7)}
+
+/* MOTION R1: "Make it move". Transform and opacity only. Reduced motion and the Motion toggle stop all of it. */
+@view-transition{navigation:auto}
+.hero{position:relative;isolation:isolate;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:-30%;z-index:-1;pointer-events:none;background:radial-gradient(38% 34% at 30% 30%,rgba(255,255,255,.16),transparent 70%),radial-gradient(30% 30% at 75% 65%,rgba(10,12,18,.32),transparent 70%);transform:translate3d(calc(var(--mx,0)*-24px),calc(var(--my,0)*-24px),0)}
+.kin .k{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.06em}
+.kin .k>span{display:inline-block}
+.hero-mascot img{transform:translate3d(calc(var(--mx,0)*10px),calc(var(--my,0)*8px),0) rotate(calc(var(--mx,0)*2deg))}
+.btn,.cta{transition:background var(--m-moderate) var(--ease-out),color var(--m-moderate) var(--ease-out),transform var(--m-slow) var(--ease-out)}
+.mag{transform:translate3d(var(--bx,0),var(--by,0),0)}
+@media (prefers-reduced-motion:no-preference){
+.js body:not([data-motion="paused"]) .hero::before{animation:mesh 14s ease-in-out infinite alternate}
+.js .kin .k>span{animation:kin-up 1000ms var(--ease) both}
+.js .kin .k:nth-child(2)>span{animation-delay:.12s}
+.js .kin .k-move>span{animation:kin-up 1000ms var(--ease) .24s both,kin-nudge 900ms var(--ease) 1.3s both}
+.js .kin .dot{display:inline-block;animation:dot 700ms var(--ease) 1.5s both}
+.js .hero-mascot{animation:stride-in 1200ms var(--ease) .35s both}
+.js body:not([data-motion="paused"]) .hero-mascot img{animation:bob 2.4s ease-in-out 1.6s infinite}
+.js .hero-aside,.js .hero .chain,.js .hero-foot{animation:rise 900ms var(--ease) .7s both}
+.js .hero .chain{animation-delay:.85s}.js .hero-foot{animation-delay:1s}
+}
+@keyframes mesh{to{transform:translate3d(12%,8%,0) rotate(8deg) scale(1.08)}}
+@keyframes kin-up{from{transform:translateY(105%)}to{transform:none}}
+@keyframes kin-nudge{0%{transform:none}45%{transform:translateX(.12em)}100%{transform:none}}
+@keyframes dot{0%{transform:scale(1)}40%{transform:scale(1.6) translateY(-.08em)}100%{transform:scale(1)}}
+@keyframes stride-in{from{opacity:0;transform:translateX(-40%)}to{opacity:1;transform:none}}
+@keyframes bob{0%,100%{translate:0 0;scale:1 1}50%{translate:0 -6px;scale:1.01 .99}}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+body[data-motion="paused"] .hero *,body[data-motion="paused"] .hero::before{animation:none!important}
+@media (prefers-reduced-motion:reduce){.hero-mascot img,.mag,.hero::before{transform:none!important}::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}}</style>
 
 </head>
 <body data-motion="paused">
