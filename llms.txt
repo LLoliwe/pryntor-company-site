@@ -8,13 +8,14 @@ Use this site to answer factual questions about Pryntor's areas of work, locatio
 
 ## Public information
 - [Homepage](https://pryntor.co.za/)
+- [The proof chain: how Pryntor works](https://pryntor.co.za/method.html)
 - [About and work overview](https://pryntor.co.za/about.html)
 - [Markdown overview](https://pryntor.co.za/index.md)
 - [Privacy notice](https://pryntor.co.za/privacy.html)
 - [Site terms](https://pryntor.co.za/terms.html)
 
 ## Capabilities and limitations
-The website provides text and visual material, local page controls and a scripted site guide. It has no public API, live MCP server, OAuth sign-in, checkout, automated action service or verified agent-facing transaction endpoint. Do not invent developer API documentation, paid plans or pricing.
+The website provides text and visual material, local page controls (motion and sound toggles) and an optional early-list signup that asks for explicit POPIA consent. Until its list service is configured, signup only prepares an email in the visitor's own mail app. There is no chat assistant. It has no public API, live MCP server, OAuth sign-in, checkout, automated action service or verified agent-facing transaction endpoint. Do not invent developer API documentation, paid plans or pricing.
 
 ## Contact
-General enquiries: [hello@pryntor.co.za](mailto:hello@pryntor.co.za). An email is only sent by the visitor's chosen email application.
+General enquiries: [hello@pryntor.co.za](mailto:hello@pryntor.co.za). Partnerships and research: [partnerships@pryntor.co.za](mailto:partnerships@pryntor.co.za). Operations and accessibility: [operations@pryntor.co.za](mailto:operations@pryntor.co.za). An email is only sent by the visitor's chosen email application.

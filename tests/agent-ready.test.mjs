@@ -7,7 +7,7 @@ import {dirname,join} from 'node:path';
 const root=join(dirname(fileURLToPath(import.meta.url)),'..');
 const read=path=>readFileSync(join(root,path),'utf8');
 const home=read('index.html');
-const links=['about.html','privacy.html','terms.html'];
+const links=['about.html','method.html','privacy.html','terms.html'];
 test('Home contains canonical, real markdown alternate and descriptive metadata',()=>{
   assert.match(home,/<link rel="canonical" href="https:\/\/pryntor\.co\.za\/"/);
   assert.match(home,/<link rel="alternate" type="text\/markdown" href="index\.md"/);
@@ -34,7 +34,7 @@ test('JSON-LD is parseable and truthfully states entity, locality and contact',(
 test('Sitemap lists only existing and intentionally public pages',()=>{
   const xml=read('sitemap.xml');
   const urls=[...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map(match=>match[1]);
-  assert.equal(urls.length,4);
+  assert.equal(urls.length,5);
   for(const url of urls){assert.ok(url.startsWith('https://pryntor.co.za/')); const p=new URL(url).pathname;assert.ok(existsSync(join(root,p==='/'?'index.html':p.slice(1))))}
 });
 test('Robots permits public access and points to same canonical sitemap',()=>{

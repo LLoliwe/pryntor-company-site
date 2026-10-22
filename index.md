@@ -19,16 +19,25 @@ Pryntor is an independent technology venture based in Durban, South Africa. We e
 
 ## How we work
 
-We begin with a clear user problem, create an original prototype, examine how strong examples solve that problem, test failures, and seek independent review before a release claim. Source attribution, privacy, accessibility and meaningful human oversight are core review concerns.
+We call our method the proof chain: change, test, prove, and keep the failures. We begin with a clear user problem, create an original prototype, examine how strong examples solve that problem, test failures, and seek independent review before a release claim. Source attribution, privacy, accessibility and meaningful human oversight are core review concerns.
+
+## Ventures
+
+Pryntor builds its own ventures across these areas. A venture is named publicly only after it clears four gates: rights cleared, privacy and safety reviewed, accessible, and independently checked. None has been released publicly yet.
+
+## Early list
+
+Visitors may join an early list for launch news after ticking an explicit POPIA consent box. Until the list service is configured, joining prepares an email in the visitor's own mail app.
 
 ## Contact
 
-Email: hello@pryntor.co.za. Contact requires the visitor's intentional action in an email application.
+Email: hello@pryntor.co.za (general and privacy), partnerships@pryntor.co.za (partnerships and research), operations@pryntor.co.za (operations and accessibility). Contact requires the visitor's intentional action in an email application.
 
 This informational site does not offer an agent API, MCP service, checkout, authentication, bookings, or customer login.
 
 ## Further reading
 
+- [The proof chain](https://pryntor.co.za/method.html)
 - [About Pryntor](https://pryntor.co.za/about.html)
 - [Privacy notice](https://pryntor.co.za/privacy.html)
 - [Terms](https://pryntor.co.za/terms.html)
