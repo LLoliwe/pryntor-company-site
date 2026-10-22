@@ -33,5 +33,5 @@ copy.addEventListener("click",function(){var i=d.getElementById("reflink");i.sel
   function done(){copy.textContent="Copied"; d.getElementById("copy-status").textContent="Link copied.";}
   var fallback=function(){try{d.execCommand("copy")}catch(e){} done();};
   if(navigator.clipboard&&window.isSecureContext){ var t=setTimeout(fallback,800); navigator.clipboard.writeText(i.value).then(function(){clearTimeout(t);done()},function(){clearTimeout(t);fallback()}); } else fallback(); tone(660,.2,.03)});
-d.getElementById("share").addEventListener("click",function(){var url=d.getElementById("reflink").value;if(navigator.share){navigator.share({title:"Pryntor",text:"Make the change. Prove the chain. Join the Pryntor early list.",url:url}).catch(function(){})}else{copy.click()}});
+d.getElementById("share").addEventListener("click",function(){var url=d.getElementById("reflink").value;if(navigator.share){navigator.share({title:"Pryntor",text:"Make it move. Join the Pryntor early list.",url:url}).catch(function(){})}else{copy.click()}});
 })();

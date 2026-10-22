@@ -68,7 +68,7 @@ test("homepage is the early-list experience, contactable and accessible", () => 
   assert.match(css, /--signal:#FF461D/, "Repair R1 orange-red token");
   assert.doesNotMatch(css, /#FF6A00/, "old Adam-deck orange removed");
   assert.match(css, /--white:#FFFFFF/, "Pure white, no cream");
-  assert.match(home, /Make the change\.[\s\S]*Prove the chain\./);
+  assert.match(home, /Make it move\./);
   assert.doesNotMatch(home, /noindex|PRIVATE DESIGN REVIEW|Private R4 review/i);
   for (const f of Object.values(js)) assert.doesNotMatch(f, /getContext\(|webgl/i, "No WebGL motif");
 });

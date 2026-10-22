@@ -80,7 +80,7 @@ def footer(home):
     h = lambda t: href(t, home)
     return f"""<footer>
 <div class="foot">
-<div><img src="assets/img/pryntor-wordmark-black-264.webp" alt="PRYNTOR" width="264" height="48" loading="lazy"><p>Make the change. Prove the chain. An independent technology venture in Durban, South Africa.</p></div>
+<div><img src="assets/img/pryntor-wordmark-black-264.webp" alt="PRYNTOR" width="264" height="48" loading="lazy"><p>Make it move. An independent technology venture in Durban, South Africa.</p></div>
 <div><h2>Site</h2><ul><li><a href="{h('work')}">Work</a></li><li><a href="method.html">Method</a></li><li><a href="{h('ventures')}">Ventures</a></li><li><a href="{h('join')}">Early list</a></li></ul></div>
 <div><h2>Company</h2><ul><li><a href="about.html">About</a></li><li><a href="{h('contact')}">Contact</a></li><li><a href="mailto:hello@pryntor.co.za">hello@pryntor.co.za</a></li></ul></div>
 <div><h2>Legal</h2><ul><li><a href="privacy.html">Privacy</a></li><li><a href="terms.html">Terms</a></li><li><a href="llms.txt">llms.txt</a></li></ul></div>
@@ -272,7 +272,7 @@ def home():
 <p class="lede fade">Email opens in your own mail app. Nothing is sent until you press send.</p>
 </div>
 </section>"""
-    page("index.html","PRYNTOR | Make the change. Prove the chain.",
+    page("index.html","PRYNTOR | Make it move.",
          "Pryntor is an independent Durban technology venture exploring software, learning tools, AI evaluation, creative technology and robotics simulation. Join the early list.",
          "https://pryntor.co.za/", main, home=True, scripts=("config.js","site.js","waitlist.js"))
 

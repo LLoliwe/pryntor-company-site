@@ -78,7 +78,7 @@ components:
 
 ## Overview
 
-Make the change. Prove the chain. The identity is Typography & Identity Repair R1, confirmed by the founder on 22 Oct 2026 (the Adam deck is a pitch deck, not the brand guide): cobalt, pure white and ink chapters alternating, orange-red as the action colour, yellow only for punctuation and micro accents, the original PRYNTOR wordmark and the Pryntor character, very large Inter Display statements, and small mono labels. The voice is plain and checkable. No theatre.
+Make it move. The identity is Typography & Identity Repair R1, confirmed by the founder on 22 Oct 2026 (the Adam deck is a pitch deck, not the brand guide): cobalt, pure white and ink chapters alternating, orange-red as the action colour, yellow only for punctuation and micro accents, the original PRYNTOR wordmark and the Pryntor character, very large Inter Display statements, and small mono labels. The voice is plain and checkable. No theatre.
 
 The site is an experience through typography, rhythm and restraint, not through effects. Motion explains the proof chain; it never decorates.
 
