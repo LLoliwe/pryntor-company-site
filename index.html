@@ -65,12 +65,6 @@ h2{font-size:clamp(46px,8vw,128px)}
 .fade{opacity:0;transform:translateY(18px);transition:opacity .9s var(--ease) .35s,transform .9s var(--ease) .35s}
 .in .fade{opacity:1;transform:none}
 /* hero */
-.hero .grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,.65fr);align-items:end;gap:24px}
-.mascot-wrap{position:relative;justify-self:end;width:min(30vw,380px);aspect-ratio:819/616;perspective:900px}
-.mascot{width:100%;height:auto;display:block;transform-style:preserve-3d;will-change:transform;transition:transform .6s var(--ease);filter:drop-shadow(0 30px 36px rgba(0,0,0,.55))}
-.shadow{position:absolute;left:12%;right:12%;bottom:-6%;height:10%;border-radius:50%;background:rgba(0,0,0,.6);filter:blur(10px);transform:scaleX(var(--sx,1));transition:transform .6s var(--ease)}
-.held .mascot{animation:hop 1s var(--ease)}
-@keyframes hop{0%{transform:translateY(0)}35%{transform:translateY(-22%) rotate(-6deg)}70%{transform:translateY(0) rotate(2deg)}100%{transform:none}}
 .hero-foot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:64px;padding-top:18px;border-top:1px solid var(--rule)}
 /* statements */
 .rows{margin-top:72px;border-top:1px solid var(--rule-l)}
@@ -124,16 +118,13 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}
 .cur.big{width:46px;height:46px;margin:-23px 0 0 -23px;background:transparent;border:2px solid var(--orange)}
 @media (hover:hover) and (pointer:fine){body.fine-cursor,body.fine-cursor a,body.fine-cursor button,body.fine-cursor label{cursor:none}}
 @media (max-width:760px){
- .hero .grid{grid-template-columns:1fr}
- .mascot-wrap{width:min(46vw,220px);justify-self:end;margin-top:28px}
  .row{grid-template-columns:56px minmax(0,1fr)}
  .row p{grid-column:2}
  .ch{padding-top:110px}
 }
 @media (prefers-reduced-motion:reduce){
  .line>span,.fade{transform:none!important;opacity:1!important;transition:none!important}
- .mascot,.shadow{transition:none!important;transform:none!important}
- .held .mascot,#after.on{animation:none}
+ #after.on{animation:none}
  .cur{display:none}
 }
 </style>
@@ -157,16 +148,8 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}
 <section class="ch dark hero" id="c1" aria-labelledby="h-hero">
 <div class="wrap">
 <p class="label fade">01 / Pryntor (Pty) Ltd · Durban, South Africa</p>
-<div class="grid">
-<div>
 <h1 id="h-hero"><span class="line"><span>Make the change.</span></span><span class="line"><span class="accent">Prove the chain.</span></span></h1>
 <p class="lede fade">Software, learning tools, AI evaluation and creative technology, built so every claim can be checked.</p>
-</div>
-<div class="mascot-wrap fade" id="mascot-wrap">
-<img class="mascot" id="mascot" src="assets/img/pryntor-mascot.webp" alt="" width="720" height="541" decoding="async">
-<span class="shadow" aria-hidden="true"></span>
-</div>
-</div>
 <div class="hero-foot fade"><span class="meta">Early access / Opening soon</span><a class="meta" href="#join">Join the early list ↓</a></div>
 </div>
 </section>
@@ -248,7 +231,6 @@ var d=document, body=d.body;
 var reduce=matchMedia("(prefers-reduced-motion: reduce)");
 var motionOn=!reduce.matches, soundOn=false, settle=0, loadEl={textContent:""};
 var mt=d.getElementById("motion-toggle"), st=d.getElementById("sound-toggle"), prog=d.querySelector(".progress");
-var mascot=d.getElementById("mascot"), mwrap=d.getElementById("mascot-wrap"), shadow=d.querySelector(".shadow");
 
 var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)e.target.classList.add("in")})},{threshold:.2});
 d.querySelectorAll(".ch").forEach(function(s){io.observe(s)});
@@ -261,20 +243,12 @@ function tone(f,len,vol){ if(!soundOn)return; try{ ac=ac||new (window.AudioConte
   o.connect(g).connect(ac.destination); o.start(); o.stop(ac.currentTime+len+.05);}catch(e){} }
 st.addEventListener("click",function(){soundOn=!soundOn;st.setAttribute("aria-pressed",String(soundOn));st.textContent=soundOn?"Sound on":"Sound off";tone(440,.25)});
 
-function setMotion(on){ motionOn=on; mt.setAttribute("aria-pressed",String(on)); mt.textContent=on?"Motion on":"Motion off"; body.dataset.motion=on?"running":"paused"; if(!on){mascot.style.transform="";shadow.style.removeProperty("--sx")} }
+function setMotion(on){ motionOn=on; mt.setAttribute("aria-pressed",String(on)); mt.textContent=on?"Motion on":"Motion off"; body.dataset.motion=on?"running":"paused"; }
 setMotion(motionOn);
 mt.addEventListener("click",function(){setMotion(!motionOn)});
 if(reduce.addEventListener)reduce.addEventListener("change",function(e){if(e.matches)setMotion(false)});
 
-/* mascot depth: scroll parallax + pointer tilt, original pixels only */
-var px=0,py=0,sy=0,ticking=false;
-function paint(){ ticking=false; if(!motionOn)return;
-  var r=mwrap.getBoundingClientRect(); var vis=Math.max(-1,Math.min(1,(r.top+r.height/2-innerHeight/2)/innerHeight));
-  mascot.style.transform="translate3d("+(px*10)+"px,"+(vis*-60+py*6)+"px,0) rotateY("+(px*14)+"deg) rotateX("+(-py*10)+"deg)";
-  shadow.style.setProperty("--sx",String(1-Math.abs(vis)*.4)); }
-function req(){ if(!ticking){ticking=true;requestAnimationFrame(paint)} }
-addEventListener("pointermove",function(e){px=e.clientX/innerWidth-.5;py=e.clientY/innerHeight-.5;req()},{passive:true});
-addEventListener("scroll",function(){ var max=Math.max(1,d.documentElement.scrollHeight-innerHeight); prog.style.transform="scaleX("+Math.min(1,scrollY/max)+")"; req() },{passive:true});
+addEventListener("scroll",function(){ var max=Math.max(1,d.documentElement.scrollHeight-innerHeight); prog.style.transform="scaleX("+Math.min(1,scrollY/max)+")" },{passive:true});
 
 var cur=d.querySelector(".cur");
 if(matchMedia("(hover:hover) and (pointer:fine)").matches && !reduce.matches){
@@ -303,7 +277,6 @@ form.addEventListener("submit",function(e){
 });
 function success(res,email){
   settle=1; loadEl.textContent="100"; tone(523,.5,.05); setTimeout(function(){tone(784,.7,.04)},140);
-  body.classList.add("held");
   d.getElementById("before").hidden=true; var a=d.getElementById("after"); a.classList.add("on");
   var link="https://pryntor.co.za/";
   if(res.mode==="live"){ d.getElementById("pos").textContent="#"+Number(res.position).toLocaleString("en-ZA"); link+="?ref="+encodeURIComponent(res.code); }

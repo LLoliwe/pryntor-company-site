@@ -45,7 +45,9 @@ test("homepage is the early-list experience, contactable and accessible", () => 
   assert.match(home, /id="sound-toggle"[^>]*aria-pressed="false"/, "Sound must be off by default");
   assert.doesNotMatch(home, /getContext\(|webgl/i, "No WebGL motif; brand uses original assets");
   assert.match(home, /src="assets\/img\/pryntor-wordmark-white\.png"/, "Original uppercase wordmark");
-  assert.match(home, /src="assets\/img\/pryntor-mascot\.webp"/, "Original mascot");
+  assert.doesNotMatch(home, /mascot/i, "Mascot stays off the homepage");
+  assert.equal(existsSync("assets/img/pryntor-mascot.webp"), false, "Mascot WebP is not in the repo");
+  assert.equal(existsSync("assets/img/pryntor-mascot.png"), false, "Mascot PNG is not in the repo");
   assert.match(home, /--orange:#FF6A00/, "Single orange accent from founder-liked deck");
   assert.match(home, /Make the change\.[\s\S]*Prove the chain\./);
   assert.doesNotMatch(home, /—/, "No em dashes");

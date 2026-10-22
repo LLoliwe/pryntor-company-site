@@ -31,7 +31,7 @@ test("Pryntor early-list homepage (Adam deck look) and legal journeys", async ()
         assert.equal(response.status(), 200);
         assert.equal(await page.locator("header img").getAttribute("alt"), "PRYNTOR");
         assert.match(await page.locator("h1").innerText(), /Make the change\.\s*Prove the chain\./);
-        assert.equal(await page.locator("#mascot").evaluate(img => img.complete && img.naturalWidth > 0), true, "Mascot loads");
+        assert.equal(await page.locator("#mascot, img[src*='mascot'], img[src*='Mascot']").count(), 0, "Mascot is absent");
         assert.equal(await page.locator("header img").evaluate(img => img.complete && img.naturalWidth > 0), true, "Wordmark loads");
         const stage = page.locator("body");
         assert.equal(await stage.getAttribute("data-motion"), motion === "reduce" ? "paused" : "running", "motion state at " + width);
