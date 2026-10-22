@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <!-- WAITLIST CONFIG: replace your-project-ref in the CSP connect source once the founder-approved Supabase project exists. -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'sha256-BB5lUd7TBORhAOxotw6ZpKlkAPGRuJZcvfwVnmLRxHU='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://your-project-ref.supabase.co; manifest-src 'self'; media-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'sha256-n/Qliggg7DTE9r3B6TxPLePdlDBd8Sh+iJk+9Py3M7g='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://your-project-ref.supabase.co; manifest-src 'self'; media-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>PRYNTOR | Make the change. Prove the chain.</title>
 <meta name="description" content="Pryntor is an independent Durban technology venture exploring software, learning tools, AI evaluation, creative technology and robotics simulation. Join the early list.">
@@ -292,9 +292,9 @@ body[data-motion="paused"] .line>span,body[data-motion="paused"] .fade{transitio
 .cobalt .btn{border-color:#fff}.cobalt .btn:hover{background:#fff;color:var(--cobalt)}
 .cobalt :focus-visible{outline-color:var(--yellow)}
 .hero.cobalt .hero-foot{border-color:var(--cobalt-rule)}
-.hero-mark{display:block;width:min(100%,720px);height:auto;margin:0 0 clamp(32px,5vw,56px)}
-.hero h1{font-size:clamp(48px,8.4vw,140px);line-height:.95}
-.hero h1 .reg{font-family:var(--text);font-weight:400;letter-spacing:-.05em}
+.hero-mark{display:block;width:min(100%,560px);height:auto;margin:0 0 clamp(20px,3vw,40px)}
+/* Hero statement is Inter Display Bold at the R1 display-xl scale. The phone h1 cap does not apply here. text-wrap stays wrap so each sentence keeps the authored line. */
+.hero h1{font-size:clamp(54px,10.5vw,172px);text-wrap:wrap}
 .hero .chain{border-color:var(--cobalt-rule)}.hero .chain a{color:rgba(255,255,255,.82)}
 .hero .chain li::before{background:var(--yellow)}.hero .chain li.on .w,.hero .chain a:hover .w{color:#fff}
 /* capability ledger */
@@ -318,23 +318,25 @@ body[data-motion="paused"] .line>span,body[data-motion="paused"] .fade{transitio
 .cobalt .fine{color:rgba(255,255,255,.88)}.cobalt .fine a,.cobalt .consent a{color:#fff}.cobalt .err{color:#fff;background:#B3261E;padding:0 6px}.cobalt .err:empty{background:none}
 @media (max-width:860px){.lrow{grid-template-columns:1fr;gap:10px}.lrow.head{display:none}.lrow .k{display:block}}
 
-/* the Pryntor character: founder-approved for public release 22 Oct 2026; master is the R3 source, never redrawn or recoloured */
+/* the Pryntor character: founder-approved for public release 22 Oct 2026; master is the R3 source, never redrawn, recoloured, tilted or shifted off the stage */
 .mascot{display:block}.mascot img{display:block;width:100%;height:auto}
+.hero.full{align-items:flex-start}
+.hero.ch{padding-top:clamp(96px,11vh,136px)}
 .hero .hero-grid{grid-template-columns:minmax(0,1fr)}
-.hero-mascot{width:min(78vw,420px);justify-self:end;margin-top:-8px}
-@media (min-width:1000px){.hero .hero-grid{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);align-items:end}.hero-mascot{width:100%;max-width:560px;grid-column:2;grid-row:1;margin:0}.hero .chain,.hero .hero-foot{grid-column:1/-1}}
+.hero-stage{display:grid;gap:clamp(20px,3vw,40px);align-items:center;margin-top:clamp(8px,2vw,16px)}
+.hero-aside .lede{margin-top:0}
+.hero-mascot{width:min(70vw,340px);max-width:100%;justify-self:start;margin:0}
+@media (min-width:760px){.hero-stage{grid-template-columns:minmax(260px,320px) minmax(0,1fr)}.hero-mascot{width:100%;max-width:420px}}
+@media (min-width:1100px){.hero-stage{grid-template-columns:minmax(320px,440px) minmax(0,1fr)}.hero-mascot{max-width:440px}}
 .join-card{position:relative;max-width:none;display:grid;gap:32px;margin-top:clamp(48px,6vw,80px)}
 .join-mascot{width:min(60vw,300px)}
 @media (min-width:1000px){.join-card{grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);align-items:center}}
-@media (prefers-reduced-motion:no-preference){.js .hero-mascot img{animation:walkin 1.1s var(--ease) both}@keyframes walkin{from{transform:translateX(18%) rotate(-3deg);opacity:0}to{transform:none;opacity:1}}}
+@media (prefers-reduced-motion:no-preference){.js .hero-mascot img{animation:mascot-in var(--m-reveal) var(--ease) both}@keyframes mascot-in{from{opacity:0}to{opacity:1}}}
 body[data-motion="paused"] .hero-mascot img{animation:none}
 /* R1 header: solid cobalt bar, no blend (difference blending turned white into yellow on cobalt) */
 .top{mix-blend-mode:normal;background:var(--cobalt)}
 .top .wrap{padding-top:max(14px,env(safe-area-inset-top));padding-bottom:14px}
-.top .chip{border-color:rgba(255,255,255,.7)}
-.hero h1{font-size:clamp(46px,6.6vw,112px)}
-.hero-mark{width:min(100%,560px)}
-@media (min-width:1000px){.hero .hero-grid{align-items:center}.hero-mascot{max-width:620px;transform:translateX(4%)}}</style>
+.top .chip{border-color:rgba(255,255,255,.7)}</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Pryntor","url":"https://pryntor.co.za/","logo":"https://pryntor.co.za/assets/img/pryntor-wordmark-black.png","description":"Independent Durban-based technology venture exploring software, learning tools, AI evaluation and creative technology.","email":"hello@pryntor.co.za","contactPoint":[{"@type":"ContactPoint","contactType":"general enquiries","email":"hello@pryntor.co.za"},{"@type":"ContactPoint","contactType":"partnerships","email":"partnerships@pryntor.co.za"}],"address":{"@type":"PostalAddress","addressLocality":"Durban","addressRegion":"KwaZulu-Natal","addressCountry":"ZA"}}</script>
 </head>
 <body data-motion="paused">
@@ -359,13 +361,17 @@ body[data-motion="paused"] .hero-mascot img{animation:none}
 <main id="main" tabindex="-1">
 <section class="ch full cobalt hero" id="top" aria-labelledby="h-hero">
 <div class="wrap hero-grid">
-<div>
+<div class="hero-copy">
 <img class="hero-mark" src="assets/img/pryntor-wordmark-white.png" alt="" width="1600" height="290" fetchpriority="high">
-<h1 id="h-hero"><span class="reg">Make the change.</span><br>Prove the chain<span class="dot">.</span></h1>
+<h1 id="h-hero">Make the change.<br>Prove the chain<span class="dot">.</span></h1>
+<div class="hero-stage">
+<picture class="mascot hero-mascot"><source type="image/avif" srcset="assets/img/pryntor-mascot-480.avif 480w, assets/img/pryntor-mascot-960.avif 960w" sizes="(min-width:760px) 32vw, 70vw"><source type="image/webp" srcset="assets/img/pryntor-mascot-480.webp 480w, assets/img/pryntor-mascot-960.webp 960w" sizes="(min-width:760px) 32vw, 70vw"><img src="assets/img/pryntor-mascot-480.webp" alt="The Pryntor character: an orange-red block on two legs, mid-stride, carrying a cobalt block in its mouth" width="480" height="360" fetchpriority="high"></picture>
+<div class="hero-aside">
 <p class="lede">An independent Durban technology company. We build software, learning tools, AI evaluation and creative technology, and every claim ships with its evidence and its limits.</p>
 <div class="actions"><a class="btn solid" href="#join">Work with us or join the list <span aria-hidden="true">&#8595;</span></a><a class="btn" href="#ventures">See what is real today</a></div>
 </div>
-<picture class="mascot hero-mascot"><source type="image/avif" srcset="assets/img/pryntor-mascot-480.avif 480w, assets/img/pryntor-mascot-960.avif 960w" sizes="(min-width:1000px) 42vw, 80vw"><source type="image/webp" srcset="assets/img/pryntor-mascot-480.webp 480w, assets/img/pryntor-mascot-960.webp 960w" sizes="(min-width:1000px) 42vw, 80vw"><img src="assets/img/pryntor-mascot-480.webp" alt="The Pryntor character: an orange-red block on two legs, mid-stride, carrying a cobalt block in its mouth" width="480" height="360" fetchpriority="high"></picture>
+</div>
+</div>
 <ol class="chain" aria-label="The proof chain"><li><a href="method.html#change"><span class="n">01</span><span class="w">Change</span></a></li><li><a href="method.html#test"><span class="n">02</span><span class="w">Test</span></a></li><li><a href="method.html#prove"><span class="n">03</span><span class="w">Prove</span></a></li><li><a href="method.html#keep"><span class="n">04</span><span class="w">Keep</span></a></li></ol>
 <div class="hero-foot"><span class="meta">Pryntor (Pty) Ltd · Durban, South Africa</span><span class="meta">Early access · Opening soon</span></div>
 </div>

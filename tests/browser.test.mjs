@@ -154,6 +154,33 @@ test("interactive elements work at every width", async () => {
   } finally { await browser.close(); server.close(); }
 });
 
+test("hero statement uses Repair R1 display type and the mascot is fully inside the opening view", async () => {
+  const server = await serve(); const origin = "http://127.0.0.1:" + server.address().port;
+  const browser = await chromium.launch();
+  try {
+    for (const width of [360, 390, 768, 1440]) {
+      const ctx = await browser.newContext({viewport: {width, height: width >= 1000 ? 900 : 800}, reducedMotion: "reduce"});
+      const page = await ctx.newPage();
+      await page.goto(origin + "/", {waitUntil: "load"});
+      await page.evaluate(() => document.fonts.ready);
+      const m = await page.evaluate(() => {
+        const cs = getComputedStyle(document.querySelector("#h-hero"));
+        const r = document.querySelector(".hero-mascot img").getBoundingClientRect();
+        return {font: cs.fontFamily, weight: cs.fontWeight, size: parseFloat(cs.fontSize), left: r.left, right: r.right, top: r.top, bottom: r.bottom, w: r.width, vw: innerWidth, vh: innerHeight, sw: document.documentElement.scrollWidth};
+      });
+      assert.match(m.font, /Inter Display/, "display face at " + width);
+      assert.equal(m.weight, "700", "display weight at " + width);
+      const expected = Math.min(172, Math.max(54, width * 0.105));
+      assert.ok(Math.abs(m.size - expected) < 1.5, `display-xl at ${width}: got ${m.size}, want ${expected}`);
+      assert.ok(m.w >= 140, `mascot width ${m.w} at ${width}`);
+      assert.ok(m.top >= 0 && m.left >= -1 && m.right <= m.vw + 1, `mascot clipped at ${width}: ${JSON.stringify(m)}`);
+      assert.ok(m.top < m.vh * 0.8 && m.top + (m.bottom - m.top) * 0.6 <= m.vh, `mascot below the opening view at ${width}: ${JSON.stringify(m)}`);
+      assert.ok(m.sw <= m.vw + 1, `overflow at ${width}`);
+      await ctx.close();
+    }
+  } finally { await browser.close(); server.close(); }
+});
+
 test("without JavaScript the content is still readable", async () => {
   const server = await serve(); const origin = "http://127.0.0.1:" + server.address().port;
   const browser = await chromium.launch();
