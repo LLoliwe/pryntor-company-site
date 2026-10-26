@@ -1,0 +1,3 @@
+/* Pryntor brand colours. */
+:root{--cobalt:#1637F3;--white:#FFFFFF;--ink:#0A0C12;--signal:#FF461D;--yellow:#FFD626;
+--black:var(--ink);--orange:var(--signal);--on-cobalt:#FFFFFF;--cobalt-rule:rgba(255,255,255,.32)}
