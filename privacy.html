@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'sha256-0X7Zode3rVoAA+RrR/VvJ4QRZ3HQBAQusEdOgwPgYE4='; img-src 'self' data:; font-src 'self'; connect-src 'none'; manifest-src 'self'; media-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
-<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'sha256-0X7Zode3rVoAA+RrR/VvJ4QRZ3HQBAQusEdOgwPgYE4='; img-src 'self' data: https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; connect-src https://www.google-analytics.com https://region1.google-analytics.com; manifest-src 'self'; media-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="no-referrer">
 <title>Privacy | Pryntor</title>
 <meta name="description" content="How this website works, what happens when you contact Pryntor by email and where to send a privacy question.">
 <meta name="theme-color" content="#1637F3">
@@ -364,6 +364,7 @@ body[data-motion="paused"] .hero *,body[data-motion="paused"] .hero::before{anim
 @media (prefers-reduced-motion:reduce){.hero-mascot img,.mag,.hero::before{transform:none!important}::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}}
 </style>
 
+<link rel="stylesheet" href="/assets/css/analytics.css">
 </head>
 <body data-motion="paused">
 <a class="skip" href="#main">Skip to content</a>
@@ -389,19 +390,28 @@ body[data-motion="paused"] .hero *,body[data-motion="paused"] .hero::before{anim
 <div class="wrap">
 <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a> / Legal / Privacy</nav>
 <h1 id="h-page">Privacy</h1>
-<div class="prose"><p>Updated 25 October 2026.</p>
+<div class="prose"><p>Updated 26 October 2026.</p>
 <h2>About this notice</h2>
-<p>This notice covers the Pryntor website and enquiries sent through its email links. Pryntor (Pty) Ltd is based in Durban, South Africa. For a privacy question or request, contact <a href="mailto:hello@pryntor.co.za?subject=Privacy%20request">hello@pryntor.co.za</a>.</p>
+<p>This notice covers the Pryntor website, optional analytics and enquiries sent through its email links. Pryntor (Pty) Ltd is based in Durban, South Africa. For a privacy question or request, contact <a href="mailto:hello@pryntor.co.za?subject=Privacy%20request" data-analytics-contact="privacy">hello@pryntor.co.za</a>.</p>
 <h2>Visiting the website</h2>
-<p>This is an informational website. It has no accounts, checkout, uploads or signup form. The website code does not use analytics, advertising trackers or tracking cookies. Fonts, images and scripts are served with the site.</p>
+<p>This is an informational website. It has no accounts, checkout, uploads or signup form. Fonts, images and the website's own scripts are served with the site. Google's analytics script loads only if you accept optional analytics.</p>
 <p>The sound and motion controls run in your browser. Their settings are not saved when you leave the page.</p>
-<p>Requests to load the site are handled by the hosting service. That service may process technical request information, such as IP addresses, to deliver and protect the website. The hosting service may also use cookies or similar technologies for security or access management.</p>
+<p>The website is hosted on GitHub Pages. The hosting service may process technical request information, such as IP addresses, to deliver and protect the website. The hosting service may also use cookies or similar technologies for security or access management. See <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub's privacy statement</a>.</p>
+<h2 id="analytics">Optional analytics</h2>
+<p>If you choose Accept analytics, we use Google Analytics 4 to understand which pages are viewed and which contact categories are selected. Google receives usage, browser/device and cookie-identifier information, as well as technical request information such as your IP address. We do not describe this information as anonymous.</p>
+<p>We send fixed page labels and contact categories, not email addresses, message contents, URL queries or fragments. Selecting an email link is counted as a click, not proof that a message was sent or a lead was received. We do not enable Google Signals or automatically detect user-provided information.</p>
+<p>The Analytics property has an existing link to Google Ads, with personalised advertising disabled. That link may allow product-level data exchange. This website denies advertising consent, does not load Google Ads or remarketing tags, and does not use analytics for personalised advertising.</p>
+<p>Google may process analytics information outside South Africa. See <a href="https://policies.google.com/technologies/partner-sites">how Google uses information from sites using its services</a> and its <a href="https://business.safety.google/adsprocessorterms/">data-processing terms</a>.</p>
+<h2>Your analytics choice</h2>
+<p>Analytics stays off unless you accept. You can reject it without losing access to the website. Use Analytics settings on any page to change your choice or reset it. Withdrawing stops future analytics collection in this browser and removes this implementation's analytics cookies; it does not automatically delete data already collected.</p>
+<p>We remember your choice in your browser's local storage for up to 90 days, where browser settings allow. The stored preference is used locally to remember your choice. When analytics runs, Google receives the relevant consent signals. If storage is blocked, your choice may apply only to the current page and you may be asked again.</p>
+<p>Analytics cookies are configured to expire after 30 days without renewing their expiry on each visit. Google Analytics is configured for two-month user-level and event-level retention, with activity-based renewal off. Google's retention changes can take 24 hours to apply, deletion follows its processing schedule, and standard aggregated reports are not covered by that two-month limit.</p>
 <h2>Contacting us</h2>
 <p>Email links open your own email app. The website does not send a message or collect your email address when you select a link. Sending an email is your choice. We receive your address and the information you choose to include so that we can respond and manage the enquiry.</p>
 <p>This website does not subscribe you to marketing emails. Please do not send passwords, payment-card details or sensitive personal records by ordinary email.</p>
 <h2>Your information and your choices</h2>
 <p>You can ask about personal information we hold about you, request access or a correction, or ask for deletion. You can also raise an objection to processing or withdraw consent where processing depends on it. These requests are subject to applicable law, and we may need to verify your identity.</p>
-<p>Send requests to <a href="mailto:hello@pryntor.co.za?subject=Privacy%20request">hello@pryntor.co.za</a>.</p>
+<p>Send requests to <a href="mailto:hello@pryntor.co.za?subject=Privacy%20request" data-analytics-contact="privacy">hello@pryntor.co.za</a>.</p>
 <h2>Questions or complaints</h2>
 <p>You can contact us about a privacy concern. You also have the right to raise a complaint with the <a href="https://inforegulator.org.za/">Information Regulator of South Africa</a>.</p></div>
 </div>
@@ -412,11 +422,18 @@ body[data-motion="paused"] .hero *,body[data-motion="paused"] .hero::before{anim
 <div class="foot">
 <div><img src="assets/img/pryntor-wordmark-black-264.webp" alt="PRYNTOR" width="264" height="48" loading="lazy"><p>Original technology and creative work. Made in Durban, South Africa.</p></div>
 <div><h2>Explore</h2><ul><li><a href="index.html#work">Work</a></li><li><a href="method.html">Method</a></li><li><a href="index.html#ventures">In development</a></li><li><a href="index.html#collaborate">Work with us</a></li></ul></div>
-<div><h2>Company</h2><ul><li><a href="about.html">About</a></li><li><a href="index.html#contact">Contact</a></li><li><a href="mailto:hello@pryntor.co.za">hello@pryntor.co.za</a></li></ul></div>
-<div><h2>Information</h2><ul><li><a href="privacy.html">Privacy</a></li><li><a href="terms.html">Terms</a></li></ul></div>
+<div><h2>Company</h2><ul><li><a href="about.html">About</a></li><li><a href="index.html#contact">Contact</a></li><li><a href="mailto:hello@pryntor.co.za" data-analytics-contact="general">hello@pryntor.co.za</a></li></ul></div>
+<div><h2>Information</h2><ul><li><a href="privacy.html">Privacy</a></li><li><a href="terms.html">Terms</a></li><li><button class="analytics-settings" type="button" data-analytics-settings hidden>Analytics settings</button></li></ul></div>
 </div>
 <div class="legal"><p>Pryntor (Pty) Ltd · <a href="terms.html#company-details">Company details</a></p><p>&copy; 2026 Pryntor</p></div>
 </footer>
 <script src="assets/js/site.js" defer></script>
+<section class="analytics-choice" id="analytics-choice" aria-labelledby="analytics-title" hidden>
+<h2 id="analytics-title" tabindex="-1">Your privacy choices</h2>
+<p>May we use Google Analytics to understand page views and contact-link clicks? It is optional and stays off until you accept. Rejecting does not limit the website. <a href="/privacy.html#analytics">How analytics works</a>.</p>
+<p id="analytics-status" role="status" aria-live="polite">Analytics is off unless you accept.</p>
+<div class="analytics-actions"><button type="button" data-analytics-choice="denied">Reject analytics</button><button type="button" data-analytics-choice="granted">Accept analytics</button><button type="button" data-analytics-reset hidden>Reset choice</button></div>
+</section>
+<script src="/assets/js/analytics.js" defer></script>
 </body>
 </html>

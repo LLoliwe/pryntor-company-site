@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'sha256-0X7Zode3rVoAA+RrR/VvJ4QRZ3HQBAQusEdOgwPgYE4='; img-src 'self' data:; font-src 'self'; connect-src 'none'; manifest-src 'self'; media-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
-<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'sha256-0X7Zode3rVoAA+RrR/VvJ4QRZ3HQBAQusEdOgwPgYE4='; img-src 'self' data: https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; connect-src https://www.google-analytics.com https://region1.google-analytics.com; manifest-src 'self'; media-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="no-referrer">
 <title>PRYNTOR | Make it move.</title>
 <meta name="description" content="Original software, learning tools and creative technology from Durban, South Africa. Explore Pryntor&#x27;s work and start a conversation.">
 <meta name="theme-color" content="#1637F3">
@@ -364,6 +364,7 @@ body[data-motion="paused"] .hero *,body[data-motion="paused"] .hero::before{anim
 @media (prefers-reduced-motion:reduce){.hero-mascot img,.mag,.hero::before{transform:none!important}::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}}
 </style>
 
+<link rel="stylesheet" href="/assets/css/analytics.css">
 </head>
 <body data-motion="paused">
 <a class="skip" href="#main">Skip to content</a>
@@ -456,15 +457,15 @@ body[data-motion="paused"] .hero *,body[data-motion="paused"] .hero::before{anim
 <p class="label fade">06 / Work with us</p>
 </div>
 <div class="doors fade">
-<div class="door"><h3>Bring a problem.</h3><p class="meta">For organisations and collaborators</p><p>Tell us what you are trying to do, what is getting in the way and what a useful result would look like.</p><ul><li>Product and prototype conversations</li><li>Research collaboration</li><li>Creative projects</li></ul><a class="btn solid" href="mailto:partnerships@pryntor.co.za?subject=Project%20enquiry&amp;body=Organisation%3A%0AThe%20problem%3A%0AWhat%20you%20have%20tried%3A%0AWhat%20a%20useful%20result%20looks%20like%3A">Discuss a project <span aria-hidden="true">&#8594;</span></a></div>
-<div class="door"><h3>Bring your curiosity.</h3><p class="meta">For people exploring the work</p><p>Interested in an idea, a project or the company? Ask a question, share a perspective or introduce yourself.</p><a class="btn" href="mailto:hello@pryntor.co.za?subject=Hello%20Pryntor">Say hello <span aria-hidden="true">&#8594;</span></a></div>
+<div class="door"><h3>Bring a problem.</h3><p class="meta">For organisations and collaborators</p><p>Tell us what you are trying to do, what is getting in the way and what a useful result would look like.</p><ul><li>Product and prototype conversations</li><li>Research collaboration</li><li>Creative projects</li></ul><a class="btn solid" href="mailto:partnerships@pryntor.co.za?subject=Project%20enquiry&amp;body=Organisation%3A%0AThe%20problem%3A%0AWhat%20you%20have%20tried%3A%0AWhat%20a%20useful%20result%20looks%20like%3A" data-analytics-contact="projects">Discuss a project <span aria-hidden="true">&#8594;</span></a></div>
+<div class="door"><h3>Bring your curiosity.</h3><p class="meta">For people exploring the work</p><p>Interested in an idea, a project or the company? Ask a question, share a perspective or introduce yourself.</p><a class="btn" href="mailto:hello@pryntor.co.za?subject=Hello%20Pryntor" data-analytics-contact="general">Say hello <span aria-hidden="true">&#8594;</span></a></div>
 </div>
 <div class="card join-card">
 <picture class="mascot join-mascot"><source type="image/avif" srcset="assets/img/pryntor-mascot-480.avif 480w, assets/img/pryntor-mascot-960.avif 960w" sizes="(min-width:1000px) 30vw, 70vw"><source type="image/webp" srcset="assets/img/pryntor-mascot-480.webp 480w, assets/img/pryntor-mascot-960.webp 960w" sizes="(min-width:1000px) 30vw, 70vw"><img src="assets/img/pryntor-mascot-480.webp" alt="The Pryntor character: an orange-red block on two legs, mid-stride, carrying a cobalt block in its mouth" width="480" height="360" loading="lazy"></picture>
 <div class="fade">
 <h3>Tell us what is on your mind.</h3>
 <p class="lede">A few clear sentences are enough. Tell us who you are and what you would like to explore.</p>
-<div class="actions"><a class="btn solid" href="mailto:hello@pryntor.co.za?subject=Hello%20Pryntor">Email Pryntor <span aria-hidden="true">&#8594;</span></a></div>
+<div class="actions"><a class="btn solid" href="mailto:hello@pryntor.co.za?subject=Hello%20Pryntor" data-analytics-contact="general">Email Pryntor <span aria-hidden="true">&#8594;</span></a></div>
 <p class="fine">The link opens your email app. Nothing is sent from this page.</p>
 <p class="fine"><a href="privacy.html">How we handle your information</a></p>
 </div>
@@ -479,24 +480,31 @@ body[data-motion="paused"] .hero *,body[data-motion="paused"] .hero::before{anim
 <p class="label fade">07 / Contact</p>
 </div>
 <div class="contacts fade">
-<a class="contact" href="mailto:hello@pryntor.co.za"><span class="who">General enquiries</span><span class="addr">hello@pryntor.co.za</span></a>
-<a class="contact" href="mailto:partnerships@pryntor.co.za"><span class="who">Projects and research</span><span class="addr">partnerships@pryntor.co.za</span></a>
-<a class="contact" href="mailto:operations@pryntor.co.za"><span class="who">Website and accessibility</span><span class="addr">operations@pryntor.co.za</span></a>
+<a class="contact" href="mailto:hello@pryntor.co.za" data-analytics-contact="general"><span class="who">General enquiries</span><span class="addr">hello@pryntor.co.za</span></a>
+<a class="contact" href="mailto:partnerships@pryntor.co.za" data-analytics-contact="projects"><span class="who">Projects and research</span><span class="addr">partnerships@pryntor.co.za</span></a>
+<a class="contact" href="mailto:operations@pryntor.co.za" data-analytics-contact="website"><span class="who">Website and accessibility</span><span class="addr">operations@pryntor.co.za</span></a>
 </div>
 <p class="lede fade">Choose an address to open your email app.</p>
 </div>
 </section>
 </main>
-<section class="agent-summary" aria-labelledby="pryntor-overview-title"><h2 id="pryntor-overview-title">Made in Durban.</h2><div><p>Pryntor is an independent South African technology and creative company. Our work spans software, learning tools, AI evaluation, visual storytelling and robotics simulation. We develop original ideas through prototypes, research and careful testing.</p><div class="links"><a href="about.html">About Pryntor</a><a href="method.html">Our method</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="mailto:hello@pryntor.co.za">Get in touch</a></div></div></section>
+<section class="agent-summary" aria-labelledby="pryntor-overview-title"><h2 id="pryntor-overview-title">Made in Durban.</h2><div><p>Pryntor is an independent South African technology and creative company. Our work spans software, learning tools, AI evaluation, visual storytelling and robotics simulation. We develop original ideas through prototypes, research and careful testing.</p><div class="links"><a href="about.html">About Pryntor</a><a href="method.html">Our method</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="mailto:hello@pryntor.co.za" data-analytics-contact="general">Get in touch</a></div></div></section>
 <footer>
 <div class="foot">
 <div><img src="assets/img/pryntor-wordmark-black-264.webp" alt="PRYNTOR" width="264" height="48" loading="lazy"><p>Original technology and creative work. Made in Durban, South Africa.</p></div>
 <div><h2>Explore</h2><ul><li><a href="#work">Work</a></li><li><a href="method.html">Method</a></li><li><a href="#ventures">In development</a></li><li><a href="#collaborate">Work with us</a></li></ul></div>
-<div><h2>Company</h2><ul><li><a href="about.html">About</a></li><li><a href="#contact">Contact</a></li><li><a href="mailto:hello@pryntor.co.za">hello@pryntor.co.za</a></li></ul></div>
-<div><h2>Information</h2><ul><li><a href="privacy.html">Privacy</a></li><li><a href="terms.html">Terms</a></li></ul></div>
+<div><h2>Company</h2><ul><li><a href="about.html">About</a></li><li><a href="#contact">Contact</a></li><li><a href="mailto:hello@pryntor.co.za" data-analytics-contact="general">hello@pryntor.co.za</a></li></ul></div>
+<div><h2>Information</h2><ul><li><a href="privacy.html">Privacy</a></li><li><a href="terms.html">Terms</a></li><li><button class="analytics-settings" type="button" data-analytics-settings hidden>Analytics settings</button></li></ul></div>
 </div>
 <div class="legal"><p>Pryntor (Pty) Ltd · <a href="terms.html#company-details">Company details</a></p><p>&copy; 2026 Pryntor</p></div>
 </footer>
 <script src="assets/js/site.js" defer></script>
+<section class="analytics-choice" id="analytics-choice" aria-labelledby="analytics-title" hidden>
+<h2 id="analytics-title" tabindex="-1">Your privacy choices</h2>
+<p>May we use Google Analytics to understand page views and contact-link clicks? It is optional and stays off until you accept. Rejecting does not limit the website. <a href="/privacy.html#analytics">How analytics works</a>.</p>
+<p id="analytics-status" role="status" aria-live="polite">Analytics is off unless you accept.</p>
+<div class="analytics-actions"><button type="button" data-analytics-choice="denied">Reject analytics</button><button type="button" data-analytics-choice="granted">Accept analytics</button><button type="button" data-analytics-reset hidden>Reset choice</button></div>
+</section>
+<script src="/assets/js/analytics.js" defer></script>
 </body>
 </html>

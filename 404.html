@@ -2,11 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://www.googletagmanager.com; connect-src https://www.google-analytics.com https://region1.google-analytics.com; img-src 'self' data: https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'">
 <title>Page not found | Pryntor</title>
 <link rel="stylesheet" href="/assets/css/tokens.css">
 <link rel="stylesheet" href="/assets/css/site.css">
+<link rel="stylesheet" href="/assets/css/analytics.css">
 </head>
 <body class="nf">
 <main id="main" class="wrap">
@@ -18,6 +20,14 @@
 <p class="lede">The link may have changed, or the page may no longer be available. You can find your way back below.</p>
 <div class="actions"><a class="btn solid" href="/">Back to the homepage</a><a class="btn" href="/#work">Explore our work</a></div>
 <p class="meta">Pryntor (Pty) Ltd · <a href="/terms.html#company-details">Company details</a></p>
+<p><button class="analytics-settings" type="button" data-analytics-settings hidden>Analytics settings</button></p>
 </main>
+<section class="analytics-choice" id="analytics-choice" aria-labelledby="analytics-title" hidden>
+<h2 id="analytics-title" tabindex="-1">Your privacy choices</h2>
+<p>May we use Google Analytics to understand page views and contact-link clicks? It is optional and stays off until you accept. Rejecting does not limit the website. <a href="/privacy.html#analytics">How analytics works</a>.</p>
+<p id="analytics-status" role="status" aria-live="polite">Analytics is off unless you accept.</p>
+<div class="analytics-actions"><button type="button" data-analytics-choice="denied">Reject analytics</button><button type="button" data-analytics-choice="granted">Accept analytics</button><button type="button" data-analytics-reset hidden>Reset choice</button></div>
+</section>
+<script src="/assets/js/analytics.js" defer></script>
 </body>
 </html>

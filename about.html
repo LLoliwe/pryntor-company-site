@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'sha256-0X7Zode3rVoAA+RrR/VvJ4QRZ3HQBAQusEdOgwPgYE4='; img-src 'self' data:; font-src 'self'; connect-src 'none'; manifest-src 'self'; media-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
-<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'sha256-0X7Zode3rVoAA+RrR/VvJ4QRZ3HQBAQusEdOgwPgYE4='; img-src 'self' data: https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; connect-src https://www.google-analytics.com https://region1.google-analytics.com; manifest-src 'self'; media-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="no-referrer">
 <title>About Pryntor | Technology and creative work from Durban</title>
 <meta name="description" content="Meet Pryntor, an independent South African company developing original software, learning tools, creative experiences and technical research.">
 <meta name="theme-color" content="#1637F3">
@@ -364,6 +364,7 @@ body[data-motion="paused"] .hero *,body[data-motion="paused"] .hero::before{anim
 @media (prefers-reduced-motion:reduce){.hero-mascot img,.mag,.hero::before{transform:none!important}::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}}
 </style>
 
+<link rel="stylesheet" href="/assets/css/analytics.css">
 </head>
 <body data-motion="paused">
 <a class="skip" href="#main">Skip to content</a>
@@ -397,7 +398,7 @@ body[data-motion="paused"] .hero *,body[data-motion="paused"] .hero::before{anim
 <h2>How we approach it</h2>
 <p>We start with a problem worth understanding, make something concrete and test where it falls short. We explain what the evidence supports and keep what we learn, including the failures. Read <a href="method.html">our method</a> for a closer look.</p>
 <h2>Start a conversation</h2>
-<p>For a project enquiry, research conversation or a question about Pryntor, email <a href="mailto:hello@pryntor.co.za">hello@pryntor.co.za</a>.</p></div>
+<p>For a project enquiry, research conversation or a question about Pryntor, email <a href="mailto:hello@pryntor.co.za" data-analytics-contact="general">hello@pryntor.co.za</a>.</p></div>
 </div>
 </section>
 </main>
@@ -406,11 +407,18 @@ body[data-motion="paused"] .hero *,body[data-motion="paused"] .hero::before{anim
 <div class="foot">
 <div><img src="assets/img/pryntor-wordmark-black-264.webp" alt="PRYNTOR" width="264" height="48" loading="lazy"><p>Original technology and creative work. Made in Durban, South Africa.</p></div>
 <div><h2>Explore</h2><ul><li><a href="index.html#work">Work</a></li><li><a href="method.html">Method</a></li><li><a href="index.html#ventures">In development</a></li><li><a href="index.html#collaborate">Work with us</a></li></ul></div>
-<div><h2>Company</h2><ul><li><a href="about.html">About</a></li><li><a href="index.html#contact">Contact</a></li><li><a href="mailto:hello@pryntor.co.za">hello@pryntor.co.za</a></li></ul></div>
-<div><h2>Information</h2><ul><li><a href="privacy.html">Privacy</a></li><li><a href="terms.html">Terms</a></li></ul></div>
+<div><h2>Company</h2><ul><li><a href="about.html">About</a></li><li><a href="index.html#contact">Contact</a></li><li><a href="mailto:hello@pryntor.co.za" data-analytics-contact="general">hello@pryntor.co.za</a></li></ul></div>
+<div><h2>Information</h2><ul><li><a href="privacy.html">Privacy</a></li><li><a href="terms.html">Terms</a></li><li><button class="analytics-settings" type="button" data-analytics-settings hidden>Analytics settings</button></li></ul></div>
 </div>
 <div class="legal"><p>Pryntor (Pty) Ltd · <a href="terms.html#company-details">Company details</a></p><p>&copy; 2026 Pryntor</p></div>
 </footer>
 <script src="assets/js/site.js" defer></script>
+<section class="analytics-choice" id="analytics-choice" aria-labelledby="analytics-title" hidden>
+<h2 id="analytics-title" tabindex="-1">Your privacy choices</h2>
+<p>May we use Google Analytics to understand page views and contact-link clicks? It is optional and stays off until you accept. Rejecting does not limit the website. <a href="/privacy.html#analytics">How analytics works</a>.</p>
+<p id="analytics-status" role="status" aria-live="polite">Analytics is off unless you accept.</p>
+<div class="analytics-actions"><button type="button" data-analytics-choice="denied">Reject analytics</button><button type="button" data-analytics-choice="granted">Accept analytics</button><button type="button" data-analytics-reset hidden>Reset choice</button></div>
+</section>
+<script src="/assets/js/analytics.js" defer></script>
 </body>
 </html>
