@@ -1,100 +1,65 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
-  <meta name="referrer" content="no-referrer">
-  <meta name="theme-color" content="#0A0C12">
-  <title>Pryntor Expo | A space for what comes next</title>
-  <meta name="description" content="Explore five areas of original Pryntor work in an interactive exhibition. Software, learning, AI evaluation, creative technology and robotics simulation.">
-  <link rel="canonical" href="https://pryntor.co.za/expo.html">
-  <meta property="og:title" content="Pryntor Expo | A space for what comes next">
-  <meta property="og:description" content="An interactive exhibition of original work taking shape in Durban.">
-  <meta property="og:url" content="https://pryntor.co.za/expo.html">
-  <meta property="og:type" content="website">
-  <link rel="stylesheet" href="assets/css/tokens.css">
-  <link rel="stylesheet" href="assets/css/expo.css">
-  <link rel="preload" href="assets/fonts/InterDisplay-Bold.woff2" as="font" type="font/woff2" crossorigin>
-  <script src="assets/js/expo.js" type="module"></script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer"><meta name="theme-color" content="#0A0C12">
+<title>Pryntor Expo | Make something move.</title>
+<meta name="description" content="A playground for curious minds. Build, shape, question, compose and move through five hands-on Pryntor experiments.">
+<link rel="canonical" href="https://pryntor.co.za/expo.html"><meta property="og:title" content="Pryntor Expo | Make something move."><meta property="og:description" content="Five experiments. Your move. Original work from Durban."><meta property="og:url" content="https://pryntor.co.za/expo.html"><meta property="og:type" content="website">
+<link rel="stylesheet" href="assets/css/tokens.css"><link rel="stylesheet" href="assets/css/expo.css"><link rel="preload" href="assets/fonts/InterDisplay-Bold.woff2" as="font" type="font/woff2" crossorigin><script type="module" src="assets/js/expo.js"></script>
 </head>
 <body>
-  <a class="skip" href="#exhibits">Skip to the exhibition</a>
-  <header class="expo-header">
-    <a href="index.html" aria-label="Pryntor home"><img src="assets/img/pryntor-wordmark-white-264.webp" width="132" height="30" alt="PRYNTOR"></a>
-    <span class="edition">EXPO / 01</span>
-    <a class="exit" href="index.html#work">Back to website <span aria-hidden="true">↗</span></a>
-  </header>
-  <main>
-    <section class="intro" aria-labelledby="expo-title">
-      <div><p class="eyebrow"><span class="signal-dot"></span> FROM DURBAN. IN DEVELOPMENT.</p>
-        <h1 id="expo-title">A space for<br>what comes <span>next.</span></h1>
-      </div>
-      <p class="intro-copy">Five areas of work. <br>One restless curiosity.<br><span>Choose an exhibit. Get closer to the idea.</span></p>
-    </section>
-    <div class="exhibition" id="exhibits">
-      <nav class="exhibit-nav" aria-label="Exhibits">
-        <button type="button" data-view="all" aria-pressed="true">All exhibits <span>↗</span></button>
-        <button type="button" data-view="software" aria-pressed="false"><span>01</span> Software</button>
-        <button type="button" data-view="learning" aria-pressed="false"><span>02</span> Learning</button>
-        <button type="button" data-view="evaluation" aria-pressed="false"><span>03</span> AI evaluation</button>
-        <button type="button" data-view="creative" aria-pressed="false"><span>04</span> Creative</button>
-        <button type="button" data-view="robotics" aria-pressed="false"><span>05</span> Simulation</button>
-      </nav>
-      <div class="world" id="world" aria-label="Interactive exhibition">
-        <div class="world-coordinates" aria-hidden="true">PRYNTOR / FIELD NOTES<br>29.86° S &nbsp; 31.02° E</div>
-        <div class="plane" id="plane">
-          <a class="tile tile-software" id="software" href="index.html#work" data-x="30" data-y="80">
-            <span class="tile-meta">01 / PROTOTYPE <span>↗</span></span>
-            <h2>Ideas you<br>can use.</h2>
-            <div class="software-art" aria-hidden="true"><i></i><i></i><i></i><b>↗</b></div>
-            <p>Software &amp; web experiences</p>
-          </a>
-          <a class="tile tile-learning" id="learning" href="index.html#ventures" data-x="510" data-y="20">
-            <span class="tile-meta">02 / PROTOTYPE <span>↗</span></span>
-            <h2>Learn by<br>doing.</h2>
-            <div class="learning-art" aria-hidden="true"><i></i><i></i><i></i></div>
-            <p>Interactive learning tools</p>
-          </a>
-          <a class="tile tile-evaluation" id="evaluation" href="index.html#ventures" data-x="990" data-y="100">
-            <span class="tile-meta">03 / RESEARCH <span>↗</span></span>
-            <h2>Ask better<br>questions.</h2>
-            <div class="evaluation-art" aria-hidden="true"><i></i><i></i><i></i><b>?</b></div>
-            <p>AI reasoning &amp; evaluation</p>
-          </a>
-          <a class="tile tile-creative" id="creative" href="index.html#ventures" data-x="275" data-y="490">
-            <span class="tile-meta">04 / RESEARCH <span>↗</span></span>
-            <h2>Make<br>it move.</h2>
-            <img class="mascot" src="assets/img/pryntor-mascot-480.webp" width="480" height="480" alt="The original orange Pryntor character carrying a cobalt block">
-            <p>Original stories &amp; visual worlds</p>
-          </a>
-          <a class="tile tile-robotics" id="robotics" href="index.html#ventures" data-x="755" data-y="510">
-            <span class="tile-meta">05 / SIMULATION ONLY <span>↗</span></span>
-            <h2>Movement.<br>Under study.</h2>
-            <div class="robotics-art" aria-hidden="true"><i></i><i></i><i></i><b>+</b></div>
-            <p>Robotics &amp; control experiments</p>
-          </a>
-        </div>
-        <p class="world-caption" aria-hidden="true">SELECT AN EXHIBIT TO EXPLORE</p>
-      </div>
-    </div>
-    <section class="detail" aria-labelledby="detail-title" aria-live="polite" aria-atomic="true">
-      <div class="detail-index" id="detail-index">00 / THE EXHIBITION</div>
-      <div><h2 id="detail-title">Useful ideas. Taking shape.</h2><p id="detail-copy">Our work spans prototypes, research and simulation. These are areas we are exploring, not products available to buy.</p></div>
-      <a id="detail-link" href="method.html">Discover our method <span aria-hidden="true">↗</span></a>
-    </section>
-    <div class="expo-tools" hidden>
-      <div class="view-tools" role="group" aria-label="Exhibition view">
-        <button type="button" id="previous" aria-label="Previous exhibit">←</button>
-        <span id="position" aria-live="polite">Overview</span>
-        <button type="button" id="next" aria-label="Next exhibit">→</button>
-        <button type="button" id="reset">Overview</button>
-        <button type="button" id="motion" aria-pressed="true">Motion on</button>
-      </div>
-      <details class="renderer-info"><summary>About this view</summary><p id="renderer-status">Standard HTML view.</p><p>Expo uses HTML-in-Canvas when your browser supports it. Otherwise the same exhibition is rendered with HTML and CSS. All links and controls remain available.</p></details>
-    </div>
-    <noscript><p class="no-script">Choose any exhibit to read about the work on the main website. The spatial controls need JavaScript.</p></noscript>
-  </main>
-  <footer><span>ORIGINAL WORK. MADE IN DURBAN.</span><a href="mailto:hello@pryntor.co.za">Start a conversation ↗</a><a href="privacy.html">Privacy</a></footer>
-</body>
-</html>
+<a class="skip" href="#exhibition">Skip to the experiments</a>
+<header class="expo-header"><a href="index.html" aria-label="Pryntor home"><img src="assets/img/pryntor-wordmark-white-264.webp" width="132" height="30" alt="PRYNTOR"></a><span class="edition">EXPO / 02</span><a class="exit" href="index.html#work">Back to website <span aria-hidden="true">↗</span></a></header>
+<main id="exhibition">
+<div class="workspace">
+<section class="story" aria-labelledby="expo-title">
+<p class="eyebrow"><span class="signal-dot"></span> A PLAYGROUND FOR CURIOUS MINDS</p>
+<p class="chapter" id="chapter">01 / SOFTWARE &amp; SYSTEMS</p>
+<h1 id="expo-title">A little<br>order.<br><em>A lot of<br>possibility.</em></h1>
+<p class="story-copy" id="story-copy">One small piece. Many possible systems. Pull this one apart, then put it back together.</p>
+<p class="instruction" id="instruction"><span aria-hidden="true">↳</span> Tap the field. Break the pattern.</p>
+<div class="story-bottom"><span class="experiment-label">ILLUSTRATIVE EXPERIMENT</span><a id="context-link" href="index.html#work">Meet the work behind the play <span aria-hidden="true">↗</span></a></div>
+</section>
+<div class="stage-shell">
+<div class="stage-top"><span id="stage-label">01 — ASSEMBLY FIELD</span><span class="live-label"><i></i> YOUR INPUT. LIVE RESPONSE.</span></div>
+<div class="stage" id="stage">
+<section class="room assembly" id="software" aria-label="Assembly field experiment">
+<div class="art assembly-art" id="assembly-art"><div class="field" id="block-field" role="img" aria-label="Thirty-six blocks arranged into an isometric field"></div><span class="art-note">36 PIECES / INFINITE ARRANGEMENTS</span></div>
+<div class="controls"><label for="spread">Disorder <output id="spread-value" for="spread">0%</output><input id="spread" aria-label="Disorder" type="range" min="0" max="100" value="0"></label><button type="button" id="scatter">Scatter <span aria-hidden="true">↗</span></button><button type="button" id="assemble">Assemble <span aria-hidden="true">↙</span></button></div>
+<p class="result" id="assembly-result" aria-live="polite">36 pieces. One system. Change the distance between them.</p>
+</section>
+<section class="room wave-room" id="learning" aria-label="Wave laboratory experiment">
+<div class="art wave-art"><div class="wave-heading" aria-hidden="true">FIND<br>YOUR<br><em>FREQUENCY.</em></div><svg viewBox="0 0 800 420" class="wave-svg" role="img" aria-labelledby="wave-desc"><title id="wave-desc">A sine wave with two cycles and amplitude 60</title><path class="wave-axis" d="M0 210H800"/><path id="wave-shadow"/><path id="wave-line"/></svg><span class="art-note">A SIMPLE MODEL / CHANGE ONE THING</span></div>
+<div class="controls"><label for="frequency">Frequency <output id="frequency-value" for="frequency">2.0 cycles</output><input id="frequency" aria-label="Frequency" type="range" min="5" max="50" value="20"></label><label for="amplitude">Amplitude <output id="amplitude-value" for="amplitude">60</output><input id="amplitude" aria-label="Amplitude" type="range" min="10" max="120" value="60"></label><button type="button" id="wave-play" aria-pressed="false">Play wave ↗</button></div>
+<p class="result" id="wave-result">More frequency means more cycles in the same space. More amplitude means a taller wave.</p>
+</section>
+<section class="room evaluation-room" id="evaluation" aria-label="Evidence sorting experiment">
+<div class="art evidence-art"><div class="evidence-heading">CONFIDENCE<br>ISN’T <em>PROOF.</em></div><div class="evidence-lanes"><div><span>BELOW THE THRESHOLD</span><div id="held" class="sample-lane"></div></div><div><span>MEETS THE THRESHOLD</span><div id="passed" class="sample-lane"></div></div></div><span class="art-note">8 FICTIONAL CASES / NO AI CONNECTION</span></div>
+<div class="controls"><label for="threshold">Confidence threshold <output id="threshold-value" for="threshold">70%</output><input id="threshold" aria-label="Confidence threshold" type="range" min="0" max="100" value="70"></label><button type="button" id="reveal" aria-pressed="false">Reveal the answers ↗</button></div>
+<p class="result" id="evidence-result" aria-live="polite">Four cases pass. Are they right? Reveal the answers to find out.</p>
+</section>
+<section class="room creative-room" id="creative" aria-label="Pryntor poster studio">
+<div class="art poster-art" id="poster-art"><span class="poster-top">PRYNTOR / ORIGINAL WORK</span><div class="poster-word" id="poster-word">MAKE<br>IT MOVE.</div><div class="poster-orbit" aria-hidden="true"></div><img class="mascot" src="assets/img/pryntor-mascot-480.webp" width="480" height="480" alt="The original orange Pryntor character carrying a cobalt block"><span class="poster-bottom">DURBAN, SOUTH AFRICA. / YOUR COMPOSITION.</span></div>
+<div class="controls"><label for="poster-text">Your headline<input type="text" id="poster-text" maxlength="24" value="MAKE IT MOVE." autocomplete="off" spellcheck="false"></label><label for="poster-scale">Character scale <output id="poster-scale-value" for="poster-scale">100%</output><input id="poster-scale" aria-label="Character scale" type="range" min="75" max="125" value="100"></label><button id="poster-colour" type="button">White backdrop ↗</button></div>
+<p class="result">Type a headline. Change the composition. The original Pryntor character stays itself.</p>
+</section>
+<section class="room robotics-room" id="robotics" aria-label="Two-joint arm simulation">
+<div class="art arm-art"><svg viewBox="0 0 800 520" class="arm-svg" role="img" aria-labelledby="arm-desc"><title id="arm-desc">Two-link arm. Adjust the shoulder and elbow angles to move its endpoint.</title><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#31384b" stroke-width="1"/></pattern></defs><rect width="800" height="520" fill="url(#grid)"/><circle cx="290" cy="330" r="35" fill="#1637F3"/><path id="arm-ghost" d="M290 330L450 330L580 330"/><path id="arm-links" d="M290 330L370 191L500 191"/><circle id="arm-joint" cx="370" cy="191" r="13"/><circle id="arm-tip" cx="500" cy="191" r="9"/><path d="M244 371H336M258 371L274 351H306L322 371" fill="none" stroke="white" stroke-width="3"/></svg><div class="arm-readout"><span>ENDPOINT</span><strong id="arm-position">X 210 / Y 139</strong></div><span class="art-note">TWO LINKS / TWO ANGLES / SIMULATION ONLY</span></div>
+<div class="controls"><label for="shoulder">Shoulder <output id="shoulder-value" for="shoulder">60°</output><input id="shoulder" aria-label="Shoulder" type="range" min="0" max="160" value="60"></label><label for="elbow">Elbow <output id="elbow-value" for="elbow">−60°</output><input id="elbow" aria-label="Elbow" type="range" min="-150" max="150" value="-60"></label><button id="arm-reset" type="button">Reset pose ↙</button></div>
+<p class="result">Each joint changes where the arm can reach. A mathematical model, with no physical robot connected.</p>
+</section>
+</div>
+<div class="map-view" id="map-view" hidden>
+<div class="map-toolbar"><span>THE WHOLE PLAYGROUND</span><div><button id="zoom-out" type="button" aria-label="Zoom out">−</button><output id="zoom-level">100%</output><button id="zoom-in" type="button" aria-label="Zoom in">+</button><button id="map-reset" type="button">Fit</button></div></div>
+<div class="map-viewport" id="map-viewport"><div class="map-plane" id="map-plane"><svg viewBox="0 0 1000 650" aria-hidden="true"><path d="M200 170L500 110L820 210L675 485L300 470Z M200 170L675 485 M500 110L300 470"/></svg><button class="map-node map-software" data-scene="software"><span>01 / SOFTWARE</span><b class="map-icon">▦</b><strong>Assembly<br>field</strong><i>Enter ↗</i></button><button class="map-node map-learning" data-scene="learning"><span>02 / LEARNING</span><b class="map-icon">∿</b><strong>Wave<br>laboratory</strong><i>Enter ↗</i></button><button class="map-node map-evaluation" data-scene="evaluation"><span>03 / EVALUATION</span><b class="map-icon">?</b><strong>Confidence<br>isn’t proof</strong><i>Enter ↗</i></button><button class="map-node map-creative" data-scene="creative"><span>04 / CREATIVE</span><img src="assets/img/pryntor-mascot-480.webp" width="480" height="480" alt=""><strong>Poster<br>studio</strong><i>Enter ↗</i></button><button class="map-node map-robotics" data-scene="robotics"><span>05 / SIMULATION</span><b class="map-icon">⌁</b><strong>A little<br>reach</strong><i>Enter ↗</i></button></div></div><p class="map-help">Drag the empty space to explore. Choose an experiment to step inside.</p>
+</div>
+<div class="stage-bottom"><span id="visited">01 / 05 EXPLORED</span><button type="button" id="next">Next experiment <span aria-hidden="true">→</span></button></div>
+</div>
+</div>
+<nav class="chapter-nav" aria-label="Experiments"><button data-scene="software" aria-pressed="true"><span>01</span> Build <b>↗</b></button><button data-scene="learning" aria-pressed="false"><span>02</span> Shape <b>↗</b></button><button data-scene="evaluation" aria-pressed="false"><span>03</span> Question <b>↗</b></button><button data-scene="creative" aria-pressed="false"><span>04</span> Compose <b>↗</b></button><button data-scene="robotics" aria-pressed="false"><span>05</span> Move <b>↗</b></button><button id="overview" aria-pressed="false">All experiments <b>⊞</b></button></nav>
+<div class="bottom-line"><p>Five small experiments in how we think. <a href="method.html">Explore our method ↗</a></p><div class="utility"><button type="button" id="motion" aria-pressed="true">Motion on</button><details><summary>About this view</summary><div class="about-view"><p id="renderer-status">Standard HTML view.</p><p>These are original, illustrative website experiments. They are not demonstrations of released Pryntor products.</p><p>Where supported, HTML-in-Canvas draws the live interface into a canvas. Otherwise, the same controls work in HTML.</p></div></details></div></div>
+<noscript><p class="no-script">The experiments need JavaScript. <a href="index.html#work">Explore Pryntor’s work</a> or <a href="method.html">read about our method</a>.</p></noscript>
+</main><footer><span>ORIGINAL WORK. MADE IN DURBAN.</span><a href="mailto:hello@pryntor.co.za">Build something with us ↗</a><a href="privacy.html">Privacy</a></footer>
+</body></html>
