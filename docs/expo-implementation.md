@@ -1,4 +1,10 @@
-# Pryntor Expo 02 · 28 October 2026
+# Pryntor Expo 02 · 28 October 2026 (historical)
+
+This document records the earlier Expo 02 implementation. The current homepage,
+Open Studio index, poster export, artwork, responsive treatment and verification
+record are in [Reference-led redesign](reference-led-redesign.md).
+The spatial map described below has been removed. Current tests total 14; the
+homepage now uses external CSS rather than the historical inline-style hash.
 
 ## Source and scope
 
