@@ -1,7 +1,7 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,existsSync} from 'node:fs';
-import {samples,evaluateThreshold,armPose,wavePath,blockPosition} from '../assets/js/expo-model.mjs';
+import {samples,evaluateThreshold,armPose,wavePath,blockPosition,armTargets,reachesTarget} from '../assets/js/expo-model.mjs';
 import {mountCanvas} from '../assets/js/expo-renderer.mjs';
 
 test('confidence filtering counts errors, handles ties, all and none',()=>{
@@ -76,4 +76,23 @@ test('page resources exist and experiments make no remote requests or persist in
   for(const m of html.matchAll(/(?:href|src)="([^"#]+)"/g))if(!m[1].includes(':'))assert.ok(existsSync(new URL('../'+m[1].split('#')[0],import.meta.url)),m[1]);
   for(const file of ['expo.js','expo-model.mjs','expo-renderer.mjs'])assert.doesNotMatch(readFileSync(new URL('../assets/js/'+file,import.meta.url),'utf8'),/\b(fetch|XMLHttpRequest|localStorage|sendBeacon|innerHTML)\b/);
   assert.ok(html.includes("connect-src 'none'"));
+});
+
+
+test('all robot targets are reachable and success uses a bounded geometric tolerance',()=>{
+  for(const target of armTargets){
+    const pose=armPose(target.shoulder,target.elbow);
+    assert.equal(reachesTarget(pose,pose),true);
+    assert.equal(reachesTarget({tip:{x:pose.tip.x+18,y:pose.tip.y}},pose),true);
+    assert.equal(reachesTarget({tip:{x:pose.tip.x+19,y:pose.tip.y}},pose),false);
+    assert.ok(290+pose.tip.x>=24&&290+pose.tip.x<=776);
+    assert.ok(330-pose.tip.y>=24&&330-pose.tip.y<=496);
+  }
+  assert.equal(reachesTarget(armPose(60,-60),armPose(80,-70)),false);
+});
+test('fictional answers include checkable questions and accurate correction text',()=>{
+  assert.equal(samples.find(s=>s.id==='B').question,'12 × 3');
+  assert.equal(samples.find(s=>s.id==='B').expected,36);
+  assert.equal(samples.find(s=>s.id==='D').expected,5);
+  for(const sample of samples){assert.ok(sample.question.length>0);assert.equal(sample.correct,sample.answer===sample.expected);}
 });

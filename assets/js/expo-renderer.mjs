@@ -43,7 +43,7 @@ export function mountCanvas(host, element, report, env = window) {
     element.style.width=width+'px';element.setAttribute('drawable','');host.insertBefore(canvas,element);canvas.append(element);
     canvas.addEventListener('contextlost',restore);
     timer=env.setTimeout(()=>{if(!painted)restore();},1600);
-    if(env.ResizeObserver){observer=new env.ResizeObserver(resize);observer.observe(host);}
+    if(env.ResizeObserver){observer=new env.ResizeObserver(resize);observer.observe(host);observer.observe(element);}
     resize();
     return {request,restore};
   }catch{restore();return null;}

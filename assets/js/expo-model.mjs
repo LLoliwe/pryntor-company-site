@@ -1,11 +1,20 @@
 // Original deterministic models. These are illustrative experiments, not product data.
 export const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+// The percentages are invented. The arithmetic gives visitors a checkable truth.
 export const samples = [
-  {id:'A',confidence:96,correct:true}, {id:'B',confidence:91,correct:false},
-  {id:'C',confidence:83,correct:true}, {id:'D',confidence:74,correct:false},
-  {id:'E',confidence:62,correct:true}, {id:'F',confidence:48,correct:false},
-  {id:'G',confidence:33,correct:true}, {id:'H',confidence:18,correct:false},
-];
+  {id:'A',confidence:96,question:'8 × 7',answer:56,expected:8*7},
+  {id:'B',confidence:91,question:'12 × 3',answer:34,expected:12*3},
+  {id:'C',confidence:83,question:'9 + 6',answer:15,expected:9+6},
+  {id:'D',confidence:74,question:'20 ÷ 4',answer:4,expected:20/4},
+  {id:'E',confidence:62,question:'18 − 9',answer:9,expected:18-9},
+  {id:'F',confidence:48,question:'5 × 5',answer:20,expected:5*5},
+  {id:'G',confidence:33,question:'3 × 9',answer:27,expected:3*9},
+  {id:'H',confidence:18,question:'16 − 7',answer:8,expected:16-7},
+].map(sample=>({...sample,correct:sample.answer===sample.expected}));
+export const armTargets = [{shoulder:80,elbow:-70},{shoulder:30,elbow:80},{shoulder:130,elbow:-90}];
+export function reachesTarget(pose, target, tolerance=18) {
+  return Math.hypot(pose.tip.x-target.tip.x,pose.tip.y-target.tip.y)<=tolerance;
+}
 export function evaluateThreshold(threshold) {
   const passed = samples.filter(s => s.confidence >= threshold);
   return {passed, held:samples.filter(s=>s.confidence<threshold), errors:passed.filter(s=>!s.correct).length};

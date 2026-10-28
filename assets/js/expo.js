@@ -1,18 +1,27 @@
-import {clamp, samples, evaluateThreshold, armPose, wavePath, blockPosition} from './expo-model.mjs';
+import {clamp, samples, evaluateThreshold, armPose, wavePath, blockPosition, armTargets, reachesTarget} from './expo-model.mjs';
 import {mountCanvas} from './expo-renderer.mjs';
 const $=id=>document.getElementById(id);
 const body=document.body, stage=$('stage'), rooms=[...stage.querySelectorAll('.room')];
-const ids=rooms.map(room=>room.id), nav=[...document.querySelectorAll('[data-scene]')];
+const ids=['creative','learning','evaluation','robotics','software'], nav=[...document.querySelectorAll('[data-scene]')];
 const reduce=matchMedia('(prefers-reduced-motion: reduce)'), visited=new Set();
-let current='software', mapping=false, renderer=null, motionOn=!reduce.matches, waveRunning=false, phase=0, frame=0, last=0;
+let current='creative', mapping=false, renderer=null, motionOn=!reduce.matches, waveRunning=false, phase=0, frame=0, last=0;
 const copy={
-  software:['01 / SOFTWARE & SYSTEMS','A little|order.|~A lot of|~possibility.','One small piece. Many possible systems. Pull this one apart, then put it back together.','Tap the field. Break the pattern.','01 — ASSEMBLY FIELD','index.html#work'],
-  learning:['02 / INTERACTIVE LEARNING','Get a feel|for the|~invisible.','Some ideas make more sense when you can change them. Find the relationship between frequency, amplitude and motion.','Shape the wave. See what changes.','02 — WAVE LABORATORY','index.html#ventures'],
-  evaluation:['03 / AI EVALUATION','Looks|certain.|~Is it right?','A confident answer can still be wrong. Raise the bar, inspect the evidence and see what slips through.','Set a threshold. Then reveal the answers.','03 — CONFIDENCE ISN’T PROOF','method.html#test'],
-  creative:['04 / CREATIVE TECHNOLOGY','A familiar|face.|~Your own|~spin.','Original characters. New contexts. Make a small piece of Pryntor your own with a headline and a different point of view.','Write something. Make it yours.','04 — POSTER STUDIO','index.html#ventures'],
-  robotics:['05 / ROBOTICS SIMULATION','A little|reach.|~A new|~possibility.','Two joints create a surprising range of movement. Explore how small changes add up to a different place.','Move either joint. Follow the endpoint.','05 — REACH STUDY','method.html'],
-  all:['00 / THE WHOLE PLAYGROUND','Follow|your|~curiosity.','Five ways to play with an idea. Step into any experiment, change something and see where it takes you.','Drag to explore. Choose a place to begin.','OVERVIEW — FIVE CONNECTED IDEAS','method.html'],
+  creative:['01 / MAKE A POSTER','Your words.|~Your poster.','Type your name or a message to make a poster with our original character. You’ll see it change as you type.','Replace “HELLO, CURIOUS.” with your own headline.','YOUR POSTER, AS YOU TYPE','index.html#ventures'],
+  learning:['02 / SHAPE A WAVE','What makes|~a wave?','You’ve seen waves in water. Here you can change their shape: add more waves, make them taller, then set them moving.','Move either slider, then press Play wave.','CHANGE THE SHAPE. WATCH IT MOVE.','index.html#ventures'],
+  evaluation:['03 / TEST AN ANSWER','Very sure.|~Still wrong?','Imagine these answers came from an AI. Its score says how sure it is. Pick a minimum score, then check the maths.','Leave the minimum at 70%. Check the accepted answers.','CAN YOU SPOT THE CONFIDENT MISTAKES?','method.html#test'],
+  robotics:['04 / MOVE A ROBOT ARM','Can you|~reach the ring?','Two joints control this simulated arm. Move its tip into the orange ring by changing one joint at a time.','Try Rotate the base, then Bend the elbow.','A SMALL CHALLENGE IN MOVEMENT','method.html'],
+  software:['05 / PLAY WITH BLOCKS','Pull it apart.|~Put it together.','Thirty-six blocks can form a neat platform or a scattered collection. You control how far apart they move.','Tap the blocks or press Put them together.','THE SAME PIECES. A DIFFERENT ARRANGEMENT.','index.html#work'],
+  all:['CHOOSE YOUR NEXT EXPERIMENT','What will|~you try next?','Make something visual, test a surprising answer or take control of a simulated arm. Each experiment gives you a different way to explore.','Choose any experiment. You can also drag and zoom the map.','FIVE THINGS YOU CAN TRY','method.html'],
 };
+const takeaways={
+  creative:['Creativity gets clearer when you can try it.','We develop original characters and visual experiences. This small editor lets you explore how words, colour and scale change a design.'],
+  learning:['Learning starts to click when you can change things.','We develop interactive learning tools. Here, moving a slider makes the relationship between wave height and frequency visible.'],
+  evaluation:['Checking an answer matters more than how certain it sounds.','Pryntor researches AI evaluation: ways to examine where systems succeed and fail. The scores here are invented; the maths lets you check the answers yourself.'],
+  robotics:['Try the movement before building the machine.','We explore robotics and control in simulation. This simplified arm shows how two joint angles combine to determine where its tip can reach.'],
+  software:['Good interfaces make cause and effect easy to see.','We build software and web experiences. This small interaction shows one useful principle: make a change, see the result, and give people a clear way back.'],
+  all:['A small introduction to a bigger body of work.','These are playful demonstrations of ideas we explore. Our wider work includes software prototypes, learning tools, creative development, AI evaluation and robotics simulation.'],
+};
+const names={creative:'Make a poster',learning:'Shape a wave',evaluation:'Test an answer',robotics:'Move a robot arm',software:'Play with blocks'};
 function heading(text){
   $('expo-title').replaceChildren();
   text.split('|').forEach((line,i)=>{if(i)$('expo-title').append(document.createElement('br'));const node=document.createElement(line.startsWith('~')?'em':'span');node.textContent=line.replace(/^~/,'');$('expo-title').append(node);});
@@ -20,27 +29,27 @@ function heading(text){
 function reportCanvas(active){body.dataset.renderer=active?'html-in-canvas':'html';$('renderer-status').textContent=active?'HTML-in-Canvas is active. These are live HTML controls drawn into a canvas.':'HTML view is active. Every experiment and control works here.';}
 function setWave(running){waveRunning=running&&motionOn&&!mapping&&current==='learning';$('wave-play').setAttribute('aria-pressed',String(waveRunning));$('wave-play').textContent=waveRunning?'Pause wave Ⅱ':'Play wave ↗';cancelAnimationFrame(frame);last=0;if(waveRunning)frame=requestAnimationFrame(animateWave);}
 function select(id,updateHash=true,scroll=false){
-  if(id!=='all'&&!ids.includes(id))id='software';
+  if(id!=='all'&&!ids.includes(id))id='creative';
   const fromMap=document.activeElement?.classList.contains('map-node');
   renderer?.restore();renderer=null;setWave(false);
-  mapping=id==='all';if(!mapping){current=id;visited.add(id);}
-  const data=copy[id];$('chapter').textContent=data[0];heading(data[1]);$('story-copy').textContent=data[2];$('instruction').textContent='↳ '+data[3];$('stage-label').textContent=data[4];$('context-link').href=data[5];
+  body.dataset.scene=id;mapping=id==='all';if(!mapping){current=id;visited.add(id);}
+  const data=copy[id];$('chapter').textContent=data[0];heading(data[1]);$('story-copy').textContent=data[2];$('instruction').textContent=data[3];$('stage-label').textContent=data[4];$('context-link').href=data[5];$('takeaway-title').textContent=takeaways[id][0];$('takeaway-copy').textContent=takeaways[id][1];$('context-link').firstChild.textContent=['evaluation','robotics','all'].includes(id)?'How we explore and test ideas ':'See what Pryntor is developing ';
   rooms.forEach(room=>{room.hidden=mapping||room.id!==id;room.inert=room.hidden;});
   stage.hidden=mapping;$('map-view').hidden=!mapping;body.classList.toggle('map-mode',mapping);
   nav.forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.scene===id)));
   $('overview').setAttribute('aria-pressed',String(mapping));
-  $('visited').textContent=String(visited.size).padStart(2,'0')+' / 05 EXPLORED';
-  $('next').firstChild.textContent=mapping?'Start exploring ':'Next experiment ';
+  $('visited').textContent=visited.size+' OF 5 OPENED';
+  $('next').firstChild.textContent=mapping?'Start with a poster ':'Next: '+names[ids[(ids.indexOf(current)+1)%ids.length]]+' ';
   if(updateHash)try{history.replaceState(null,'','#'+id);}catch{/* A sandbox may disallow history. */}
   reportCanvas(false);
   if(!mapping){renderer=mountCanvas(stage,$(id),reportCanvas);if(motionOn&&!body.classList.contains('keyboard-input'))stage.animate([{opacity:.35,transform:'translateY(10px)'},{opacity:1,transform:'translateY(0)'}],{duration:280,easing:'cubic-bezier(.2,.8,.2,1)'});}
   else updateMap();
   if(fromMap&&!mapping){$('expo-title').setAttribute('tabindex','-1');$('expo-title').focus({preventScroll:true});}
-  if(scroll&&innerWidth<=760){$('exhibition').scrollIntoView({behavior:'instant',block:'start'});}
+  if(scroll&&innerWidth<=760){document.querySelector('.workspace').scrollIntoView({behavior:'instant',block:'start'});}
 }
 function repaint(){renderer?.request();}
 function setMotion(value){motionOn=value;body.classList.toggle('motion-off',!value);$('motion').setAttribute('aria-pressed',String(value));$('motion').textContent=value?'Motion on':'Motion off';if(!value)setWave(false);$('wave-play').disabled=!value;repaint();}
-function fromHash(){select(location.hash.slice(1)||'software',false);}
+function fromHash(){select(location.hash.slice(1)||'creative',false);}
 // Assembly: reversible, deterministic displacement. No idle animation loop.
 const blocks=Array.from({length:36},(_,i)=>{
   const block=document.createElement('i');block.className='block'+(i%11===0?' orange':i===20?' yellow':'');block.setAttribute('aria-hidden','true');
@@ -50,15 +59,15 @@ const blocks=Array.from({length:36},(_,i)=>{
 // Paint the nearest row last so touching blocks occlude each other correctly.
 [...blocks.keys()].sort((a,b)=>(Math.floor(a/6)+a%6)-(Math.floor(b/6)+b%6)).forEach(i=>$('block-field').append(blocks[i]));
 function assemble(value,direct=false){
-  $('spread').value=value;$('spread').setAttribute('aria-valuetext',value+' percent disorder');$('assembly-art').setAttribute('aria-pressed',String(value>0));$('spread-value').textContent=value+'%';body.classList.toggle('direct-input',direct);
+  $('spread').value=value;$('spread').setAttribute('aria-valuetext',value+' percent spread');$('assembly-art').setAttribute('aria-pressed',String(value>0));$('spread-value').textContent=value+'%';body.classList.toggle('direct-input',direct);
   blocks.forEach((block,i)=>{const p=blockPosition(i,value);block.style.transform=`translate(${p.x}px,${p.y}px) rotate(${p.rotation}deg)`;});
   $('block-field').setAttribute('aria-label',`Thirty-six blocks with disorder set to ${value} percent`);
-  $('assembly-result').textContent=value===0?'36 pieces. One system. Change the distance between them.':value===100?'Same pieces. A different arrangement. Bring them back together.':`${value}% disorder. The pieces stay the same; their relationships change.`;
+  $('assembly-result').textContent=value===0?'Back together. Now scatter them again, or move the slider to choose something in between.':value===100?'Scattered. Tap again or press Put them together to rebuild the platform.':`${value}% spread apart. Move the slider left to bring the blocks together.`;
   repaint();
 }
 $('assembly-art').addEventListener('click',()=>assemble(Number($('spread').value)>0?0:100));
 $('assembly-art').addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();assemble(Number($('spread').value)>0?0:100);}});
-function fitBlocks(){const width=$('assembly-art').clientWidth;if(width>0)$('block-field').style.setProperty('--field-scale',Math.min(1.2,(width-50)/540));}
+function fitBlocks(){const width=$('assembly-art').clientWidth;if(width>0)$('block-field').style.setProperty('--field-scale',Math.min(1.1,(width-50)/540,($('assembly-art').clientHeight-80)/360));}
 if('ResizeObserver' in window)new ResizeObserver(fitBlocks).observe($('assembly-art'));else addEventListener('resize',fitBlocks);
 $('spread').addEventListener('input',event=>assemble(Number(event.target.value),true));
 $('scatter').addEventListener('click',()=>assemble(100));$('assemble').addEventListener('click',()=>assemble(0));
@@ -69,20 +78,47 @@ for(const id of ['frequency','amplitude'])$(id).addEventListener('input',drawWav
 $('wave-play').addEventListener('click',()=>setWave(!waveRunning));
 // Evaluation: visibly fictional fixtures, never a live or validated AI service.
 let revealed=false;
-const sampleNodes=new Map(samples.map(sample=>{const el=document.createElement('div');el.className='sample';const strong=document.createElement('strong');strong.textContent=sample.confidence+'%';const label=document.createElement('span');label.textContent='CASE '+sample.id;el.append(strong,label);return [sample.id,el];}));
-function drawEvidence(){const threshold=Number($('threshold').value),result=evaluateThreshold(threshold);$('threshold-value').textContent=threshold+'%';$('threshold').setAttribute('aria-valuetext',threshold+' percent');for(const [lane,list] of [['passed',result.passed],['held',result.held]]){for(const sample of list){const el=sampleNodes.get(sample.id);el.classList.toggle('incorrect',revealed&&!sample.correct);el.lastChild.textContent='CASE '+sample.id+(revealed?(sample.correct?' / ✓ RIGHT':' / × WRONG'):'');$(lane).append(el);}}
-  $('evidence-result').textContent=revealed?`${result.passed.length} of 8 pass. ${result.errors} ${result.errors===1?'is':'are'} wrong. Confidence is a signal; checking the answer is a separate step.`:`${result.passed.length} of 8 pass. Are they right? Reveal the answers to find out.`;
-  $('reveal').textContent=revealed?'Hide the answers ↙':'Reveal the answers ↗';$('reveal').setAttribute('aria-pressed',String(revealed));repaint();
+const sampleNodes=new Map(samples.map(sample=>{
+  const el=document.createElement('div');el.className='sample';
+  const question=document.createElement('p');question.className='sample-question';question.textContent=sample.question+' =';
+  const answer=document.createElement('strong');answer.textContent=sample.answer;
+  const score=document.createElement('span');score.className='sample-score';score.textContent=sample.confidence+'% sure';
+  const verdict=document.createElement('span');verdict.className='sample-verdict';verdict.textContent='Not checked yet';
+  el.append(question,answer,score,verdict);return [sample.id,el];
+}));
+function drawEvidence(){
+  const threshold=Number($('threshold').value),result=evaluateThreshold(threshold);
+  $('threshold-value').textContent=threshold+'%';$('threshold').setAttribute('aria-valuetext',threshold+' percent');
+  for(const [lane,list] of [['passed',result.passed],['held',result.held]])for(const sample of list){
+    const el=sampleNodes.get(sample.id);el.classList.toggle('incorrect',revealed&&!sample.correct);
+    el.lastChild.textContent=revealed?(sample.correct?'✓ Correct':'× Should be '+sample.expected):'Not checked yet';$(lane).append(el);
+  }
+  $('evidence-result').textContent=revealed?(result.passed.length?`${result.passed.length} accepted. ${result.errors} ${result.errors===1?'is':'are'} wrong. A high score did not guarantee a correct answer.`:'No answers accepted. Lower the minimum score to compare confidence with correctness.'):`${result.passed.length} of 8 answers accepted. The percentages are invented confidence scores. Check the answers to see which are actually right.`;
+  $('reveal').textContent=revealed?'Hide the checks ↙':'Check the answers ↗';$('reveal').setAttribute('aria-pressed',String(revealed));repaint();
 }
 $('threshold').addEventListener('input',drawEvidence);$('reveal').addEventListener('click',()=>{revealed=!revealed;drawEvidence();});
 // Creative: original approved character asset; arbitrary text is written as text.
-$('poster-text').addEventListener('input',()=>{const value=$('poster-text').value.trim();$('poster-word').textContent=value||'MAKE IT MOVE.';repaint();});
+$('poster-text').addEventListener('input',()=>{const value=$('poster-text').value.trim();$('poster-word').textContent=value||'HELLO, CURIOUS.';$('poster-result').textContent=value?'That’s your headline. Now try a different background or character size.':'A blank headline restores the starting poster. Try typing your name.';repaint();});
 $('poster-scale').addEventListener('input',()=>{const value=Number($('poster-scale').value);$('poster-scale-value').textContent=value+'%';$('poster-scale').setAttribute('aria-valuetext',value+' percent');$('poster-art').style.setProperty('--mascot-scale',value/100);repaint();});
-$('poster-colour').addEventListener('click',()=>{const white=$('poster-art').classList.toggle('white');$('poster-colour').textContent=white?'Cobalt backdrop ↗':'White backdrop ↗';repaint();});
+$('poster-colour').addEventListener('click',()=>{const white=$('poster-art').classList.toggle('white');$('poster-colour').textContent=white?'Try a blue background ↗':'Try a white background ↗';repaint();});
 // Robotics: planar forward kinematics, dimensions in illustrative model units.
-function drawArm(){const a=Number($('shoulder').value),b=Number($('elbow').value),pose=armPose(a,b);const x1=290+pose.joint.x,y1=330-pose.joint.y,x2=290+pose.tip.x,y2=330-pose.tip.y;$('arm-links').setAttribute('d',`M290 330L${x1} ${y1}L${x2} ${y2}`);$('arm-joint').setAttribute('cx',x1);$('arm-joint').setAttribute('cy',y1);$('arm-tip').setAttribute('cx',x2);$('arm-tip').setAttribute('cy',y2);$('shoulder-value').textContent=a+'°';$('elbow-value').textContent=b+'°';$('shoulder').setAttribute('aria-valuetext',a+' degrees');$('elbow').setAttribute('aria-valuetext',b+' degrees');$('arm-position').textContent=`X ${Math.round(pose.tip.x)} / Y ${Math.round(pose.tip.y)}`;$('arm-desc').textContent=`Shoulder ${a} degrees, elbow ${b} degrees. Endpoint X ${Math.round(pose.tip.x)}, Y ${Math.round(pose.tip.y)} model units.`;repaint();}
+let targetIndex=0;
+function drawArm(){
+  const a=Number($('shoulder').value),b=Number($('elbow').value),pose=armPose(a,b),target=armPose(armTargets[targetIndex].shoulder,armTargets[targetIndex].elbow);
+  const x1=290+pose.joint.x,y1=330-pose.joint.y,x2=290+pose.tip.x,y2=330-pose.tip.y;
+  $('arm-links').setAttribute('d',`M290 330L${x1} ${y1}L${x2} ${y2}`);$('arm-joint').setAttribute('cx',x1);$('arm-joint').setAttribute('cy',y1);$('arm-tip').setAttribute('cx',x2);$('arm-tip').setAttribute('cy',y2);
+  const tx=290+target.tip.x,ty=330-target.tip.y,success=reachesTarget(pose,target);
+  $('arm-target').setAttribute('cx',tx);$('arm-target').setAttribute('cy',ty);$('arm-target-label').setAttribute('x',tx);$('arm-target-label').setAttribute('y',Math.max(23,ty-38));$('robotics').classList.toggle('target-reached',success);
+  $('shoulder-value').textContent=a+'°';$('elbow-value').textContent=b+'°';$('shoulder').setAttribute('aria-valuetext',a+' degrees');$('elbow').setAttribute('aria-valuetext',b+' degrees');
+  $('arm-position').textContent=success?'You reached it!':'Reach the orange ring';$('arm-feedback').textContent=success?'TRY A NEW TARGET WHEN YOU’RE READY':'MOVE THE TIP WITH THE TWO SLIDERS';
+  $('arm-target-label').textContent=success?'REACHED ✓':'REACH HERE';
+  $('arm-desc').textContent=`Base ${a} degrees, elbow ${b} degrees. ${success?'Target reached.':'Target not reached yet.'}`;
+  $('arm-result').textContent=success?'You reached it. Try a new target, or reset the arm and find another path.':'Move the two sliders until the tip touches the orange ring. Each joint changes the path. This is a simulation.';
+  repaint();
+}
 for(const id of ['shoulder','elbow'])$(id).addEventListener('input',drawArm);
 $('arm-reset').addEventListener('click',()=>{$('shoulder').value=60;$('elbow').value=-60;drawArm();});
+$('arm-new-target').addEventListener('click',()=>{targetIndex=(targetIndex+1)%armTargets.length;drawArm();});
 // Spatial overview. Selection buttons always provide a keyboard alternative to drag.
 let zoom=1,panX=0,panY=0,drag=null;
 const viewport=$('map-viewport');
@@ -94,8 +130,9 @@ viewport.addEventListener('pointermove',event=>{if(!drag||drag.id!==event.pointe
 function endDrag(){drag=null;viewport.classList.remove('dragging');}
 viewport.addEventListener('pointerup',endDrag);viewport.addEventListener('pointercancel',endDrag);viewport.addEventListener('lostpointercapture',endDrag);
 nav.forEach(button=>button.addEventListener('click',()=>select(button.dataset.scene,true,true)));
+$('choose-experiment').addEventListener('click',()=>{$('experiments').scrollIntoView({behavior:motionOn?'smooth':'instant',block:'center'});document.querySelector('.chapter-nav button').focus({preventScroll:true});});
 $('overview').addEventListener('click',()=>{select('all',true,true);fitMap();});
-$('next').addEventListener('click',()=>select(mapping?'software':ids[(ids.indexOf(current)+1)%ids.length],true,true));
+$('next').addEventListener('click',()=>select(mapping?'creative':ids[(ids.indexOf(current)+1)%ids.length],true,true));
 $('motion').addEventListener('click',()=>setMotion(!motionOn));reduce.addEventListener('change',event=>setMotion(!event.matches));
 document.addEventListener('keydown',event=>{body.classList.add('keyboard-input');if(event.key==='Escape'&&!['INPUT','TEXTAREA'].includes(event.target.tagName)){select('all');$('overview').focus();}});
 document.addEventListener('pointerdown',()=>body.classList.remove('keyboard-input'),{passive:true});
@@ -103,5 +140,5 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden)setWave(fal
 addEventListener('hashchange',fromHash);addEventListener('resize',updateMap);
 addEventListener('beforeprint',()=>{renderer?.restore();renderer=null;rooms.forEach(room=>room.inert=false);});
 addEventListener('afterprint',()=>select(mapping?'all':current,false));
-body.classList.add('enhanced');$('assembly-art').setAttribute('role','button');$('assembly-art').setAttribute('tabindex','0');$('assembly-art').setAttribute('aria-label','Scatter or assemble the blocks');assemble(0);drawWave();drawEvidence();drawArm();setMotion(motionOn);fromHash();
+body.classList.add('enhanced');$('assembly-art').setAttribute('role','button');$('assembly-art').setAttribute('tabindex','0');$('assembly-art').setAttribute('aria-label','Scatter or assemble the blocks');assemble(60);drawWave();drawEvidence();drawArm();setMotion(motionOn);fromHash();
 document.fonts.ready.then(repaint);document.querySelectorAll('.room img').forEach(img=>img.addEventListener('load',repaint));
