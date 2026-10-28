@@ -1,3 +1,4 @@
+import {downloadPoster} from './poster-export.mjs';
 import {clamp, samples, evaluateThreshold, armPose, wavePath, blockPosition, armTargets, reachesTarget} from './expo-model.mjs';
 import {mountCanvas} from './expo-renderer.mjs';
 const $=id=>document.getElementById(id);
@@ -119,38 +120,11 @@ $('poster-reset').addEventListener('click',()=>{
   $('poster-art').style.setProperty('--mascot-scale',1);$('poster-art').classList.add('white');$('poster-colour').textContent='Try a blue background ↗';
   fitPoster();$('poster-result').textContent='Poster reset. Your starting words, colour and character size are restored.';repaint();
 });
-function posterLines(ctx,text,width){
-  const lines=[];
-  for(const paragraph of text.split('\n')){
-    let line='';
-    for(const word of paragraph.split(' ')){
-      const candidate=line?line+' '+word:word;
-      if(ctx.measureText(candidate).width<=width){line=candidate;continue;}
-      if(line){lines.push(line);line='';}
-      for(const char of word){if(line&&ctx.measureText(line+char).width>width){lines.push(line);line='';}line+=char;}
-    }
-    lines.push(line);
-  }
-  return lines;
-}
 $('poster-download').addEventListener('click',async()=>{
   const button=$('poster-download');button.disabled=true;button.textContent='Preparing image…';
   try{
     await document.fonts.ready;fitPoster();
-    const art=$('poster-art'),rect=art.getBoundingClientRect(),canvas=document.createElement('canvas'),scale=2;
-    canvas.width=Math.round(rect.width*scale);canvas.height=Math.round(rect.height*scale);
-    const ctx=canvas.getContext('2d');if(!ctx)throw Error('Canvas unavailable');
-    ctx.scale(scale,scale);ctx.fillStyle=getComputedStyle(art).backgroundColor;ctx.fillRect(0,0,rect.width,rect.height);ctx.textBaseline='top';
-    for(const el of [art.querySelector('.poster-top'),$('poster-word'),art.querySelector('.poster-bottom')]){
-      const style=getComputedStyle(el),box=el.getBoundingClientRect();ctx.fillStyle=style.color;ctx.font=style.fontWeight+' '+style.fontSize+' '+style.fontFamily;if('letterSpacing' in ctx)ctx.letterSpacing=style.letterSpacing;
-      const lines=posterLines(ctx,el.textContent,box.width),lineHeight=parseFloat(style.lineHeight)||parseFloat(style.fontSize)*1.2;
-      lines.forEach((line,i)=>ctx.fillText(line,box.left-rect.left,box.top-rect.top+i*lineHeight));
-    }
-    const img=art.querySelector('img');if(!img.complete||!img.naturalWidth)throw Error('Character image unavailable');
-    const box=img.getBoundingClientRect(),ratio=Math.min(box.width/img.naturalWidth,box.height/img.naturalHeight),w=img.naturalWidth*ratio,h=img.naturalHeight*ratio;
-    ctx.drawImage(img,box.left-rect.left+(box.width-w)/2,box.top-rect.top+(box.height-h)/2,w,h);
-    const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/png'));if(!blob)throw Error('Image unavailable');
-    const url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download='pryntor-your-poster.png';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);
+    const art=$('poster-art');await downloadPoster(art,[art.querySelector('.poster-top'),$('poster-word'),art.querySelector('.poster-bottom')]);
     $('poster-result').textContent='Your PNG is ready. Check your browser’s downloads to keep or share it.';
   }catch{
     $('poster-result').textContent='The image could not be prepared. Your poster is still here. Try downloading again.';

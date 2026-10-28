@@ -96,3 +96,14 @@ test('fictional answers include checkable questions and accurate correction text
   assert.equal(samples.find(s=>s.id==='D').expected,5);
   for(const sample of samples){assert.ok(sample.question.length>0);assert.equal(sample.correct,sample.answer===sample.expected);}
 });
+
+// Export must preserve accepted long input and explicit line breaks.
+test('poster export wraps wide unbroken text without losing characters',async()=>{
+  const {posterLines}=await import('../assets/js/poster-export.mjs');
+  const ctx={measureText:text=>({width:[...text].length*10})};
+  const input='W'.repeat(24),lines=posterLines(ctx,input,80);
+  assert.deepEqual(lines,['WWWWWWWW','WWWWWWWW','WWWWWWWW']);
+  assert.equal(lines.join(''),input);
+  assert.deepEqual(posterLines(ctx,'HELLO,\nCURIOUS.',100),['HELLO,','CURIOUS.']);
+  assert.equal(posterLines(ctx,'🌊'.repeat(9),40).join(''),'🌊'.repeat(9));
+});

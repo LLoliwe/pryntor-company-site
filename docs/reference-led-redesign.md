@@ -1,4 +1,6 @@
-# Pryntor reference-led redesign · 28 October 2026
+# Pryntor reference-led redesign · 28 October 2026 (R4, historical)
+
+The founder rejected this execution. See [Editorial R5](editorial-r5.md) for the subsequent homepage replacement and current verification.
 
 ## Scope and provenance
 Canonical repository: LLoliwe/pryntor-company-site. Production branch: release/pryntor-co-za-20261026.
