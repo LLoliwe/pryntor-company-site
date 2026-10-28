@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <meta name="theme-color" content="#0A0C12">
+  <title>Pryntor Expo | A space for what comes next</title>
+  <meta name="description" content="Explore five areas of original Pryntor work in an interactive exhibition. Software, learning, AI evaluation, creative technology and robotics simulation.">
+  <link rel="canonical" href="https://pryntor.co.za/expo.html">
+  <meta property="og:title" content="Pryntor Expo | A space for what comes next">
+  <meta property="og:description" content="An interactive exhibition of original work taking shape in Durban.">
+  <meta property="og:url" content="https://pryntor.co.za/expo.html">
+  <meta property="og:type" content="website">
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/expo.css">
+  <link rel="preload" href="assets/fonts/InterDisplay-Bold.woff2" as="font" type="font/woff2" crossorigin>
+  <script src="assets/js/expo.js" type="module"></script>
+</head>
+<body>
+  <a class="skip" href="#exhibits">Skip to the exhibition</a>
+  <header class="expo-header">
+    <a href="index.html" aria-label="Pryntor home"><img src="assets/img/pryntor-wordmark-white-264.webp" width="132" height="30" alt="PRYNTOR"></a>
+    <span class="edition">EXPO / 01</span>
+    <a class="exit" href="index.html#work">Back to website <span aria-hidden="true">↗</span></a>
+  </header>
+  <main>
+    <section class="intro" aria-labelledby="expo-title">
+      <div><p class="eyebrow"><span class="signal-dot"></span> FROM DURBAN. IN DEVELOPMENT.</p>
+        <h1 id="expo-title">A space for<br>what comes <span>next.</span></h1>
+      </div>
+      <p class="intro-copy">Five areas of work. <br>One restless curiosity.<br><span>Choose an exhibit. Get closer to the idea.</span></p>
+    </section>
+    <div class="exhibition" id="exhibits">
+      <nav class="exhibit-nav" aria-label="Exhibits">
+        <button type="button" data-view="all" aria-pressed="true">All exhibits <span>↗</span></button>
+        <button type="button" data-view="software" aria-pressed="false"><span>01</span> Software</button>
+        <button type="button" data-view="learning" aria-pressed="false"><span>02</span> Learning</button>
+        <button type="button" data-view="evaluation" aria-pressed="false"><span>03</span> AI evaluation</button>
+        <button type="button" data-view="creative" aria-pressed="false"><span>04</span> Creative</button>
+        <button type="button" data-view="robotics" aria-pressed="false"><span>05</span> Simulation</button>
+      </nav>
+      <div class="world" id="world" aria-label="Interactive exhibition">
+        <div class="world-coordinates" aria-hidden="true">PRYNTOR / FIELD NOTES<br>29.86° S &nbsp; 31.02° E</div>
+        <div class="plane" id="plane">
+          <a class="tile tile-software" id="software" href="index.html#work" data-x="30" data-y="80">
+            <span class="tile-meta">01 / PROTOTYPE <span>↗</span></span>
+            <h2>Ideas you<br>can use.</h2>
+            <div class="software-art" aria-hidden="true"><i></i><i></i><i></i><b>↗</b></div>
+            <p>Software &amp; web experiences</p>
+          </a>
+          <a class="tile tile-learning" id="learning" href="index.html#ventures" data-x="510" data-y="20">
+            <span class="tile-meta">02 / PROTOTYPE <span>↗</span></span>
+            <h2>Learn by<br>doing.</h2>
+            <div class="learning-art" aria-hidden="true"><i></i><i></i><i></i></div>
+            <p>Interactive learning tools</p>
+          </a>
+          <a class="tile tile-evaluation" id="evaluation" href="index.html#ventures" data-x="990" data-y="100">
+            <span class="tile-meta">03 / RESEARCH <span>↗</span></span>
+            <h2>Ask better<br>questions.</h2>
+            <div class="evaluation-art" aria-hidden="true"><i></i><i></i><i></i><b>?</b></div>
+            <p>AI reasoning &amp; evaluation</p>
+          </a>
+          <a class="tile tile-creative" id="creative" href="index.html#ventures" data-x="275" data-y="490">
+            <span class="tile-meta">04 / RESEARCH <span>↗</span></span>
+            <h2>Make<br>it move.</h2>
+            <img class="mascot" src="assets/img/pryntor-mascot-480.webp" width="480" height="480" alt="The original orange Pryntor character carrying a cobalt block">
+            <p>Original stories &amp; visual worlds</p>
+          </a>
+          <a class="tile tile-robotics" id="robotics" href="index.html#ventures" data-x="755" data-y="510">
+            <span class="tile-meta">05 / SIMULATION ONLY <span>↗</span></span>
+            <h2>Movement.<br>Under study.</h2>
+            <div class="robotics-art" aria-hidden="true"><i></i><i></i><i></i><b>+</b></div>
+            <p>Robotics &amp; control experiments</p>
+          </a>
+        </div>
+        <p class="world-caption" aria-hidden="true">SELECT AN EXHIBIT TO EXPLORE</p>
+      </div>
+    </div>
+    <section class="detail" aria-labelledby="detail-title" aria-live="polite" aria-atomic="true">
+      <div class="detail-index" id="detail-index">00 / THE EXHIBITION</div>
+      <div><h2 id="detail-title">Useful ideas. Taking shape.</h2><p id="detail-copy">Our work spans prototypes, research and simulation. These are areas we are exploring, not products available to buy.</p></div>
+      <a id="detail-link" href="method.html">Discover our method <span aria-hidden="true">↗</span></a>
+    </section>
+    <div class="expo-tools" hidden>
+      <div class="view-tools" role="group" aria-label="Exhibition view">
+        <button type="button" id="previous" aria-label="Previous exhibit">←</button>
+        <span id="position" aria-live="polite">Overview</span>
+        <button type="button" id="next" aria-label="Next exhibit">→</button>
+        <button type="button" id="reset">Overview</button>
+        <button type="button" id="motion" aria-pressed="true">Motion on</button>
+      </div>
+      <details class="renderer-info"><summary>About this view</summary><p id="renderer-status">Standard HTML view.</p><p>Expo uses HTML-in-Canvas when your browser supports it. Otherwise the same exhibition is rendered with HTML and CSS. All links and controls remain available.</p></details>
+    </div>
+    <noscript><p class="no-script">Choose any exhibit to read about the work on the main website. The spatial controls need JavaScript.</p></noscript>
+  </main>
+  <footer><span>ORIGINAL WORK. MADE IN DURBAN.</span><a href="mailto:hello@pryntor.co.za">Start a conversation ↗</a><a href="privacy.html">Privacy</a></footer>
+</body>
+</html>
