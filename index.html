@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="dark">
 <title>Pryntor</title>
-<meta name="description" content="Pryntor is a private group building across intelligence, infrastructure and industrial software.">
+<meta name="description" content="Pryntor is a private group building across immersive entertainment, 3D asset pipelines, applied reasoning and zero-trust security.">
 <meta property="og:title" content="Pryntor">
-<meta property="og:description" content="A private group building across intelligence, infrastructure and industrial software.">
+<meta property="og:description" content="A private group building across immersive entertainment, 3D asset pipelines, applied reasoning and zero-trust security.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#0d0c0a">
 <style>
@@ -42,7 +42,7 @@ header.scrolled{background:rgba(13,12,10,.72);backdrop-filter:blur(16px);border-
 .kicker{font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--mute)}
 .hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(56px,9.4vw,152px);line-height:.94;letter-spacing:-.025em;margin:28px 0 40px;max-width:1100px}
 .hero h1 em{font-style:italic;color:var(--ember)}
-.hero .sub{max-width:460px;color:var(--mute);font-size:17px}
+.hero .sub{max-width:520px;color:var(--mute);font-size:17px}
 .rule{height:1px;background:linear-gradient(90deg,var(--ember),transparent 70%);margin-top:70px;transform-origin:left;animation:draw 1.6s var(--ease) both}
 @keyframes draw{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 .reveal{opacity:0;transform:translateY(24px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
@@ -52,16 +52,19 @@ section{position:relative;z-index:2;padding:150px 0}
 h2{font-family:var(--serif);font-weight:400;font-size:clamp(40px,5.4vw,80px);line-height:1.02;letter-spacing:-.02em;margin:22px 0 0;max-width:900px}
 h2 em{font-style:italic;color:var(--ember)}
 .pillars{margin-top:90px;display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line)}
-.pillar{position:relative;background:var(--ink-2);padding:54px 48px 50px;min-height:360px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;isolation:isolate;transition:background .6s var(--ease)}
+.pillar{position:relative;background:var(--ink-2);padding:54px 48px 46px;min-height:400px;display:flex;flex-direction:column;justify-content:space-between;gap:36px;overflow:hidden;isolation:isolate;transition:background .6s var(--ease)}
 .pillar::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(600px circle at var(--mx,50%) var(--my,50%),rgba(208,138,78,.14),transparent 45%);opacity:0;transition:opacity .6s var(--ease)}
 .pillar:hover::before{opacity:1}
 .pillar:hover{background:var(--ink-3)}
 .idx{font-family:var(--serif);font-style:italic;color:var(--dim);font-size:15px}
 .pillar h3{font-family:var(--serif);font-weight:400;font-size:clamp(34px,3.4vw,50px);letter-spacing:-.02em;margin:0 0 16px;line-height:1.05}
 .pillar .domain{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ochre);margin-bottom:18px}
-.pillar p{color:var(--mute);font-size:15px;max-width:420px}
+.pillar p{color:var(--mute);font-size:15px;max-width:440px}
+.pillar .for{margin-top:18px;font-size:12px;letter-spacing:.06em;color:var(--dim)}
 .pillar .arrow{position:absolute;right:44px;top:50px;color:var(--dim);transition:transform .6s var(--ease),color .6s}
 .pillar:hover .arrow{transform:translate(4px,-4px);color:var(--ember)}
+.enquire{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;padding:12px 18px;border:1px solid var(--line);border-radius:40px;text-decoration:none;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--bone);transition:border-color .4s,color .4s,background .4s var(--ease)}
+.enquire:hover,.enquire:focus-visible{border-color:var(--ember);color:var(--ember)}
 .stance{background:var(--bone);color:var(--ink);}
 .stance .label{color:var(--clay)}
 .stance h2{max-width:1000px}
@@ -69,22 +72,31 @@ h2 em{font-style:italic;color:var(--ember)}
 .stance-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;margin-top:80px}
 .stance-grid p{font-size:19px;line-height:1.55;color:#3d3a33}
 .stance-grid p+p{margin-top:24px}
-.tenets{list-style:none;margin:0;padding:0;counter-reset:t}
+.tenets{list-style:none;margin:0;padding:0}
 .tenets li{border-top:1px solid #cfc7b8;padding:22px 0;display:grid;grid-template-columns:52px 1fr;font-family:var(--serif);font-size:24px;letter-spacing:-.01em}
 .tenets li:last-child{border-bottom:1px solid #cfc7b8}
 .tenets li b{font-family:var(--sans);font-size:11px;letter-spacing:.2em;color:var(--clay);padding-top:8px;font-weight:600}
 .swahili{display:inline-block;margin-top:40px;font-family:var(--serif);font-style:italic;color:var(--clay);font-size:17px}
-.contact{padding:170px 0 120px;text-align:left}
-.contact h2{font-size:clamp(52px,8vw,130px);letter-spacing:-.03em;line-height:.98}
-.mails{margin-top:70px;display:grid;grid-template-columns:1fr 1fr;gap:40px;border-top:1px solid var(--line);padding-top:40px}
-.mails a{display:block;font-size:clamp(20px,2.4vw,32px);letter-spacing:-.02em;text-decoration:none;transition:color .4s,transform .6s var(--ease);width:max-content}
+.intake{padding:150px 0 120px;border-top:1px solid var(--line)}
+.intake-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;margin-top:70px;align-items:start}
+.intake-grid>div>p{color:var(--mute);font-size:17px;max-width:500px}
+.streams{display:grid;gap:0;border-top:1px solid var(--line)}
+.stream{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:24px 0;border-bottom:1px solid var(--line);text-decoration:none;transition:padding .6s var(--ease),color .4s}
+.stream span:first-child{font-family:var(--serif);font-size:clamp(22px,2.2vw,30px);letter-spacing:-.01em}
+.stream small{display:block;font-family:var(--sans);font-size:12px;color:var(--dim);letter-spacing:.04em;margin-top:6px}
+.stream em{font-style:normal;color:var(--dim);font-size:18px;transition:transform .6s var(--ease),color .4s}
+.stream:hover,.stream:focus-visible{padding-left:14px;color:var(--ember)}
+.stream:hover em,.stream:focus-visible em{transform:translateX(6px);color:var(--ember)}
+.mails{margin-top:50px;display:grid;grid-template-columns:1fr 1fr;gap:40px}
+.mails a{display:block;font-size:clamp(18px,1.9vw,26px);letter-spacing:-.02em;text-decoration:none;transition:color .4s,transform .6s var(--ease);width:max-content}
 .mails a:hover,.mails a:focus-visible{color:var(--ember);transform:translateX(6px)}
 .mails small{display:block;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);margin-bottom:12px}
+.btn{display:inline-flex;align-items:center;gap:10px;margin-top:50px;padding:17px 28px;border:1px solid var(--bone);border-radius:40px;text-decoration:none;font-size:12px;letter-spacing:.12em;text-transform:uppercase;transition:background .4s var(--ease),color .4s var(--ease)}
+.btn:hover,.btn:focus-visible{background:var(--bone);color:var(--ink)}
+.contact-note{margin-top:30px;font-size:12px;color:var(--dim);max-width:520px;line-height:1.6}
 footer{position:relative;z-index:2;border-top:1px solid var(--line);padding:34px 0;color:var(--dim);font-size:12px}
 footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
-.btn{display:inline-flex;align-items:center;gap:10px;padding:15px 24px;border:1px solid var(--bone);border-radius:40px;text-decoration:none;font-size:12px;letter-spacing:.12em;text-transform:uppercase;transition:background .4s var(--ease),color .4s var(--ease)}
-.btn:hover{background:var(--bone);color:var(--ink)}
-@media(max-width:860px){.links{display:none}.pillars,.stance-grid,.mails{grid-template-columns:1fr}.pillar{padding:40px 30px;min-height:300px}.pillar .arrow{right:30px;top:40px}section{padding:110px 0}.wrap{width:calc(100% - 40px)}}
+@media(max-width:860px){.links{display:none}.pillars,.stance-grid,.mails,.intake-grid{grid-template-columns:1fr}.pillar{padding:40px 30px;min-height:330px}.pillar .arrow{right:30px;top:40px}section{padding:110px 0}.intake{padding:110px 0 90px}.intake-grid{gap:50px}.wrap{width:calc(100% - 40px)}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
 </style>
 </head>
@@ -98,6 +110,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
     <nav class="links" aria-label="Primary">
       <a href="#pillars">Pillars</a>
       <a href="#stance">Stance</a>
+      <a href="#intake">Briefings</a>
       <a href="#contact">Contact</a>
     </nav>
   </div>
@@ -107,7 +120,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
   <div class="wrap">
     <div class="kicker">A private group &middot; South Africa</div>
     <h1 id="hero-title">Quiet systems.<br><em>Serious</em> consequences.</h1>
-    <p class="sub">Pryntor is a private technology group building in intelligence, infrastructure and industrial software. We operate with discretion until the work speaks for itself.</p>
+    <p class="sub">Pryntor is a private technology group building immersive entertainment, 3D asset pipelines, applied reasoning and zero-trust security for enterprise, broadcast and institutional clients.</p>
     <div class="rule" aria-hidden="true"></div>
   </div>
 </section>
@@ -123,37 +136,43 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
         <span class="idx">I</span>
         <span class="arrow" aria-hidden="true">&#8599;</span>
         <div>
-          <div class="domain">ZOWIBO</div>
+          <div class="domain">Immersive entertainment</div>
           <h3>ZOWIBO</h3>
-          <p>Part of the Pryntor group portfolio. Details available to partners on request.</p>
+          <p>Immersive next-generation 3D interactive entertainment and cultural worlds engineered for global audiences on web and mobile.</p>
+          <p class="for">For broadcast, distribution, and educational partnership inquiries.</p>
         </div>
+        <a class="enquire" href="mailto:partnerships@pryntor.co.za?subject=%5BPartnership%20Inquiry%3A%20ZOWIBO%5D">Enquire about ZOWIBO &#8599;</a>
       </article>
       <article class="pillar reveal">
         <span class="idx">II</span>
         <span class="arrow" aria-hidden="true">&#8599;</span>
         <div>
-          <div class="domain">ASSETFURNACE</div>
+          <div class="domain">3D pipelines &amp; real-time</div>
           <h3>ASSETFURNACE</h3>
-          <p>Part of the Pryntor group portfolio. Details available to partners on request.</p>
+          <p>High-throughput 3D asset, procedural environment, and shader pipelines bridging physical artistry and real-time WebGL and engine execution.</p>
+          <p class="for">Enterprise licensing &amp; pipeline integration.</p>
         </div>
+        <a class="enquire" href="mailto:partnerships@pryntor.co.za?subject=%5BEnterprise%3A%20ASSETFURNACE%5D">Enquire about ASSETFURNACE &#8599;</a>
       </article>
       <article class="pillar reveal">
         <span class="idx">III</span>
         <span class="arrow" aria-hidden="true">&#8599;</span>
         <div>
-          <div class="domain">Automated Reasoning SA</div>
+          <div class="domain">Applied reasoning</div>
           <h3>Automated Reasoning SA</h3>
-          <p>Part of the Pryntor group portfolio. Details available to partners on request.</p>
+          <p>Applied formal verification, autonomous agent harness systems, and deterministic AI infrastructure for high-consequence enterprise environments.</p>
         </div>
+        <a class="enquire" href="mailto:lebo@pryntor.co.za?subject=%5BEnterprise%3A%20Automated%20Reasoning%5D">Enquire about Automated Reasoning &#8599;</a>
       </article>
       <article class="pillar reveal">
         <span class="idx">IV</span>
         <span class="arrow" aria-hidden="true">&#8599;</span>
         <div>
-          <div class="domain">Access Fabric</div>
+          <div class="domain">Zero-trust security</div>
           <h3>Access Fabric</h3>
-          <p>Part of the Pryntor group portfolio. Details available to partners on request.</p>
+          <p>Zero-trust architecture, identity verification, and boundary security protocols built for mission-critical distributed systems.</p>
         </div>
+        <a class="enquire" href="mailto:lebo@pryntor.co.za?subject=%5BEnterprise%3A%20Access%20Fabric%5D">Enquire about Access Fabric &#8599;</a>
       </article>
     </div>
   </div>
@@ -181,41 +200,56 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
   </div>
 </section>
 
-<section class="contact" id="contact" aria-labelledby="contact-title">
+<section class="intake" id="intake" aria-labelledby="intake-title">
   <div class="wrap">
     <div class="reveal">
-      <span class="label">Enquiries</span>
-      <h2 id="contact-title">Karibu. <em>Let&rsquo;s talk.</em></h2>
+      <span class="label">Partner &amp; lead intake</span>
+      <h2 id="intake-title">Private briefings &amp; <em>enterprise partnerships.</em></h2>
     </div>
-    <div class="mails reveal">
-      <div>
-        <small>Executive</small>
-        <a href="mailto:lebo@pryntor.co.za?subject=Pryntor%20enquiry">lebo@pryntor.co.za</a>
+    <div class="intake-grid">
+      <div class="reveal">
+        <p>For institutional partners, education networks, telcos, broadcasters and enterprise clients. Tell us the problem and the environment it runs in. We reply to qualified briefings directly, under mutual discretion.</p>
+        <a class="btn" href="mailto:partnerships@pryntor.co.za?subject=%5BPrivate%20Briefing%20Request%5D">Request a private briefing &#8599;</a>
+        <p class="contact-note">Pick a work stream to pre-fill your subject line, or write to us directly.</p>
       </div>
-      <div>
-        <small>Partnerships</small>
-        <a href="mailto:partnerships@pryntor.co.za?subject=Partnership%20enquiry">partnerships@pryntor.co.za</a>
+      <div class="reveal">
+        <div class="streams">
+          <a class="stream" href="mailto:partnerships@pryntor.co.za?subject=%5BPartnership%20Inquiry%3A%20ZOWIBO%5D"><span>ZOWIBO<small>Broadcast, distribution, education</small></span><em>&#8594;</em></a>
+          <a class="stream" href="mailto:partnerships@pryntor.co.za?subject=%5BEnterprise%3A%20ASSETFURNACE%5D"><span>ASSETFURNACE<small>Licensing &amp; pipeline integration</small></span><em>&#8594;</em></a>
+          <a class="stream" href="mailto:lebo@pryntor.co.za?subject=%5BEnterprise%3A%20Automated%20Reasoning%5D"><span>Automated Reasoning SA<small>High-consequence enterprise systems</small></span><em>&#8594;</em></a>
+          <a class="stream" href="mailto:lebo@pryntor.co.za?subject=%5BEnterprise%3A%20Access%20Fabric%5D"><span>Access Fabric<small>Mission-critical zero-trust</small></span><em>&#8594;</em></a>
+        </div>
+        <div class="mails">
+          <div>
+            <small>Executive</small>
+            <a href="mailto:lebo@pryntor.co.za?subject=Pryntor%20enquiry">lebo@pryntor.co.za</a>
+          </div>
+          <div>
+            <small>Partnerships</small>
+            <a href="mailto:partnerships@pryntor.co.za?subject=Partnership%20enquiry">partnerships@pryntor.co.za</a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
+
+<section class="contact" id="contact" aria-labelledby="contact-title" hidden></section>
 </main>
 <footer>
   <div class="wrap">
     <span>&copy; 2026 Pryntor (Pty) Ltd. All rights reserved.</span>
-    <span>Pryntor&#174; is a registered trade name of Pryntor (Pty) Ltd.</span>
+    <span>Johannesburg &middot; Durban &middot; South Africa</span>
   </div>
 </footer>
 <script>
 (function(){
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Header state on scroll
   var bar = document.getElementById('top-bar');
   function onScroll(){ bar.classList.toggle('scrolled', window.scrollY > 40); }
   window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
 
-  // Reveal on view
   var items = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window && !reduce) {
     var io = new IntersectionObserver(function(entries){
@@ -224,7 +258,6 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
     items.forEach(function(el){ io.observe(el); });
   } else { items.forEach(function(el){ el.classList.add('in'); }); }
 
-  // Pointer-tracked glow on pillar cards
   document.querySelectorAll('.pillar').forEach(function(card){
     card.addEventListener('pointermove', function(e){
       var r = card.getBoundingClientRect();
@@ -233,7 +266,6 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
     });
   });
 
-  // Ambient warm light field
   var canvas = document.getElementById('ambient');
   var ctx = canvas.getContext('2d');
   var w, h, dpr, t = 0, raf;
@@ -261,11 +293,11 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
       ctx.fillStyle = g;
       ctx.fillRect(0,0,w,h);
     });
-    raf = requestAnimationFrame(draw);
+    if (!reduce) { raf = requestAnimationFrame(draw); }
   }
   resize();
-  window.addEventListener('resize', resize);
-  if (reduce) { draw(); cancelAnimationFrame(raf); } else { draw(); }
+  window.addEventListener('resize', function(){ resize(); if (reduce) draw(); });
+  draw();
 })();
 </script>
 </body>
