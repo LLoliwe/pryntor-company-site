@@ -1,21 +1,21 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-ZA">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="dark">
-<title>Pryntor</title>
-<meta name="description" content="Pryntor builds software, autonomous reasoning systems, high-throughput sensory computing and interactive worlds.">
-<meta property="og:title" content="Pryntor">
-<meta property="og:description" content="Software, autonomous reasoning systems, high-throughput sensory computing and interactive worlds.">
+<title>Pryntor | Make the complex useful</title>
+<meta name="description" content="Pryntor is an independent South African product studio working across software, engineering and original creative work. We explore difficult questions through carefully scoped experiments and explain what the evidence supports.">
+<meta property="og:title" content="Pryntor | Make the complex useful">
+<meta property="og:description" content="An independent South African product studio. Carefully scoped experiments, with the evidence in view.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#07090d">
 <style>
 :root{
-  --void:#07090d;--night:#0c1119;--panel:#10161f;--panel-2:#152030;
+  --void:#07090d;--night:#0c1119;
   --line:#1f2a38;--line-2:#2a3a4d;
-  --paper:#efe9dc;--mute:#8d96a3;--dim:#5b6573;
-  --lamp:#ffb366;--lamp-2:#e8914a;--cyan:#6fd3e3;--navy:#0f2540;
+  --paper:#efe9dc;--mute:#a0a6ae;--dim:#74808e;
+  --lamp:#ffb366;--cyan:#6fd3e3;--navy:#0f2540;
   --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
   --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
@@ -28,82 +28,96 @@ a{color:inherit}
 p{margin:0}
 h1,h2,h3{margin:0;font-weight:400}
 #field{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
-.grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.06;mix-blend-mode:overlay;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+.grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.055;mix-blend-mode:overlay;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
 .wrap{position:relative;z-index:2;width:min(1200px,calc(100% - 64px));margin:0 auto}
 .skip{position:absolute;top:-100px;left:12px;background:var(--paper);color:var(--void);padding:12px 16px;z-index:60}
 .skip:focus{top:12px}
 :focus-visible{outline:2px solid var(--lamp);outline-offset:4px}
 header{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .5s var(--ease),border-color .5s;border-bottom:1px solid transparent}
-header.scrolled{background:rgba(7,9,13,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:var(--line)}
+header.scrolled{background:rgba(7,9,13,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:var(--line)}
 .bar{height:72px;display:flex;align-items:center;justify-content:space-between;gap:24px}
-.mark{font-family:var(--serif);font-size:21px;letter-spacing:.01em;text-decoration:none;display:inline-flex;align-items:center;gap:10px}
-.mark i{width:8px;height:8px;border-radius:50%;background:var(--lamp);box-shadow:0 0 16px rgba(255,179,102,.8);display:inline-block}
+.mark{font-family:var(--serif);font-size:22px;letter-spacing:.01em;text-decoration:none}
 .links{display:flex;gap:28px}
-.links a{font-size:11px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;color:var(--mute);transition:color .3s}
+.links a{font-size:11px;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;color:var(--mute);transition:color .3s}
 .links a:hover,.links a:focus-visible{color:var(--paper)}
-.hero{position:relative;z-index:2;min-height:100svh;display:flex;align-items:flex-end;padding:150px 0 96px}
-.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--mute)}
-.hero h1{font-family:var(--serif);font-size:clamp(50px,8.6vw,136px);line-height:.96;letter-spacing:-.02em;margin:26px 0 36px;max-width:1080px}
+.hero{position:relative;z-index:2;min-height:min(900px,100svh);display:flex;align-items:center;padding:150px 0 100px}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(250px,.8fr);gap:clamp(40px,8vw,120px);align-items:end}
+.kicker,.label,.stage-label{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase}
+.kicker{color:var(--mute)}
+.hero h1{font-family:var(--serif);font-size:clamp(58px,9vw,132px);line-height:.91;letter-spacing:-.045em;margin:28px 0 34px;max-width:860px}
 .hero h1 em{font-style:italic;color:var(--lamp)}
-.hero .sub{max-width:540px;color:var(--mute);font-size:17px}
-.hero-actions{margin-top:44px;display:flex;gap:14px;flex-wrap:wrap}
-.rule{height:1px;margin-top:72px;background:linear-gradient(90deg,var(--lamp),transparent 70%);transform-origin:left;animation:draw 1.4s var(--ease) both}
-@keyframes draw{from{transform:scaleX(0)}to{transform:scaleX(1)}}
-.btn{display:inline-flex;align-items:center;gap:10px;padding:15px 24px;border-radius:999px;text-decoration:none;font-size:12px;letter-spacing:.12em;text-transform:uppercase;border:1px solid var(--line-2);transition:background .4s var(--ease),color .4s var(--ease),border-color .4s}
+.hero .sub{max-width:620px;color:var(--mute);font-size:clamp(16px,1.5vw,19px);line-height:1.7}
+.hero-actions{margin-top:38px;display:flex;gap:14px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:15px 22px;border-radius:999px;text-decoration:none;font-size:11px;letter-spacing:.12em;text-transform:uppercase;border:1px solid var(--line-2);transition:background .4s var(--ease),color .4s var(--ease),border-color .4s}
 .btn.primary{background:var(--lamp);border-color:var(--lamp);color:var(--void)}
 .btn.primary:hover,.btn.primary:focus-visible{background:var(--paper);border-color:var(--paper)}
 .btn:not(.primary):hover,.btn:not(.primary):focus-visible{border-color:var(--lamp);color:var(--lamp)}
-section{position:relative;z-index:2;padding:140px 0}
-.label{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--lamp)}
-h2{font-family:var(--serif);font-size:clamp(38px,5vw,74px);line-height:1.03;letter-spacing:-.015em;margin-top:22px;max-width:900px}
+.process-note{border-top:1px solid var(--line-2);padding-top:18px;margin-bottom:4px}
+.process-note .stage-label{color:var(--lamp)}
+.process-list{list-style:none;margin:18px 0 0;padding:0}
+.process-list li{display:grid;grid-template-columns:30px 1fr;gap:12px;align-items:center;padding:12px 0;border-top:1px solid rgba(42,58,77,.72);font-family:var(--serif);font-size:20px}
+.process-list b{font-family:var(--mono);font-size:10px;font-weight:400;color:var(--dim);letter-spacing:.12em}
+.rule{height:1px;margin-top:64px;background:linear-gradient(90deg,var(--lamp),transparent 72%);transform-origin:left;animation:draw 1.4s var(--ease) both}
+@keyframes draw{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+section{position:relative;z-index:2;padding:130px 0}
+.label{color:var(--lamp)}
+h2{font-family:var(--serif);font-size:clamp(38px,5.4vw,76px);line-height:1.02;letter-spacing:-.025em;margin-top:20px;max-width:900px}
 h2 em{font-style:italic;color:var(--lamp)}
-.reveal{opacity:0;transform:translateY(22px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
-.reveal.in{opacity:1;transform:none}
-.domains{margin-top:80px;display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
-.domain{position:relative;background:var(--panel);padding:48px 44px 42px;min-height:340px;display:flex;flex-direction:column;justify-content:space-between;gap:30px;overflow:hidden;isolation:isolate;transition:background .6s var(--ease)}
-.domain::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(520px circle at var(--mx,50%) var(--my,50%),rgba(255,179,102,.13),transparent 60%);opacity:0;transition:opacity .6s var(--ease)}
-.domain:hover::before{opacity:1}
-.domain:hover{background:var(--panel-2)}
-.domain .idx{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--dim)}
-.domain h3{font-family:var(--serif);font-size:clamp(30px,3vw,44px);line-height:1.06;letter-spacing:-.015em;margin-top:18px}
-.domain p{color:var(--mute);font-size:15px;max-width:460px;margin-top:16px}
-.domain ul{list-style:none;margin:22px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
-.domain li{font-size:12px;color:var(--mute);border:1px solid var(--line-2);border-radius:999px;padding:6px 12px}
-.domain .ask{align-self:flex-start;font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--paper);text-decoration:none;border-bottom:1px solid var(--line-2);padding-bottom:4px;transition:color .4s,border-color .4s}
-.domain .ask:hover,.domain .ask:focus-visible{color:var(--lamp);border-color:var(--lamp)}
-.posture{background:var(--night);border-top:1px solid var(--line)}
-.posture-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;margin-top:80px}
-.posture-grid p{font-size:19px;line-height:1.6;color:var(--mute)}
-.posture-grid p+p{margin-top:22px}
+.intro-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(38px,8vw,120px);margin-top:58px;align-items:start}
+.intro-grid .lead{font-family:var(--serif);font-size:clamp(24px,3vw,38px);line-height:1.2;letter-spacing:-.02em;color:var(--paper);max-width:500px}
+.intro-grid .body-copy{color:var(--mute);font-size:17px;line-height:1.8;max-width:580px}
+.sequence{margin-top:72px;display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line-2);border-bottom:1px solid var(--line-2)}
+.step{padding:26px 20px 30px 0;min-height:180px}
+.step+.step{border-left:1px solid var(--line);padding-left:22px}
+.step .number{font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:.16em}
+.step h3{font-family:var(--serif);font-size:27px;margin-top:22px;line-height:1.1}
+.step p{color:var(--mute);font-size:14px;margin-top:12px;max-width:230px;line-height:1.65}
+.approach{background:var(--night);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.approach-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(40px,8vw,120px);margin-top:62px;align-items:start}
+.approach-copy{font-size:18px;line-height:1.8;color:var(--mute);max-width:500px}
+.approach-copy p+p{margin-top:22px}
 .tenets{list-style:none;margin:0;padding:0}
-.tenets li{border-top:1px solid var(--line-2);padding:24px 0;display:grid;grid-template-columns:56px 1fr;font-family:var(--serif);font-size:24px;letter-spacing:-.01em}
+.tenets li{border-top:1px solid var(--line-2);padding:20px 0;display:grid;grid-template-columns:54px 1fr;gap:12px;align-items:start;font-family:var(--serif);font-size:23px;letter-spacing:-.01em}
 .tenets li:last-child{border-bottom:1px solid var(--line-2)}
-.tenets b{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--dim);padding-top:8px;font-weight:400}
-.swahili{display:inline-block;margin-top:40px;font-family:var(--serif);font-style:italic;color:var(--lamp);font-size:18px}
-.intake{border-top:1px solid var(--line);background:linear-gradient(180deg,var(--void),var(--navy) 260%)}
-.intake-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;margin-top:72px;align-items:start}
-.intake-grid>div>p{color:var(--mute);font-size:17px;max-width:520px}
-.streams{border-top:1px solid var(--line-2)}
-.stream{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:26px 0;border-bottom:1px solid var(--line-2);text-decoration:none;transition:padding .6s var(--ease),color .4s}
-.stream span{font-family:var(--serif);font-size:clamp(22px,2.2vw,30px);letter-spacing:-.01em}
-.stream small{display:block;font-family:var(--sans);font-size:12px;color:var(--dim);letter-spacing:.03em;margin-top:6px}
-.stream em{font-style:normal;color:var(--dim);font-size:18px;transition:transform .6s var(--ease),color .4s}
-.stream:hover,.stream:focus-visible{padding-left:14px;color:var(--lamp)}
-.stream:hover em,.stream:focus-visible em{transform:translateX(6px);color:var(--lamp)}
-.form-note{margin-top:28px;font-size:12px;color:var(--dim);max-width:520px}
-.mails{margin-top:56px;display:grid;grid-template-columns:1fr 1fr;gap:36px}
-.mails small{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin-bottom:10px}
-.mails a{font-size:clamp(18px,1.8vw,24px);letter-spacing:-.01em;text-decoration:none;transition:color .4s,transform .6s var(--ease);display:inline-block}
-.mails a:hover,.mails a:focus-visible{color:var(--lamp);transform:translateX(5px)}
-footer{position:relative;z-index:2;border-top:1px solid var(--line);padding:34px 0;color:var(--dim);font-size:12px}
+.tenets b{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--dim);padding-top:8px;font-weight:400}
+.about-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(40px,8vw,120px);margin-top:55px}
+.about-grid h3{font-family:var(--serif);font-size:clamp(28px,3vw,42px);line-height:1.12}
+.about-grid p{font-size:17px;line-height:1.8;color:var(--mute);max-width:670px}
+.contact{border-top:1px solid var(--line);background:linear-gradient(180deg,var(--void),var(--navy) 260%)}
+.contact-grid{display:grid;grid-template-columns:1fr .8fr;gap:clamp(40px,8vw,120px);margin-top:52px;align-items:end}
+.contact-grid p{color:var(--mute);font-size:17px;line-height:1.8;max-width:620px}
+.contact-link{display:inline-flex;margin-top:26px;color:var(--paper);text-decoration:none;border-bottom:1px solid var(--line-2);padding-bottom:6px;font-family:var(--mono);font-size:13px;transition:color .3s,border-color .3s}
+.contact-link:hover,.contact-link:focus-visible{color:var(--lamp);border-color:var(--lamp)}
+.contact-mark{font-family:var(--serif);font-size:clamp(32px,5vw,64px);line-height:1.04;color:rgba(239,233,220,.78);max-width:380px;justify-self:end}
+.contact-mark em{color:var(--lamp);font-style:italic}
+footer{position:relative;z-index:2;border-top:1px solid var(--line);padding:30px 0;color:var(--dim);font-size:12px}
 footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
-@media(max-width:860px){
-  .links{display:none}
-  .domains,.posture-grid,.intake-grid,.mails{grid-template-columns:1fr}
-  .domain{padding:36px 28px;min-height:300px}
-  section{padding:110px 0}
-  .intake-grid{gap:50px}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+@media(max-width:900px){
+  .hero-grid,.intro-grid,.approach-grid,.about-grid,.contact-grid{grid-template-columns:1fr;gap:38px}
+  .hero{min-height:unset;padding:160px 0 90px}
+  .hero-grid{align-items:start}
+  .process-note{max-width:500px}
+  .sequence{grid-template-columns:repeat(2,1fr)}
+  .step:nth-child(3){border-left:0;padding-left:0;border-top:1px solid var(--line)}
+  .step:nth-child(4){border-top:1px solid var(--line)}
+  .step:nth-child(2){border-left:1px solid var(--line)}
+  .contact-mark{justify-self:start}
+}
+@media(max-width:600px){
+  .links{gap:14px}
+  .links a{font-size:9px;letter-spacing:.08em}
+  .bar{height:64px}
+  .mark{font-size:20px}
   .wrap{width:calc(100% - 40px)}
+  .hero h1{font-size:clamp(54px,15vw,86px)}
+  section{padding:92px 0}
+  .sequence{grid-template-columns:1fr}
+  .step,.step+.step,.step:nth-child(2),.step:nth-child(3),.step:nth-child(4){min-height:unset;border-left:0;border-top:1px solid var(--line);padding:22px 0}
+  .step:first-child{border-top:0}
+  .step h3{margin-top:14px}
+  .rule{margin-top:48px}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
 </style>
@@ -114,140 +128,136 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
 <a class="skip" href="#main">Skip to content</a>
 <header id="top-bar">
   <div class="wrap bar">
-    <a class="mark" href="#top" aria-label="Pryntor home"><i aria-hidden="true"></i>Pryntor</a>
+    <a class="mark" href="#top">Pryntor</a>
     <nav class="links" aria-label="Primary">
-      <a href="#domains">Capabilities</a>
-      <a href="#posture">Approach</a>
-      <a href="#intake">Briefings</a>
+      <a href="#work">What we do</a>
+      <a href="#approach">How we work</a>
+      <a href="#about">About</a>
     </nav>
   </div>
 </header>
 <main id="main">
 <section class="hero" id="top" aria-labelledby="hero-title">
   <div class="wrap">
-    <div class="kicker">A private technology group &middot; South Africa</div>
-    <h1 id="hero-title">Quiet systems.<br><em>Serious</em> consequences.</h1>
-    <p class="sub">Pryntor builds software, autonomous reasoning systems, high-throughput sensory computing and world-class interactive worlds.</p>
-    <div class="hero-actions">
-      <a class="btn primary" href="#intake">Request a private briefing</a>
-      <a class="btn" href="#domains">Capabilities</a>
+    <div class="hero-grid">
+      <div>
+        <div class="kicker">Independent South African product studio</div>
+        <h1 id="hero-title">Make the<br><em>complex useful.</em></h1>
+        <p class="sub">We work across software, engineering and original creative work. We turn difficult questions into carefully scoped experiments, then show what the evidence supports.</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#contact">Discuss a problem <span aria-hidden="true">↗</span></a>
+          <a class="btn" href="#approach">How we work</a>
+        </div>
+      </div>
+      <aside class="process-note" aria-label="The work moves through four stages">
+        <span class="stage-label">The work, in four moves</span>
+        <ol class="process-list">
+          <li><b>01</b><span>The question</span></li>
+          <li><b>02</b><span>The experiment</span></li>
+          <li><b>03</b><span>What was tested</span></li>
+          <li><b>04</b><span>What the evidence says</span></li>
+        </ol>
+      </aside>
     </div>
     <div class="rule" aria-hidden="true"></div>
   </div>
 </section>
 
-<section id="domains" aria-labelledby="domains-title">
+<section id="work" aria-labelledby="work-title">
   <div class="wrap">
     <div class="reveal">
-      <span class="label">Capabilities</span>
-      <h2 id="domains-title">Four disciplines. <em>One standard.</em></h2>
+      <span class="label">What we do</span>
+      <h2 id="work-title">More than a <em>polished demo.</em></h2>
     </div>
-    <div class="domains">
-      <article class="domain reveal">
-        <div>
-          <span class="idx">01</span>
-          <h3>Real-Time Interactive Worlds &amp; Sensory Graphics</h3>
-          <p>Immersive, real-time environments engineered for global audiences on web and mobile, with procedural worlds and sensory physics tuned for scale.</p>
-          <ul><li>Procedural environments</li><li>Sensory physics</li><li>Web &amp; mobile delivery</li></ul>
-        </div>
-        <a class="ask" href="mailto:partnerships@pryntor.co.za?subject=%5BEnterprise%20Inquiry%3A%20Interactive%20Systems%5D">Enquire about interactive systems &#8599;</a>
+    <div class="intro-grid reveal">
+      <p class="lead">We explore problems that need more than a quick answer.</p>
+      <p class="body-copy">Our work moves from a clear question to a working experiment, through focused testing, and onward only when the evidence justifies it. The point is not to make every experiment look finished. It is to make the result, its limits and the next useful decision clear.</p>
+    </div>
+    <div class="sequence" aria-label="How an idea becomes useful work">
+      <article class="step reveal">
+        <span class="number">01 / FRAME</span>
+        <h3>Start with the question</h3>
+        <p>Define the problem, context and constraints before choosing a solution.</p>
       </article>
-      <article class="domain reveal">
-        <div>
-          <span class="idx">02</span>
-          <h3>Autonomous Reasoning &amp; Deterministic Agent Systems</h3>
-          <p>Mathematical reasoning kernels and agent-harness infrastructure for environments where every decision must be explainable and repeatable.</p>
-          <ul><li>Reasoning kernels</li><li>Agent harnesses</li><li>Deterministic AI infrastructure</li></ul>
-        </div>
-        <a class="ask" href="mailto:lebo@pryntor.co.za?subject=%5BEnterprise%20Inquiry%3A%20Autonomous%20Systems%5D">Enquire about autonomous systems &#8599;</a>
+      <article class="step reveal">
+        <span class="number">02 / MAKE</span>
+        <h3>Build a bounded proof</h3>
+        <p>Make a focused experiment that can test an important assumption.</p>
       </article>
-      <article class="domain reveal">
-        <div>
-          <span class="idx">03</span>
-          <h3>Procedural Asset Synthesis &amp; Runtime Delivery</h3>
-          <p>High-throughput pipelines that turn procedural rules and physically based materials into assets that run efficiently in the browser and in engines.</p>
-          <ul><li>Procedural synthesis</li><li>Physically based materials</li><li>Edge WebGL runtime</li></ul>
-        </div>
-        <a class="ask" href="mailto:partnerships@pryntor.co.za?subject=%5BEnterprise%20Inquiry%3A%20Interactive%20Systems%5D">Enquire about asset pipelines &#8599;</a>
+      <article class="step reveal">
+        <span class="number">03 / TEST</span>
+        <h3>Look for failure</h3>
+        <p>Test the parts most likely to break, not only the parts that already work.</p>
       </article>
-      <article class="domain reveal">
-        <div>
-          <span class="idx">04</span>
-          <h3>Mission-Critical Distributed Architecture</h3>
-          <p>Zero-trust distributed infrastructure with strict boundary isolation, identity verification and verifiable access for high-consequence systems.</p>
-          <ul><li>Zero-trust design</li><li>Identity verification</li><li>Boundary isolation</li></ul>
-        </div>
-        <a class="ask" href="mailto:lebo@pryntor.co.za?subject=%5BEnterprise%20Inquiry%3A%20Autonomous%20Systems%5D">Enquire about distributed architecture &#8599;</a>
+      <article class="step reveal">
+        <span class="number">04 / LEARN</span>
+        <h3>Show the evidence</h3>
+        <p>Explain what the result supports, what remains open and what could happen next.</p>
       </article>
     </div>
   </div>
 </section>
 
-<section class="posture" id="posture" aria-labelledby="posture-title">
+<section class="approach" id="approach" aria-labelledby="approach-title">
   <div class="wrap">
     <div class="reveal">
-      <span class="label">Approach</span>
-      <h2 id="posture-title">Built slowly, <em>held firmly.</em></h2>
+      <span class="label">How we work</span>
+      <h2 id="approach-title">Ambition matters.<br><em>Evidence earns trust.</em></h2>
     </div>
-    <div class="posture-grid">
-      <div class="reveal">
-        <p>We keep our roadmap, internals and experiments private. What leaves the group has been tested, owned and built to last.</p>
-        <p>Systems should be explainable, dependable and worth the trust placed in them.</p>
-        <span class="swahili">Subira ni ufunguo.</span>
+    <div class="approach-grid">
+      <div class="approach-copy reveal">
+        <p>Start with the real question. Build a bounded proof. Test the parts most likely to fail. Keep the result, its limits and the next decision clear.</p>
+        <p>A prototype is not a product launch. A passing test suite is not customer acceptance. We keep the evidence close to the claim.</p>
       </div>
       <ol class="tenets reveal">
-        <li><b>01</b><span>Precision over noise.</span></li>
-        <li><b>02</b><span>Discretion as a craft.</span></li>
-        <li><b>03</b><span>Evidence before announcement.</span></li>
-        <li><b>04</b><span>Long horizons, short feedback loops.</span></li>
+        <li><b>01</b><span>Say what was built, and where.</span></li>
+        <li><b>02</b><span>Describe the test, not an imagined outcome.</span></li>
+        <li><b>03</b><span>Keep uncertainty and limitations visible.</span></li>
+        <li><b>04</b><span>Choose the next step the evidence can justify.</span></li>
       </ol>
     </div>
   </div>
 </section>
 
-<section class="intake" id="intake" aria-labelledby="intake-title">
+<section id="about" aria-labelledby="about-title">
   <div class="wrap">
     <div class="reveal">
-      <span class="label">Private briefings</span>
-      <h2 id="intake-title">Private briefings &amp; <em>enterprise inquiries.</em></h2>
+      <span class="label">About Pryntor</span>
+      <h2 id="about-title">Careful work, <em>made legible.</em></h2>
     </div>
-    <div class="intake-grid">
-      <div class="reveal">
-        <p>For institutional partners, telcos, education networks and enterprise clients. Describe the problem and the environment it runs in. Qualified briefings receive a direct reply, under mutual discretion.</p>
-        <p class="form-note">Choose the discipline that fits your brief to pre-fill the subject line.</p>
+    <div class="about-grid reveal">
+      <h3>Independent by design.<br>Grounded in South Africa.</h3>
+      <p>Pryntor (Pty) Ltd is a South African product studio building across software, engineering and original creative work. We are interested in tools and experiences that become more useful through careful testing, clear responsibility and honest reporting.</p>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact" aria-labelledby="contact-title">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="label">Start a conversation</span>
+      <h2 id="contact-title">Have a problem worth <em>working through?</em></h2>
+    </div>
+    <div class="contact-grid reveal">
+      <div>
+        <p>Bring the context, the constraints and what a useful result would look like. We can start with a focused conversation.</p>
+        <!-- Release gate: confirm the existing draft contact address is approved for public enquiries before merge or publication. -->
+        <a class="contact-link" href="mailto:lebo@pryntor.co.za?subject=Pryntor%20enquiry">Discuss a problem <span aria-hidden="true">↗</span></a>
       </div>
-      <div class="reveal">
-        <div class="streams">
-          <a class="stream" href="mailto:partnerships@pryntor.co.za?subject=%5BInstitutional%20Briefing%5D"><span>Institutional briefing<small>Partners, telcos, education networks</small></span><em>&#8594;</em></a>
-          <a class="stream" href="mailto:partnerships@pryntor.co.za?subject=%5BEnterprise%20Inquiry%3A%20Interactive%20Systems%5D"><span>Interactive systems<small>Real-time worlds, sensory graphics, asset pipelines</small></span><em>&#8594;</em></a>
-          <a class="stream" href="mailto:lebo@pryntor.co.za?subject=%5BEnterprise%20Inquiry%3A%20Autonomous%20Systems%5D"><span>Autonomous systems<small>Reasoning kernels, agent harnesses, deterministic AI</small></span><em>&#8594;</em></a>
-          <a class="stream" href="mailto:lebo@pryntor.co.za?subject=%5BEnterprise%20Inquiry%3A%20Mission-Critical%20Architecture%5D"><span>Mission-critical architecture<small>Zero-trust, distributed, high-consequence</small></span><em>&#8594;</em></a>
-        </div>
-        <div class="mails">
-          <div>
-            <small>Executive</small>
-            <a href="mailto:lebo@pryntor.co.za?subject=Pryntor%20enquiry">lebo@pryntor.co.za</a>
-          </div>
-          <div>
-            <small>Partnerships</small>
-            <a href="mailto:partnerships@pryntor.co.za?subject=Partnership%20enquiry">partnerships@pryntor.co.za</a>
-          </div>
-        </div>
-      </div>
+      <p class="contact-mark">Make the complex<br><em>useful.</em></p>
     </div>
   </div>
 </section>
 </main>
 <footer>
   <div class="wrap">
-    <span>&copy; 2026 Pryntor (Pty) Ltd. All rights reserved.</span>
-    <span>Johannesburg &middot; Durban &middot; South Africa</span>
+    <span>Pryntor (Pty) Ltd</span>
+    <span>South Africa</span>
   </div>
 </footer>
 <script>
 (function(){
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
   var bar = document.getElementById('top-bar');
   function onScroll(){ bar.classList.toggle('scrolled', window.scrollY > 40); }
   window.addEventListener('scroll', onScroll, {passive:true});
@@ -257,23 +267,15 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
   if ('IntersectionObserver' in window && !reduce) {
     var io = new IntersectionObserver(function(entries){
       entries.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-    }, {threshold:.15});
+    }, {threshold:.12});
     items.forEach(function(el){ io.observe(el); });
   } else {
     items.forEach(function(el){ el.classList.add('in'); });
   }
 
-  document.querySelectorAll('.domain').forEach(function(card){
-    card.addEventListener('pointermove', function(e){
-      var r = card.getBoundingClientRect();
-      card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
-      card.style.setProperty('--my', (e.clientY - r.top) + 'px');
-    });
-  });
-
   var canvas = document.getElementById('field');
   var ctx = canvas.getContext('2d');
-  var w = 0, h = 0, dpr = 1, t = 0, raf = 0;
+  var w = 0, h = 0, dpr = 1, t = 0;
   var lamps = [
     {x:.18, y:.22, r:.42, c:[255,179,102], a:.13, f:.00011, p:0},
     {x:.84, y:.56, r:.36, c:[111,211,227], a:.06, f:.00008, p:2.1},
@@ -286,6 +288,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
     paint();
   }
   function paint(){
+    if (!ctx) return;
     ctx.fillStyle = '#07090d';
     ctx.fillRect(0, 0, w, h);
     for (var i = 0; i < lamps.length; i++) {
@@ -303,11 +306,11 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
   function frame(){
     t += 16;
     paint();
-    raf = requestAnimationFrame(frame);
+    window.requestAnimationFrame(frame);
   }
   resize();
   window.addEventListener('resize', resize);
-  if (!reduce) { raf = requestAnimationFrame(frame); }
+  if (!reduce && ctx) window.requestAnimationFrame(frame);
 })();
 </script>
 </body>
