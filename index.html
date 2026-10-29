@@ -5,189 +5,194 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="dark">
 <title>Pryntor</title>
-<meta name="description" content="Pryntor is a private group building across immersive entertainment, 3D asset pipelines, applied reasoning and zero-trust security.">
+<meta name="description" content="Pryntor builds software, autonomous reasoning systems, high-throughput sensory computing and interactive worlds.">
 <meta property="og:title" content="Pryntor">
-<meta property="og:description" content="A private group building across immersive entertainment, 3D asset pipelines, applied reasoning and zero-trust security.">
+<meta property="og:description" content="Software, autonomous reasoning systems, high-throughput sensory computing and interactive worlds.">
 <meta property="og:type" content="website">
-<meta name="theme-color" content="#0d0c0a">
+<meta name="theme-color" content="#07090d">
 <style>
 :root{
-  --ink:#0d0c0a;--ink-2:#151411;--ink-3:#1e1d19;--line:#2b2a24;
-  --bone:#f2ede3;--mute:#9a958a;--dim:#6b675e;
-  --ember:#d08a4e;--ochre:#b9833f;--clay:#8e5a36;
-  --sans:"Inter",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --void:#07090d;--night:#0c1119;--panel:#10161f;--panel-2:#152030;
+  --line:#1f2a38;--line-2:#2a3a4d;
+  --paper:#efe9dc;--mute:#8d96a3;--dim:#5b6573;
+  --lamp:#ffb366;--lamp-2:#e8914a;--cyan:#6fd3e3;--navy:#0f2540;
+  --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
   --ease:cubic-bezier(.2,.7,.1,1);
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;background:var(--ink)}
-body{margin:0;background:var(--ink);color:var(--bone);font-family:var(--sans);font-optical-sizing:auto;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+html{scroll-behavior:smooth;background:var(--void);scroll-padding-top:84px}
+body{margin:0;background:var(--void);color:var(--paper);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden;line-height:1.6}
 a{color:inherit}
-p{line-height:1.6;margin:0}
-#ambient{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.9}
-.grain{position:fixed;inset:-50%;z-index:1;pointer-events:none;opacity:.05;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
-.wrap{position:relative;z-index:2;width:min(1240px,calc(100% - 64px));margin:0 auto}
-.skip{position:absolute;top:-100px;left:12px;background:var(--bone);color:var(--ink);padding:12px 16px;z-index:50}
+p{margin:0}
+h1,h2,h3{margin:0;font-weight:400}
+#field{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.06;mix-blend-mode:overlay;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+.wrap{position:relative;z-index:2;width:min(1200px,calc(100% - 64px));margin:0 auto}
+.skip{position:absolute;top:-100px;left:12px;background:var(--paper);color:var(--void);padding:12px 16px;z-index:60}
 .skip:focus{top:12px}
-header{position:fixed;top:0;left:0;right:0;z-index:40;transition:background .4s var(--ease),border-color .4s;border-bottom:1px solid transparent}
-header.scrolled{background:rgba(13,12,10,.72);backdrop-filter:blur(16px);border-color:var(--line)}
-.bar{height:72px;display:flex;align-items:center;justify-content:space-between}
-.mark{font-family:var(--serif);font-size:22px;letter-spacing:.02em;text-decoration:none;display:inline-flex;align-items:center;gap:10px}
-.mark i{width:9px;height:9px;border-radius:50%;background:var(--ember);box-shadow:0 0 18px var(--ember);display:inline-block}
-.links{display:flex;gap:30px}
-.links a{font-size:12px;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--mute);transition:color .3s}
-.links a:hover,.links a:focus-visible{color:var(--bone)}
-:focus-visible{outline:2px solid var(--ember);outline-offset:4px}
-.hero{position:relative;z-index:2;min-height:100svh;display:flex;align-items:flex-end;padding:140px 0 90px}
-.kicker{font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--mute)}
-.hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(56px,9.4vw,152px);line-height:.94;letter-spacing:-.025em;margin:28px 0 40px;max-width:1100px}
-.hero h1 em{font-style:italic;color:var(--ember)}
-.hero .sub{max-width:520px;color:var(--mute);font-size:17px}
-.rule{height:1px;background:linear-gradient(90deg,var(--ember),transparent 70%);margin-top:70px;transform-origin:left;animation:draw 1.6s var(--ease) both}
+:focus-visible{outline:2px solid var(--lamp);outline-offset:4px}
+header{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .5s var(--ease),border-color .5s;border-bottom:1px solid transparent}
+header.scrolled{background:rgba(7,9,13,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:var(--line)}
+.bar{height:72px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.mark{font-family:var(--serif);font-size:21px;letter-spacing:.01em;text-decoration:none;display:inline-flex;align-items:center;gap:10px}
+.mark i{width:8px;height:8px;border-radius:50%;background:var(--lamp);box-shadow:0 0 16px rgba(255,179,102,.8);display:inline-block}
+.links{display:flex;gap:28px}
+.links a{font-size:11px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;color:var(--mute);transition:color .3s}
+.links a:hover,.links a:focus-visible{color:var(--paper)}
+.hero{position:relative;z-index:2;min-height:100svh;display:flex;align-items:flex-end;padding:150px 0 96px}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--mute)}
+.hero h1{font-family:var(--serif);font-size:clamp(50px,8.6vw,136px);line-height:.96;letter-spacing:-.02em;margin:26px 0 36px;max-width:1080px}
+.hero h1 em{font-style:italic;color:var(--lamp)}
+.hero .sub{max-width:540px;color:var(--mute);font-size:17px}
+.hero-actions{margin-top:44px;display:flex;gap:14px;flex-wrap:wrap}
+.rule{height:1px;margin-top:72px;background:linear-gradient(90deg,var(--lamp),transparent 70%);transform-origin:left;animation:draw 1.4s var(--ease) both}
 @keyframes draw{from{transform:scaleX(0)}to{transform:scaleX(1)}}
-.reveal{opacity:0;transform:translateY(24px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:15px 24px;border-radius:999px;text-decoration:none;font-size:12px;letter-spacing:.12em;text-transform:uppercase;border:1px solid var(--line-2);transition:background .4s var(--ease),color .4s var(--ease),border-color .4s}
+.btn.primary{background:var(--lamp);border-color:var(--lamp);color:var(--void)}
+.btn.primary:hover,.btn.primary:focus-visible{background:var(--paper);border-color:var(--paper)}
+.btn:not(.primary):hover,.btn:not(.primary):focus-visible{border-color:var(--lamp);color:var(--lamp)}
+section{position:relative;z-index:2;padding:140px 0}
+.label{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--lamp)}
+h2{font-family:var(--serif);font-size:clamp(38px,5vw,74px);line-height:1.03;letter-spacing:-.015em;margin-top:22px;max-width:900px}
+h2 em{font-style:italic;color:var(--lamp)}
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
 .reveal.in{opacity:1;transform:none}
-section{position:relative;z-index:2;padding:150px 0}
-.label{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--ochre)}
-h2{font-family:var(--serif);font-weight:400;font-size:clamp(40px,5.4vw,80px);line-height:1.02;letter-spacing:-.02em;margin:22px 0 0;max-width:900px}
-h2 em{font-style:italic;color:var(--ember)}
-.pillars{margin-top:90px;display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line)}
-.pillar{position:relative;background:var(--ink-2);padding:54px 48px 46px;min-height:400px;display:flex;flex-direction:column;justify-content:space-between;gap:36px;overflow:hidden;isolation:isolate;transition:background .6s var(--ease)}
-.pillar::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(600px circle at var(--mx,50%) var(--my,50%),rgba(208,138,78,.14),transparent 45%);opacity:0;transition:opacity .6s var(--ease)}
-.pillar:hover::before{opacity:1}
-.pillar:hover{background:var(--ink-3)}
-.idx{font-family:var(--serif);font-style:italic;color:var(--dim);font-size:15px}
-.pillar h3{font-family:var(--serif);font-weight:400;font-size:clamp(34px,3.4vw,50px);letter-spacing:-.02em;margin:0 0 16px;line-height:1.05}
-.pillar .domain{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ochre);margin-bottom:18px}
-.pillar p{color:var(--mute);font-size:15px;max-width:440px}
-.pillar .for{margin-top:18px;font-size:12px;letter-spacing:.06em;color:var(--dim)}
-.pillar .arrow{position:absolute;right:44px;top:50px;color:var(--dim);transition:transform .6s var(--ease),color .6s}
-.pillar:hover .arrow{transform:translate(4px,-4px);color:var(--ember)}
-.enquire{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;padding:12px 18px;border:1px solid var(--line);border-radius:40px;text-decoration:none;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--bone);transition:border-color .4s,color .4s,background .4s var(--ease)}
-.enquire:hover,.enquire:focus-visible{border-color:var(--ember);color:var(--ember)}
-.stance{background:var(--bone);color:var(--ink);}
-.stance .label{color:var(--clay)}
-.stance h2{max-width:1000px}
-.stance h2 em{color:var(--clay)}
-.stance-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;margin-top:80px}
-.stance-grid p{font-size:19px;line-height:1.55;color:#3d3a33}
-.stance-grid p+p{margin-top:24px}
+.domains{margin-top:80px;display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.domain{position:relative;background:var(--panel);padding:48px 44px 42px;min-height:340px;display:flex;flex-direction:column;justify-content:space-between;gap:30px;overflow:hidden;isolation:isolate;transition:background .6s var(--ease)}
+.domain::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(520px circle at var(--mx,50%) var(--my,50%),rgba(255,179,102,.13),transparent 60%);opacity:0;transition:opacity .6s var(--ease)}
+.domain:hover::before{opacity:1}
+.domain:hover{background:var(--panel-2)}
+.domain .idx{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--dim)}
+.domain h3{font-family:var(--serif);font-size:clamp(30px,3vw,44px);line-height:1.06;letter-spacing:-.015em;margin-top:18px}
+.domain p{color:var(--mute);font-size:15px;max-width:460px;margin-top:16px}
+.domain ul{list-style:none;margin:22px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.domain li{font-size:12px;color:var(--mute);border:1px solid var(--line-2);border-radius:999px;padding:6px 12px}
+.domain .ask{align-self:flex-start;font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--paper);text-decoration:none;border-bottom:1px solid var(--line-2);padding-bottom:4px;transition:color .4s,border-color .4s}
+.domain .ask:hover,.domain .ask:focus-visible{color:var(--lamp);border-color:var(--lamp)}
+.posture{background:var(--night);border-top:1px solid var(--line)}
+.posture-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;margin-top:80px}
+.posture-grid p{font-size:19px;line-height:1.6;color:var(--mute)}
+.posture-grid p+p{margin-top:22px}
 .tenets{list-style:none;margin:0;padding:0}
-.tenets li{border-top:1px solid #cfc7b8;padding:22px 0;display:grid;grid-template-columns:52px 1fr;font-family:var(--serif);font-size:24px;letter-spacing:-.01em}
-.tenets li:last-child{border-bottom:1px solid #cfc7b8}
-.tenets li b{font-family:var(--sans);font-size:11px;letter-spacing:.2em;color:var(--clay);padding-top:8px;font-weight:600}
-.swahili{display:inline-block;margin-top:40px;font-family:var(--serif);font-style:italic;color:var(--clay);font-size:17px}
-.intake{padding:150px 0 120px;border-top:1px solid var(--line)}
-.intake-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;margin-top:70px;align-items:start}
-.intake-grid>div>p{color:var(--mute);font-size:17px;max-width:500px}
-.streams{display:grid;gap:0;border-top:1px solid var(--line)}
-.stream{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:24px 0;border-bottom:1px solid var(--line);text-decoration:none;transition:padding .6s var(--ease),color .4s}
-.stream span:first-child{font-family:var(--serif);font-size:clamp(22px,2.2vw,30px);letter-spacing:-.01em}
-.stream small{display:block;font-family:var(--sans);font-size:12px;color:var(--dim);letter-spacing:.04em;margin-top:6px}
+.tenets li{border-top:1px solid var(--line-2);padding:24px 0;display:grid;grid-template-columns:56px 1fr;font-family:var(--serif);font-size:24px;letter-spacing:-.01em}
+.tenets li:last-child{border-bottom:1px solid var(--line-2)}
+.tenets b{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--dim);padding-top:8px;font-weight:400}
+.swahili{display:inline-block;margin-top:40px;font-family:var(--serif);font-style:italic;color:var(--lamp);font-size:18px}
+.intake{border-top:1px solid var(--line);background:linear-gradient(180deg,var(--void),var(--navy) 260%)}
+.intake-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;margin-top:72px;align-items:start}
+.intake-grid>div>p{color:var(--mute);font-size:17px;max-width:520px}
+.streams{border-top:1px solid var(--line-2)}
+.stream{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:26px 0;border-bottom:1px solid var(--line-2);text-decoration:none;transition:padding .6s var(--ease),color .4s}
+.stream span{font-family:var(--serif);font-size:clamp(22px,2.2vw,30px);letter-spacing:-.01em}
+.stream small{display:block;font-family:var(--sans);font-size:12px;color:var(--dim);letter-spacing:.03em;margin-top:6px}
 .stream em{font-style:normal;color:var(--dim);font-size:18px;transition:transform .6s var(--ease),color .4s}
-.stream:hover,.stream:focus-visible{padding-left:14px;color:var(--ember)}
-.stream:hover em,.stream:focus-visible em{transform:translateX(6px);color:var(--ember)}
-.mails{margin-top:50px;display:grid;grid-template-columns:1fr 1fr;gap:40px}
-.mails a{display:block;font-size:clamp(18px,1.9vw,26px);letter-spacing:-.02em;text-decoration:none;transition:color .4s,transform .6s var(--ease);width:max-content}
-.mails a:hover,.mails a:focus-visible{color:var(--ember);transform:translateX(6px)}
-.mails small{display:block;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);margin-bottom:12px}
-.btn{display:inline-flex;align-items:center;gap:10px;margin-top:50px;padding:17px 28px;border:1px solid var(--bone);border-radius:40px;text-decoration:none;font-size:12px;letter-spacing:.12em;text-transform:uppercase;transition:background .4s var(--ease),color .4s var(--ease)}
-.btn:hover,.btn:focus-visible{background:var(--bone);color:var(--ink)}
-.contact-note{margin-top:30px;font-size:12px;color:var(--dim);max-width:520px;line-height:1.6}
+.stream:hover,.stream:focus-visible{padding-left:14px;color:var(--lamp)}
+.stream:hover em,.stream:focus-visible em{transform:translateX(6px);color:var(--lamp)}
+.form-note{margin-top:28px;font-size:12px;color:var(--dim);max-width:520px}
+.mails{margin-top:56px;display:grid;grid-template-columns:1fr 1fr;gap:36px}
+.mails small{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin-bottom:10px}
+.mails a{font-size:clamp(18px,1.8vw,24px);letter-spacing:-.01em;text-decoration:none;transition:color .4s,transform .6s var(--ease);display:inline-block}
+.mails a:hover,.mails a:focus-visible{color:var(--lamp);transform:translateX(5px)}
 footer{position:relative;z-index:2;border-top:1px solid var(--line);padding:34px 0;color:var(--dim);font-size:12px}
 footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
-@media(max-width:860px){.links{display:none}.pillars,.stance-grid,.mails,.intake-grid{grid-template-columns:1fr}.pillar{padding:40px 30px;min-height:330px}.pillar .arrow{right:30px;top:40px}section{padding:110px 0}.intake{padding:110px 0 90px}.intake-grid{gap:50px}.wrap{width:calc(100% - 40px)}}
+@media(max-width:860px){
+  .links{display:none}
+  .domains,.posture-grid,.intake-grid,.mails{grid-template-columns:1fr}
+  .domain{padding:36px 28px;min-height:300px}
+  section{padding:110px 0}
+  .intake-grid{gap:50px}
+  .wrap{width:calc(100% - 40px)}
+}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
 </style>
 </head>
 <body>
-<canvas id="ambient" aria-hidden="true"></canvas>
+<canvas id="field" aria-hidden="true"></canvas>
 <div class="grain" aria-hidden="true"></div>
 <a class="skip" href="#main">Skip to content</a>
 <header id="top-bar">
   <div class="wrap bar">
     <a class="mark" href="#top" aria-label="Pryntor home"><i aria-hidden="true"></i>Pryntor</a>
     <nav class="links" aria-label="Primary">
-      <a href="#pillars">Pillars</a>
-      <a href="#stance">Stance</a>
+      <a href="#domains">Capabilities</a>
+      <a href="#posture">Approach</a>
       <a href="#intake">Briefings</a>
-      <a href="#contact">Contact</a>
     </nav>
   </div>
 </header>
 <main id="main">
 <section class="hero" id="top" aria-labelledby="hero-title">
   <div class="wrap">
-    <div class="kicker">A private group &middot; South Africa</div>
+    <div class="kicker">A private technology group &middot; South Africa</div>
     <h1 id="hero-title">Quiet systems.<br><em>Serious</em> consequences.</h1>
-    <p class="sub">Pryntor is a private technology group building immersive entertainment, 3D asset pipelines, applied reasoning and zero-trust security for enterprise, broadcast and institutional clients.</p>
+    <p class="sub">Pryntor builds software, autonomous reasoning systems, high-throughput sensory computing and world-class interactive worlds.</p>
+    <div class="hero-actions">
+      <a class="btn primary" href="#intake">Request a private briefing</a>
+      <a class="btn" href="#domains">Capabilities</a>
+    </div>
     <div class="rule" aria-hidden="true"></div>
   </div>
 </section>
 
-<section id="pillars" aria-labelledby="pillars-title">
+<section id="domains" aria-labelledby="domains-title">
   <div class="wrap">
     <div class="reveal">
-      <span class="label">The group</span>
-      <h2 id="pillars-title">Four pillars. <em>One discipline.</em></h2>
+      <span class="label">Capabilities</span>
+      <h2 id="domains-title">Four disciplines. <em>One standard.</em></h2>
     </div>
-    <div class="pillars">
-      <article class="pillar reveal">
-        <span class="idx">I</span>
-        <span class="arrow" aria-hidden="true">&#8599;</span>
+    <div class="domains">
+      <article class="domain reveal">
         <div>
-          <div class="domain">Immersive entertainment</div>
-          <h3>ZOWIBO</h3>
-          <p>Immersive next-generation 3D interactive entertainment and cultural worlds engineered for global audiences on web and mobile.</p>
-          <p class="for">For broadcast, distribution, and educational partnership inquiries.</p>
+          <span class="idx">01</span>
+          <h3>Real-Time Interactive Worlds &amp; Sensory Graphics</h3>
+          <p>Immersive, real-time environments engineered for global audiences on web and mobile, with procedural worlds and sensory physics tuned for scale.</p>
+          <ul><li>Procedural environments</li><li>Sensory physics</li><li>Web &amp; mobile delivery</li></ul>
         </div>
-        <a class="enquire" href="mailto:partnerships@pryntor.co.za?subject=%5BPartnership%20Inquiry%3A%20ZOWIBO%5D">Enquire about ZOWIBO &#8599;</a>
+        <a class="ask" href="mailto:partnerships@pryntor.co.za?subject=%5BEnterprise%20Inquiry%3A%20Interactive%20Systems%5D">Enquire about interactive systems &#8599;</a>
       </article>
-      <article class="pillar reveal">
-        <span class="idx">II</span>
-        <span class="arrow" aria-hidden="true">&#8599;</span>
+      <article class="domain reveal">
         <div>
-          <div class="domain">3D pipelines &amp; real-time</div>
-          <h3>ASSETFURNACE</h3>
-          <p>High-throughput 3D asset, procedural environment, and shader pipelines bridging physical artistry and real-time WebGL and engine execution.</p>
-          <p class="for">Enterprise licensing &amp; pipeline integration.</p>
+          <span class="idx">02</span>
+          <h3>Autonomous Reasoning &amp; Deterministic Agent Systems</h3>
+          <p>Mathematical reasoning kernels and agent-harness infrastructure for environments where every decision must be explainable and repeatable.</p>
+          <ul><li>Reasoning kernels</li><li>Agent harnesses</li><li>Deterministic AI infrastructure</li></ul>
         </div>
-        <a class="enquire" href="mailto:partnerships@pryntor.co.za?subject=%5BEnterprise%3A%20ASSETFURNACE%5D">Enquire about ASSETFURNACE &#8599;</a>
+        <a class="ask" href="mailto:lebo@pryntor.co.za?subject=%5BEnterprise%20Inquiry%3A%20Autonomous%20Systems%5D">Enquire about autonomous systems &#8599;</a>
       </article>
-      <article class="pillar reveal">
-        <span class="idx">III</span>
-        <span class="arrow" aria-hidden="true">&#8599;</span>
+      <article class="domain reveal">
         <div>
-          <div class="domain">Applied reasoning</div>
-          <h3>Automated Reasoning SA</h3>
-          <p>Applied formal verification, autonomous agent harness systems, and deterministic AI infrastructure for high-consequence enterprise environments.</p>
+          <span class="idx">03</span>
+          <h3>Procedural Asset Synthesis &amp; Runtime Delivery</h3>
+          <p>High-throughput pipelines that turn procedural rules and physically based materials into assets that run efficiently in the browser and in engines.</p>
+          <ul><li>Procedural synthesis</li><li>Physically based materials</li><li>Edge WebGL runtime</li></ul>
         </div>
-        <a class="enquire" href="mailto:lebo@pryntor.co.za?subject=%5BEnterprise%3A%20Automated%20Reasoning%5D">Enquire about Automated Reasoning &#8599;</a>
+        <a class="ask" href="mailto:partnerships@pryntor.co.za?subject=%5BEnterprise%20Inquiry%3A%20Interactive%20Systems%5D">Enquire about asset pipelines &#8599;</a>
       </article>
-      <article class="pillar reveal">
-        <span class="idx">IV</span>
-        <span class="arrow" aria-hidden="true">&#8599;</span>
+      <article class="domain reveal">
         <div>
-          <div class="domain">Zero-trust security</div>
-          <h3>Access Fabric</h3>
-          <p>Zero-trust architecture, identity verification, and boundary security protocols built for mission-critical distributed systems.</p>
+          <span class="idx">04</span>
+          <h3>Mission-Critical Distributed Architecture</h3>
+          <p>Zero-trust distributed infrastructure with strict boundary isolation, identity verification and verifiable access for high-consequence systems.</p>
+          <ul><li>Zero-trust design</li><li>Identity verification</li><li>Boundary isolation</li></ul>
         </div>
-        <a class="enquire" href="mailto:lebo@pryntor.co.za?subject=%5BEnterprise%3A%20Access%20Fabric%5D">Enquire about Access Fabric &#8599;</a>
+        <a class="ask" href="mailto:lebo@pryntor.co.za?subject=%5BEnterprise%20Inquiry%3A%20Autonomous%20Systems%5D">Enquire about distributed architecture &#8599;</a>
       </article>
     </div>
   </div>
 </section>
 
-<section class="stance" id="stance" aria-labelledby="stance-title">
+<section class="posture" id="posture" aria-labelledby="posture-title">
   <div class="wrap">
     <div class="reveal">
-      <span class="label">Operating stance</span>
-      <h2 id="stance-title">Built slowly, <em>held firmly.</em></h2>
+      <span class="label">Approach</span>
+      <h2 id="posture-title">Built slowly, <em>held firmly.</em></h2>
     </div>
-    <div class="stance-grid">
+    <div class="posture-grid">
       <div class="reveal">
-        <p>We do not publish our roadmap, our internals or our experiments. What leaves the group has been tested, owned and made to last.</p>
-        <p>Our standard is simple: systems should be explainable, dependable and worth the trust placed in them.</p>
+        <p>We keep our roadmap, internals and experiments private. What leaves the group has been tested, owned and built to last.</p>
+        <p>Systems should be explainable, dependable and worth the trust placed in them.</p>
         <span class="swahili">Subira ni ufunguo.</span>
       </div>
       <ol class="tenets reveal">
@@ -203,21 +208,20 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
 <section class="intake" id="intake" aria-labelledby="intake-title">
   <div class="wrap">
     <div class="reveal">
-      <span class="label">Partner &amp; lead intake</span>
-      <h2 id="intake-title">Private briefings &amp; <em>enterprise partnerships.</em></h2>
+      <span class="label">Private briefings</span>
+      <h2 id="intake-title">Private briefings &amp; <em>enterprise inquiries.</em></h2>
     </div>
     <div class="intake-grid">
       <div class="reveal">
-        <p>For institutional partners, education networks, telcos, broadcasters and enterprise clients. Tell us the problem and the environment it runs in. We reply to qualified briefings directly, under mutual discretion.</p>
-        <a class="btn" href="mailto:partnerships@pryntor.co.za?subject=%5BPrivate%20Briefing%20Request%5D">Request a private briefing &#8599;</a>
-        <p class="contact-note">Pick a work stream to pre-fill your subject line, or write to us directly.</p>
+        <p>For institutional partners, telcos, education networks and enterprise clients. Describe the problem and the environment it runs in. Qualified briefings receive a direct reply, under mutual discretion.</p>
+        <p class="form-note">Choose the discipline that fits your brief to pre-fill the subject line.</p>
       </div>
       <div class="reveal">
         <div class="streams">
-          <a class="stream" href="mailto:partnerships@pryntor.co.za?subject=%5BPartnership%20Inquiry%3A%20ZOWIBO%5D"><span>ZOWIBO<small>Broadcast, distribution, education</small></span><em>&#8594;</em></a>
-          <a class="stream" href="mailto:partnerships@pryntor.co.za?subject=%5BEnterprise%3A%20ASSETFURNACE%5D"><span>ASSETFURNACE<small>Licensing &amp; pipeline integration</small></span><em>&#8594;</em></a>
-          <a class="stream" href="mailto:lebo@pryntor.co.za?subject=%5BEnterprise%3A%20Automated%20Reasoning%5D"><span>Automated Reasoning SA<small>High-consequence enterprise systems</small></span><em>&#8594;</em></a>
-          <a class="stream" href="mailto:lebo@pryntor.co.za?subject=%5BEnterprise%3A%20Access%20Fabric%5D"><span>Access Fabric<small>Mission-critical zero-trust</small></span><em>&#8594;</em></a>
+          <a class="stream" href="mailto:partnerships@pryntor.co.za?subject=%5BInstitutional%20Briefing%5D"><span>Institutional briefing<small>Partners, telcos, education networks</small></span><em>&#8594;</em></a>
+          <a class="stream" href="mailto:partnerships@pryntor.co.za?subject=%5BEnterprise%20Inquiry%3A%20Interactive%20Systems%5D"><span>Interactive systems<small>Real-time worlds, sensory graphics, asset pipelines</small></span><em>&#8594;</em></a>
+          <a class="stream" href="mailto:lebo@pryntor.co.za?subject=%5BEnterprise%20Inquiry%3A%20Autonomous%20Systems%5D"><span>Autonomous systems<small>Reasoning kernels, agent harnesses, deterministic AI</small></span><em>&#8594;</em></a>
+          <a class="stream" href="mailto:lebo@pryntor.co.za?subject=%5BEnterprise%20Inquiry%3A%20Mission-Critical%20Architecture%5D"><span>Mission-critical architecture<small>Zero-trust, distributed, high-consequence</small></span><em>&#8594;</em></a>
         </div>
         <div class="mails">
           <div>
@@ -233,8 +237,6 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
     </div>
   </div>
 </section>
-
-<section class="contact" id="contact" aria-labelledby="contact-title" hidden></section>
 </main>
 <footer>
   <div class="wrap">
@@ -248,17 +250,20 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
 
   var bar = document.getElementById('top-bar');
   function onScroll(){ bar.classList.toggle('scrolled', window.scrollY > 40); }
-  window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
 
   var items = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window && !reduce) {
     var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+      entries.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
     }, {threshold:.15});
     items.forEach(function(el){ io.observe(el); });
-  } else { items.forEach(function(el){ el.classList.add('in'); }); }
+  } else {
+    items.forEach(function(el){ el.classList.add('in'); });
+  }
 
-  document.querySelectorAll('.pillar').forEach(function(card){
+  document.querySelectorAll('.domain').forEach(function(card){
     card.addEventListener('pointermove', function(e){
       var r = card.getBoundingClientRect();
       card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
@@ -266,38 +271,43 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
     });
   });
 
-  var canvas = document.getElementById('ambient');
+  var canvas = document.getElementById('field');
   var ctx = canvas.getContext('2d');
-  var w, h, dpr, t = 0, raf;
-  var blobs = [
-    {x:.2, y:.25, r:.55, c:[208,138,78], s:.00012, p:0},
-    {x:.8, y:.6,  r:.5,  c:[142,90,54],  s:.00009, p:2},
-    {x:.5, y:.9,  r:.45, c:[90,70,58],   s:.00011, p:4}
+  var w = 0, h = 0, dpr = 1, t = 0, raf = 0;
+  var lamps = [
+    {x:.18, y:.22, r:.42, c:[255,179,102], a:.13, f:.00011, p:0},
+    {x:.84, y:.56, r:.36, c:[111,211,227], a:.06, f:.00008, p:2.1},
+    {x:.50, y:.95, r:.40, c:[15,37,64],    a:.55, f:.00006, p:4.2}
   ];
   function resize(){
     dpr = Math.min(window.devicePixelRatio || 1, 1.5);
     w = canvas.width = Math.floor(innerWidth * dpr);
     h = canvas.height = Math.floor(innerHeight * dpr);
+    paint();
   }
-  function draw(){
-    t += 16;
-    ctx.fillStyle = '#0d0c0a';
-    ctx.fillRect(0,0,w,h);
-    blobs.forEach(function(b){
-      var x = (b.x + Math.sin(t*b.s + b.p)*.08) * w;
-      var y = (b.y + Math.cos(t*b.s*.8 + b.p)*.06) * h;
-      var rad = b.r * Math.max(w,h);
-      var g = ctx.createRadialGradient(x,y,0,x,y,rad);
-      g.addColorStop(0,'rgba('+b.c+',0.16)');
-      g.addColorStop(1,'rgba('+b.c+',0)');
+  function paint(){
+    ctx.fillStyle = '#07090d';
+    ctx.fillRect(0, 0, w, h);
+    for (var i = 0; i < lamps.length; i++) {
+      var b = lamps[i];
+      var x = (b.x + Math.sin(t * b.f + b.p) * .07) * w;
+      var y = (b.y + Math.cos(t * b.f * .8 + b.p) * .05) * h;
+      var rad = b.r * Math.max(w, h);
+      var g = ctx.createRadialGradient(x, y, 0, x, y, rad);
+      g.addColorStop(0, 'rgba(' + b.c.join(',') + ',' + b.a + ')');
+      g.addColorStop(1, 'rgba(' + b.c.join(',') + ',0)');
       ctx.fillStyle = g;
-      ctx.fillRect(0,0,w,h);
-    });
-    if (!reduce) { raf = requestAnimationFrame(draw); }
+      ctx.fillRect(0, 0, w, h);
+    }
+  }
+  function frame(){
+    t += 16;
+    paint();
+    raf = requestAnimationFrame(frame);
   }
   resize();
-  window.addEventListener('resize', function(){ resize(); if (reduce) draw(); });
-  draw();
+  window.addEventListener('resize', resize);
+  if (!reduce) { raf = requestAnimationFrame(frame); }
 })();
 </script>
 </body>
